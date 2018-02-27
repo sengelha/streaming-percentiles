@@ -1,16 +1,19 @@
+#pragma once
+
 // The Greenwald-Khanna algorithm as defined in the paper
 // Space-Efficient Online Computation of Quantile Summaries
 #include <iosfwd>
 #include <vector>
+#include "stmpct.hpp"
 
 namespace stmpct {
 
-class gk
+class gk : public stmpctalg
 {
 public:
     gk(double epsilon);
-    void insert(double val);
-    double quantile(double q);
+    virtual void accumulate(double val) final;
+    virtual double quantile(double q) final;
     friend std::ostream& operator<<(std::ostream&, const gk&);
 
 private:

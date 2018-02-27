@@ -13,7 +13,7 @@ int main(void)
     }
 
     gk gk(0.01);
-    for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
+    for_each(vals.begin(), vals.end(), [&](double v) { gk.accumulate(v); });
     cout << "GK algorithm:\n"
          << "50% = " << gk.quantile(0.5) << "\n"
          << "90% = " << gk.quantile(0.9) << "\n"

@@ -12,7 +12,7 @@ gk::gk(double epsilon) :
 {
 }
 
-void gk::insert(double v)
+void gk::accumulate(double v)
 {
     if (m_n % m_rebalanceFreq == 0)
         compress();
