@@ -1,5 +1,5 @@
-// SpaceEfficient Online Computation of Quantile Summaries
-
+// The Greenwald-Khanna algorithm as defined in the paper
+// Space-Efficient Online Computation of Quantile Summaries
 #include <iosfwd>
 #include <vector>
 
