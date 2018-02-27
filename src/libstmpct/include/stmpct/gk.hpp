@@ -3,6 +3,8 @@
 #include <iosfwd>
 #include <vector>
 
+namespace stmpct {
+
 class gk
 {
 public:
@@ -24,4 +26,8 @@ private:
     int m_n;
     int m_rebalanceFreq;
     std::vector<tuple> m_tuples;
+};
+
+std::ostream& operator<<(std::ostream& os, const gk& g);
+
 };

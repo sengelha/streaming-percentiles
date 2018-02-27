@@ -1,9 +1,11 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#include "gk.hpp"
+#include <stmpct/gk.hpp>
 
 using namespace std;
+
+namespace stmpct {
 
 gk::gk(double epsilon) :
     m_epsilon(epsilon), m_n(0), m_rebalanceFreq((int)(1/(2*epsilon)))
@@ -47,7 +49,7 @@ double gk::quantile(double q)
 
 void gk::compress()
 {
-    cout << "COMPRESSING!\n";
+    cout << "TODO: COMPRESS!\n";
 }
 
 ostream& operator<<(ostream& os, const gk& gk)
@@ -63,3 +65,5 @@ ostream& operator<<(ostream& os, const gk& gk)
     os << "]}";
     return os;
 }
+
+};
