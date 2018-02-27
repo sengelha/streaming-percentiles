@@ -1,4 +1,5 @@
 /target/
+.DS_Store
 .vscode
 *.sublime-project
 *.sublime-workspace
