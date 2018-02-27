@@ -56,12 +56,12 @@ echo "  Clean build: ${CLEAN_BUILD}"
 echo
 
 if [ $CLEAN_BUILD -eq 1 ]; then
-  rm -rf build
+  rm -rf target
 fi
-if [ ! -d build ]; then
-  mkdir build
+if [ ! -d target ]; then
+  mkdir target
 fi
-cd build
+cd target
 cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
 cmake --build .
 env CTEST_OUTPUT_ON_FAILURE=1 ctest
