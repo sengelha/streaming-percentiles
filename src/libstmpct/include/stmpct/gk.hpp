@@ -13,16 +13,17 @@ class gk : public stmpctalg
 public:
     gk(double epsilon);
     virtual void accumulate(double val) final;
-    virtual double quantile(double q) final;
+    virtual double quantile(double q) final;    
     friend std::ostream& operator<<(std::ostream&, const gk&);
 
 private:
     void compress();
+    void insert(double val);
 
     struct tuple {
         double v;
-        double g;
-        double delta;
+        int g;
+        int delta;
     };
 
     double m_epsilon;
