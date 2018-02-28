@@ -6,59 +6,6 @@
 
 using namespace std;
 
-static int band(int delta, double two_epsilon_n)
-{
-    cout << "Determining band for delta = " << delta << " and two_epsilon_n = " << two_epsilon_n << "...\n";
-
-    // Build array of bands, such that array[delta] = band
-    std::vector<int> bands;
-    bands.push_back(0); // delta = 0 has special meaning
-
-    int p = floor(two_epsilon_n);
-    for (int alpha = 1; alpha <= ceil(log(two_epsilon_n)); ++alpha) {
-        int two_alpha_minus_1 = (1 << (alpha - 1));
-        int two_alpha = two_alpha_minus_1 << 1;
-        int lower = p - two_alpha - (p % two_alpha);
-        if (lower < 1)
-            lower = 1;
-        int upper = p - two_alpha_minus_1 - (p % two_alpha_minus_1);
-        cout << "p = " << p << " alpha = " << alpha << " two_alpha = " << two_alpha << " two_alpha_minus_1 = " << two_alpha_minus_1 << " lower = " << lower << "\n";
-        assert(lower >= 0);
-        for (int i = lower + 1; i <= upper; ++i) {
-            if (i >= bands.size())
-                bands.resize(i + 1);
-            cout << "Setting bands[" << i << "] to band #" << alpha << "\n";
-            assert(i >= 0 && i < bands.size());
-            bands[i] = alpha;
-        }
-    }
-
-    assert(delta >= 0 && delta < bands.size());
-    return bands[delta];
-
-    /*
-    if (delta == 0) {
-        std::cout << "Special case: delta = 0 is band 0\n";
-        return 0;
-    }
-
-    int p = floor(two_epsilon_n);
-    for (int alpha = 1; alpha <= ceil(log(two_epsilon_n)); ++alpha) {
-        int two_alpha = (1 << alpha);
-        int two_alpha_minus_1 = (1 << (alpha - 1));
-        double lower = p - two_alpha - (p % two_alpha);
-        double upper = p - two_alpha_minus_1 - (p % two_alpha_minus_1);
-        if (lower < delta && delta <= upper) {
-            std::cout << "Calculating band for delta " << delta << " and 2en " << two_epsilon_n << " as " << alpha << "\n";
-            return alpha;
-        }
-    }
-    std::cout << "COULD NOT DETERMINE BAND RETURNING 0\n";
-    return 0;
-    */
-    throw std::runtime_error("TODO");
-}
-
 namespace stmpct {
 
 gk::gk(double epsilon) :
@@ -109,18 +56,59 @@ void gk::insert(double v)
 
 void gk::compress()
 {
-    double two_epsilon_n = 2 * m_epsilon * m_n;
-    for (int i = m_tuples.size() - 2; i >= 0; --i) {
-        double delta_i = m_tuples[i].delta;
-        double delta_ip1 = m_tuples[i+1].delta;
-        double g_i = m_tuples[i].g;
-        double g_ip1 = m_tuples[i+1].g;
+    int two_epsilon_n = (int)(2 * m_epsilon * m_n);
+    assert(two_epsilon_n == 2 * m_epsilon * m_n); // The arithmetic should be exact
+    std::vector<int> bands = construct_band_lookup(two_epsilon_n);
 
-        if ((band(delta_i, two_epsilon_n) <= band(delta_ip1, two_epsilon_n)) &&
-            (g_i + g_ip1 + delta_ip1 < two_epsilon_n)) {
-            std::cout << "DELETE!!!!\n";
+    for (int i = m_tuples.size() - 2; i >= 0; --i) {
+        int delta_i = m_tuples[i].delta;
+        int delta_ip1 = m_tuples[i+1].delta;
+        int g_i = m_tuples[i].g;
+        int g_ip1 = m_tuples[i+1].g;
+        assert(delta_i >= 0 && delta_i < bands.size());
+        int band_i = bands[delta_i];
+        assert(delta_ip1 >= 0 && delta_ip1 < bands.size());
+        int band_ip1 = bands[delta_ip1];
+
+        if ((band_i <= band_ip1) && (g_i + g_ip1 + delta_ip1 < two_epsilon_n)) {
+            // TODO: Delete all descendants of i
+            // Delete i itself
+            delete_tuple(i);
         }
     }
+}
+
+std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
+{
+    // Build array of bands, such that array[delta] = band
+    std::vector<int> bands(two_epsilon_n + 1);
+    bands[0] = -1; // delta = 0 is its own band
+    bands[two_epsilon_n] = 0; // delta = two_epsilon_n is band = 0 by definition
+
+    int p = floor(two_epsilon_n);
+    for (int alpha = 1; alpha <= ceil(log(two_epsilon_n)); ++alpha) {
+        int two_alpha_minus_1 = (1 << (alpha - 1));
+        int two_alpha = two_alpha_minus_1 << 1;
+        int lower = p - two_alpha - (p % two_alpha);
+        if (lower < 0)
+            lower = 0;
+        int upper = p - two_alpha_minus_1 - (p % two_alpha_minus_1);
+        for (int i = lower + 1; i <= upper; ++i) {
+            assert(i >= 0 && i < bands.size());
+            bands[i] = alpha;
+        }
+    }
+    return bands;
+}
+
+void gk::delete_tuple(int i)
+{
+    cout << "Deleting tuple at index " << i << "\n";
+    assert(i >= 0 && i < m_tuples.size() - 1);
+    m_tuples[i].v = m_tuples[i + 1].v;
+    m_tuples[i].g += m_tuples[i + 1].g;
+    m_tuples[i].delta = m_tuples[i + 1].delta;
+    m_tuples.erase(m_tuples.begin() + i + 1);
 }
 
 ostream& operator<<(ostream& os, const gk& gk)

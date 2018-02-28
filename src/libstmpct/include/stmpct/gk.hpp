@@ -17,8 +17,10 @@ public:
     friend std::ostream& operator<<(std::ostream&, const gk&);
 
 private:
-    void compress();
     void insert(double val);
+    void compress();
+    std::vector<int> construct_band_lookup(int two_epsilon_n);
+    void delete_tuple(int i);
 
     struct tuple {
         double v;
