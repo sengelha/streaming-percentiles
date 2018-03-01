@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <random>       // std::default_random_engine
+#include <cassert>
 #include <stmpct/gk.hpp>
 
 using namespace std;
@@ -9,16 +10,16 @@ using namespace stmpct;
 static void explore_gk()
 {
     std::vector<double> vals;
-    for (int i = 1; i <= 20; ++i) {
+    for (int i = 1; i <= 10; ++i) {
         vals.push_back(i);
     }
     shuffle(vals.begin(), vals.end(), default_random_engine(12345));
 
     gk gk(0.1);
-    std::cout << "Initial state: " << gk << "\n";
+    int i = 0;
+    //std::cout << "Initial state: " << gk << "\n";
     for_each(vals.begin(), vals.end(), [&](double v) {
         gk.accumulate(v);
-        std::cout << "After inserting " << v << ": " << gk << "\n";
     });
     std::cout << "10% = " << gk.quantile(0.1) << "\n"
               << "50% = " << gk.quantile(0.5) << "\n"
@@ -28,7 +29,7 @@ static void explore_gk()
 static void algorithm_comparison()
 {
     std::vector<double> vals;
-    for (int i = 0; i != 10000; ++i) {
+    for (int i = 0; i != 100000; ++i) {
         vals.push_back(rand() % 100 + 1);
     }
 
@@ -53,6 +54,6 @@ int main(void)
 {
     srand(12345);
     explore_gk();
-    //algorithm_comparison();
+    algorithm_comparison();
     return 0;
 }

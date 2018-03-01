@@ -20,7 +20,11 @@ private:
     void insert(double val);
     void compress();
     std::vector<int> construct_band_lookup(int two_epsilon_n);
+    int delete_tuples(int start_indx, int end_indx);
     void delete_tuple(int i);
+#ifndef NDEBUG
+    void assert_invariants();
+#endif
 
     struct tuple {
         double v;
@@ -32,6 +36,10 @@ private:
     int m_n;
     int m_rebalanceFreq;
     std::vector<tuple> m_tuples;
+#ifndef NDEBUG
+    double m_min;
+    double m_max;
+#endif
 };
 
 std::ostream& operator<<(std::ostream& os, const gk& g);
