@@ -38,6 +38,7 @@ double gk::quantile(double phi)
 
 std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
 {
+    // TODO: This function is rather slow.  Rewrite to be faster.
     std::vector<int> bands(two_epsilon_n + 1);
     bands[0] = MAX_BAND; // delta = 0 is its own band
     bands[two_epsilon_n] = 0; // delta = two_epsilon_n is band 0 by definition
