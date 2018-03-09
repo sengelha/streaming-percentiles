@@ -12,11 +12,14 @@ namespace stmpct {
 class gk : public stmpctalg
 {
 public:
+    // TODO: Make the below constant private but allow unit testing
     static const int MAX_BAND = 999999;
 
     gk(double epsilon);
     virtual void insert(double v) final;
-    virtual double quantile(double phi) final;    
+    virtual double quantile(double phi) final;
+    // TODO: Make the below function private but allow unit testing
+    static std::vector<int> construct_band_lookup(int two_epsilon_n);
     friend std::ostream& operator<<(std::ostream&, const gk&);
 
 private:
@@ -31,7 +34,6 @@ private:
     tuples_t::iterator find_insertion_index(double v);
     int determine_delta(tuples_t::iterator it);
     void compress();
-    std::vector<int> construct_band_lookup(int two_epsilon_n);
 
     double m_epsilon;
     int m_one_over_2e;

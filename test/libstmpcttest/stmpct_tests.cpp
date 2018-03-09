@@ -14,6 +14,16 @@ BOOST_AUTO_TEST_CASE(gk_algorithm)
     BOOST_CHECK_CLOSE(95, p95, 0.01);
 }
 
+BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
+{
+    { std::vector<int> v{0}; BOOST_TEST(gk::construct_band_lookup(0) == v); }
+    { std::vector<int> v{gk::MAX_BAND, 0}; BOOST_TEST(gk::construct_band_lookup(1) == v); }
+    { std::vector<int> v{gk::MAX_BAND, 1, 0}; BOOST_TEST(gk::construct_band_lookup(2) == v); }
+    { std::vector<int> v{gk::MAX_BAND, 3, 3, 3, 3, 2, 2, 1, 0}; BOOST_TEST(gk::construct_band_lookup(8) == v); }
+    { std::vector<int> v{gk::MAX_BAND, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 0}; BOOST_TEST(gk::construct_band_lookup(16) == v); }
+    { std::vector<int> v{gk::MAX_BAND, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 0}; BOOST_TEST(gk::construct_band_lookup(25) == v); }
+}
+
 BOOST_AUTO_TEST_CASE(gk_stress)
 {
     std::uniform_real_distribution<double> unif(0, 1);

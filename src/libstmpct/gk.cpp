@@ -49,6 +49,27 @@ double gk::quantile(double phi)
     throw std::runtime_error("Could not resolve quantile");
 }
 
+std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
+{
+    std::vector<int> bands(two_epsilon_n + 1);
+    bands[0] = MAX_BAND; // delta = 0 is its own band
+    bands[two_epsilon_n] = 0; // delta = two_epsilon_n is band 0 by definition
+
+    for (int alpha = 1; alpha <= ceil(log2(two_epsilon_n)); ++alpha) {
+        int two_alpha_minus_1 = (1 << (alpha-1));
+        int two_alpha = two_alpha_minus_1 << 1;
+        int lower = two_epsilon_n - two_alpha - (two_epsilon_n % two_alpha);
+        if (lower < 0)
+            lower = 0;
+        int upper = two_epsilon_n - two_alpha_minus_1 - (two_epsilon_n % two_alpha_minus_1);
+        for (int  i = lower + 1; i <= upper; ++i) {
+            bands[i] = alpha;
+        }
+    }
+    
+    return bands;
+}
+
 ostream& operator<<(ostream& os, const gk& gk)
 {
     os << "{epsilon: " << gk.m_epsilon << ", "
@@ -117,27 +138,6 @@ void gk::compress()
             }
         }
     }
-}
-
-std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
-{
-    std::vector<int> bands(two_epsilon_n + 1);
-    bands[0] = MAX_BAND; // delta = 0 is its own band
-    bands[two_epsilon_n] = 0; // delta = two_epsilon_n is band 0 by definition
-
-    for (int alpha = 1; alpha <= ceil(log2(two_epsilon_n)); ++alpha) {
-        int two_alpha_minus_1 = (1 << (alpha-1));
-        int two_alpha = two_alpha_minus_1 << 1;
-        int lower = two_epsilon_n - two_alpha - (two_epsilon_n % two_alpha);
-        if (lower < 0)
-            lower = 0;
-        int upper = two_epsilon_n - two_alpha_minus_1 - (two_epsilon_n % two_alpha_minus_1);
-        for (int  i = lower + 1; i <= upper; ++i) {
-            bands[i] = alpha;
-        }
-    }
-    
-    return bands;
 }
 
 };
