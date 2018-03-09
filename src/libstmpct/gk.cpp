@@ -70,21 +70,6 @@ std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
     return bands;
 }
 
-ostream& operator<<(ostream& os, const gk& gk)
-{
-    os << "{epsilon: " << gk.m_epsilon << ", "
-       << "n: " << gk.m_n << ", "
-       << "one_over_2e: " << gk.m_one_over_2e << ", "
-       << "S: [";
-    for (auto it = gk.m_S.begin(); it != gk.m_S.end(); ++it) {
-        if (it != gk.m_S.begin())
-            os << ", ";
-        os << "{v: " << it->v << ", g: " << it->g << ", delta: " << it->delta << "}";
-    }
-    os << "]}";
-    return os;
-}
-
 void gk::do_insert(double v)
 {
     auto it = find_insertion_index(v);
@@ -117,21 +102,49 @@ void gk::compress()
 
     int two_epsilon_n = (int)(2 * m_epsilon * m_n);
     std::vector<int> bands = construct_band_lookup(two_epsilon_n);
-    for (int i = (int)m_S.size() - 2; i >= 1; --i) {
-        if (bands[m_S[i].delta] <= bands[m_S[i+1].delta]) {
-            int start_indx = i;
-            int g_i_star = m_S[i].g;
-            while (start_indx >= 2 && bands[m_S[start_indx-1].delta] < bands[m_S[i].delta]) {
-                --start_indx;
-                g_i_star += m_S[start_indx].g;
+    tuples_t::iterator it = prev(prev(m_S.end()));
+    while (it != m_S.begin()) {
+        tuples_t::iterator it2 = next(it);
+        if (bands[it->delta] <= bands[it2->delta]) {
+            int g_i_star = it->g;
+            tuples_t::iterator start_it = it;
+            while (start_it != next(m_S.begin()) && bands[prev(start_it)->delta] < bands[it->delta]) {
+                --start_it;
+                g_i_star += start_it->g;
             }
-            if ((g_i_star + m_S[i+1].g + m_S[i+1].delta) < two_epsilon_n) {
-                tuple merged(m_S[i+1].v, g_i_star + m_S[i+1].g, m_S[i+1].delta);
-                splice(m_S, start_indx, 2 + (i - start_indx), merged);
-                i = start_indx;
+            if ((g_i_star + it2->g + it2->delta) < two_epsilon_n) {
+                tuple merged(it2->v, g_i_star + it2->g, it2->delta);
+                *start_it = merged;
+                m_S.erase(next(start_it), next(it2));
+                it = start_it;
             }
         }
+        --it;
     }
+}
+
+ostream& operator<<(ostream& os, const gk& gk)
+{
+    os << "{epsilon: " << gk.m_epsilon << ", "
+       << "n: " << gk.m_n << ", "
+       << "one_over_2e: " << gk.m_one_over_2e << ", "
+       << "S: [";
+    for (auto it = gk.m_S.begin(); it != gk.m_S.end(); ++it) {
+        if (it != gk.m_S.begin())
+            os << ", ";
+        os << *it;
+    }
+    os << "]}";
+    return os;
+}
+
+ostream& operator<<(ostream& os, const gk::tuple& t)
+{
+    os << "{v: " << t.v
+       << ", g: " << t.g
+       << ", delta: " << t.delta
+       << "}";
+    return os;
 }
 
 };

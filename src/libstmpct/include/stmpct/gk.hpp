@@ -31,8 +31,10 @@ public:
         bool operator==(const tuple& rhs) const {
             return v == rhs.v && g == rhs.g && delta == rhs.delta;
         }
+
+        friend std::ostream& operator<<(std::ostream&, const tuple&);
     };
-    typedef std::vector<tuple> tuples_t;
+    typedef std::list<tuple> tuples_t;
 
     static std::vector<int> construct_band_lookup(int two_epsilon_n);
     void do_insert(double v);
@@ -47,5 +49,6 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const gk& g);
+std::ostream& operator<<(std::ostream& os, const gk::tuple& t);
 
 };

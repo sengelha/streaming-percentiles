@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_CASE(gk_inner_state)
         { 18, 2, 0 },
         { 20, 2, 0 },
     };
+    std::cout << "g = " << g << "\n";
     BOOST_TEST(g.m_S == expectedS);
     BOOST_CHECK_EQUAL(g.m_n, ARRAYSIZE(seq));
 }
