@@ -7,8 +7,8 @@ namespace stmpct {
 class stmpctalg {
 public:
     virtual ~stmpctalg() = default;
-    virtual void accumulate(double val) = 0;
-    virtual double quantile(double q) = 0;
+    virtual void insert(double val) = 0;
+    virtual double quantile(double phi) = 0;
 };
 
 }

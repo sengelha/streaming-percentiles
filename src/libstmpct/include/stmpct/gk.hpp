@@ -3,6 +3,7 @@
 // The Greenwald-Khanna algorithm as defined in the paper
 // Space-Efficient Online Computation of Quantile Summaries
 #include <iosfwd>
+#include <list>
 #include <vector>
 #include "stmpct.hpp"
 
@@ -11,27 +12,31 @@ namespace stmpct {
 class gk : public stmpctalg
 {
 public:
+    static const int MAX_BAND = 999999;
+
     gk(double epsilon);
-    virtual void accumulate(double val) final;
-    virtual double quantile(double q) final;    
+    virtual void insert(double v) final;
+    virtual double quantile(double phi) final;    
     friend std::ostream& operator<<(std::ostream&, const gk&);
 
 private:
-    void insert(double val);
-    void compress();
-    std::vector<int> construct_band_lookup(int two_epsilon_n);
-    void delete_tuple(int i);
-
     struct tuple {
         double v;
         int g;
         int delta;
     };
+    typedef std::vector<tuple> tuples_t;
+
+    void do_insert(double v);
+    tuples_t::iterator find_insertion_index(double v);
+    int determine_delta(tuples_t::iterator it);
+    void compress();
+    std::vector<int> construct_band_lookup(int two_epsilon_n);
 
     double m_epsilon;
+    int m_one_over_2e;
+    tuples_t m_S;
     int m_n;
-    int m_rebalanceFreq;
-    std::vector<tuple> m_tuples;
 };
 
 std::ostream& operator<<(std::ostream& os, const gk& g);

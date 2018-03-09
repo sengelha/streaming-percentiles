@@ -1,3 +1,4 @@
+#include <random>
 #include <boost/test/unit_test.hpp>
 #include <stmpct/gk.hpp>
 
@@ -7,8 +8,32 @@ BOOST_AUTO_TEST_CASE(gk_algorithm)
 {
     gk g(0.0005);
     for (int i = 1; i <= 100; ++i) {
-        g.accumulate(i);
+        g.insert(i);
     }
-    double q95 = g.quantile(0.95);
-    BOOST_CHECK_EQUAL(95, q95);
+    double p95 = g.quantile(0.95);
+    BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(gk_stress)
+{
+    std::uniform_real_distribution<double> unif(0, 1);
+    std::default_random_engine re;
+
+    for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
+        gk g(epsilon);
+
+        // Seed gk so it becomes stable
+        for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {
+            g.insert(unif(re));
+        }
+
+        for (int i = 0; i < 100; ++i) {
+            g.insert(unif(re));
+            for (double phi = 0.01; phi < 1; phi += 0.01) {
+                double q = g.quantile(phi);
+                BOOST_CHECK_GT(q, 0);
+                BOOST_CHECK_LT(q, 1);
+            }
+        }
+    }
 }

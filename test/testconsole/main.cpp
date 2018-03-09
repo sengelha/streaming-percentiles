@@ -17,7 +17,7 @@ static void explore_gk()
     gk gk(0.1);
     std::cout << "Initial state: " << gk << "\n";
     for_each(vals.begin(), vals.end(), [&](double v) {
-        gk.accumulate(v);
+        gk.insert(v);
         std::cout << "After inserting " << v << ": " << gk << "\n";
     });
     std::cout << "10% = " << gk.quantile(0.1) << "\n"
@@ -33,7 +33,7 @@ static void algorithm_comparison()
     }
 
     gk gk(0.01);
-    for_each(vals.begin(), vals.end(), [&](double v) { gk.accumulate(v); });
+    for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
     cout << "GK algorithm:\n"
          << "50% = " << gk.quantile(0.5) << "\n"
          << "90% = " << gk.quantile(0.9) << "\n"
@@ -43,10 +43,10 @@ static void algorithm_comparison()
     // Exact (do this last, because it sorts the array)
     sort(vals.begin(), vals.end());
     cout << "Exact:\n"
-         << "50% = " << vals[vals.size() * 0.5] << "\n"
-         << "90% = " << vals[vals.size() * 0.9] << "\n"
-         << "95% = " << vals[vals.size() * 0.95] << "\n"
-         << "99% = " << vals[vals.size() * 0.99] << "\n";
+         << "50% = " << vals[(int)(vals.size() * 0.5)] << "\n"
+         << "90% = " << vals[(int)(vals.size() * 0.9)] << "\n"
+         << "95% = " << vals[(int)(vals.size() * 0.95)] << "\n"
+         << "99% = " << vals[(int)(vals.size() * 0.99)] << "\n";
 }
 
 int main(void)
