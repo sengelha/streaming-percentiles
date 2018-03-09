@@ -3,6 +3,11 @@
 #include <random>       // std::default_random_engine
 #include <cassert>
 #include <stmpct/gk.hpp>
+#include <sys/time.h>
+
+#ifndef ARRAYSIZE
+# define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
+#endif
 
 using namespace std;
 using namespace stmpct;
@@ -51,10 +56,48 @@ static void algorithm_comparison()
          << "99% = " << vals[(int)(vals.size() * 0.99)] << "\n";
 }
 
+static void gk_perf()
+{
+    std::vector<double> vals;
+    for (int i = 0; i != 1000000; ++i) {
+        vals.push_back(rand() % 100 + 1);
+    }
+
+    double epsilons[] = { 0.1, 0.05, 0.01, 0.005, 0.001 };
+    for (int i = 0; i < ARRAYSIZE(epsilons); ++i) {
+        double epsilon = epsilons[i];
+
+        struct timeval start;
+        gettimeofday(&start, NULL);
+        gk gk(epsilon);
+        for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
+        cout << "p50 = " << gk.quantile(0.5) << "\n";
+
+        struct timeval end;
+        gettimeofday(&end, NULL);
+
+        long start_us = ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
+        long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
+        int n = vals.size();
+        long duration_us = end_us - start_us;
+        double n_per_us = n / (double)duration_us;
+        double n_per_ms = 1000 * n_per_us;
+        double n_per_sec = 1000 * n_per_ms;
+        cout << "epsilon: " << epsilon
+            << ". # elems: " << n
+            << ". Duration (us): " << duration_us
+            << ". #/microsec: " << n_per_us
+            << ". #/ms: " << n_per_ms
+            << ". #/sec: " << n_per_sec
+            << "\n";
+    }
+}
+
 int main(void)
 {
     srand(12345);
     explore_gk();
     algorithm_comparison();
+    gk_perf();
     return 0;
 }

@@ -6,19 +6,6 @@
 
 using namespace std;
 
-template<typename T>
-void splice(std::vector<T>& v, int indx, int how_many, const T& t)
-{
-    assert(indx >= 0 && indx < v.size());
-    assert(indx + how_many >= 0 && indx + how_many - 1 < v.size());
-    v[indx] = t;
-    if (how_many > 1) {
-        auto start = v.begin() + indx + 1;
-        auto end = start + (how_many - 1);
-        v.erase(start, end);
-    }
-}
-
 namespace stmpct {
 
 gk::gk(double epsilon) :

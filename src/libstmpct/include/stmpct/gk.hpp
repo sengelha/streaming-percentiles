@@ -34,7 +34,7 @@ public:
 
         friend std::ostream& operator<<(std::ostream&, const tuple&);
     };
-    typedef std::list<tuple> tuples_t;
+    typedef std::vector<tuple> tuples_t;
 
     static std::vector<int> construct_band_lookup(int two_epsilon_n);
     void do_insert(double v);
