@@ -1,6 +1,11 @@
 #include <random>
+#include <iostream> // TODO: Remove
 #include <boost/test/unit_test.hpp>
 #include <stmpct/gk.hpp>
+
+#ifndef ARRAYSIZE
+# define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
+#endif
 
 using namespace stmpct;
 
@@ -24,6 +29,34 @@ BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
     { std::vector<int> v{gk::MAX_BAND, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 0}; BOOST_TEST(gk::construct_band_lookup(25) == v); }
 }
 
+BOOST_AUTO_TEST_CASE(gk_inner_state)
+{
+    int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13, 16, 17};
+    gk g(0.1);
+    for (int i = 0; i < ARRAYSIZE(seq); ++i)
+        g.insert(seq[i]);
+    BOOST_CHECK_EQUAL(g.m_epsilon, 0.1);
+    BOOST_CHECK_EQUAL(g.m_one_over_2e, 5);
+    gk::tuples_t expectedS {
+        { 1, 1, 0 },
+        { 3, 2, 0 },
+        { 5, 2, 0 },
+        { 7, 1, 2 },
+        { 8, 2, 0 },
+        { 9, 1, 2 },
+        { 11, 2, 0 },
+        { 12, 1, 0 },
+        { 13, 1, 2 },
+        { 14, 1, 1 },
+        { 16, 1, 2 },
+        { 17, 1, 2 },
+        { 18, 2, 0 },
+        { 20, 2, 0 },
+    };
+    BOOST_TEST(g.m_S == expectedS);
+    BOOST_CHECK_EQUAL(g.m_n, ARRAYSIZE(seq));
+}
+
 BOOST_AUTO_TEST_CASE(gk_stress)
 {
     std::uniform_real_distribution<double> unif(0, 1);
@@ -37,7 +70,7 @@ BOOST_AUTO_TEST_CASE(gk_stress)
             g.insert(unif(re));
         }
 
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 1000; ++i) {
             g.insert(unif(re));
             for (double phi = 0.01; phi < 1; phi += 0.01) {
                 double q = g.quantile(phi);

@@ -88,10 +88,7 @@ ostream& operator<<(ostream& os, const gk& gk)
 void gk::do_insert(double v)
 {
     auto it = find_insertion_index(v);
-    tuple t;
-    t.v = v;
-    t.g = 1;
-    t.delta = determine_delta(it);
+    tuple t(v, 1, determine_delta(it));
     m_S.insert(it, t);
 }
 
@@ -129,10 +126,7 @@ void gk::compress()
                 g_i_star += m_S[start_indx].g;
             }
             if ((g_i_star + m_S[i+1].g + m_S[i+1].delta) < two_epsilon_n) {
-                tuple merged;
-                merged.v = m_S[i+1].v;
-                merged.g = g_i_star + m_S[i+1].g;
-                merged.delta = m_S[i+1].delta;
+                tuple merged(m_S[i+1].v, g_i_star + m_S[i+1].g, m_S[i+1].delta);
                 splice(m_S, start_indx, 2 + (i - start_indx), merged);
                 i = start_indx;
             }
