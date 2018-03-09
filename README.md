@@ -13,7 +13,8 @@ Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.
 
 ### Prerequisites
 
-- CMake
+- [CMake](https://cmake.org)
+- [Boost Unit Test Framework](http://www.boost.org)
 
 ## Example
 
