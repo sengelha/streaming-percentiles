@@ -1,11 +1,6 @@
 #include <boost/test/unit_test.hpp>
 #include <random>
-
-// The below is awful but friend class with fixture
-// test suite isn't working ...
-#define private public
 #include <stmpct/gk.hpp>
-#undef private
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
@@ -23,6 +18,8 @@ BOOST_AUTO_TEST_CASE(gk_algorithm)
     BOOST_CHECK_CLOSE(95, p95, 0.01);
 }
 
+// TODO: The below are commented out until I can find a way to unit test
+// internal state in a cross-platform way
 /*
 BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
 {
