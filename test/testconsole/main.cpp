@@ -3,7 +3,7 @@
 #include <random>       // std::default_random_engine
 #include <cassert>
 #include <stmpct/gk.hpp>
-#include "gettimeofday.h"
+#include "compat/gettimeofday.h"
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))

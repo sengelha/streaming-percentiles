@@ -3,10 +3,8 @@ project(stmpct_test_testconsole)
 
 include(CheckFunctionExists)
 
-file(GLOB TESTCONSOLE_SRC *.cpp)
-if (WIN32)
-  file(GLOB TESTCONSOLE_SRC win32/*.cpp)
-endif()
+file(GLOB TESTCONSOLE_SRC *.cpp
+                          compat/*.cpp)
 
 check_function_exists(gettimeofday HAS_GETTIMEOFDAY)
 

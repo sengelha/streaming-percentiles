@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
@@ -29,3 +31,5 @@ int gettimeofday(struct timeval * tp, struct timezone * tzp)
     tp->tv_usec = (long) (system_time.wMilliseconds * 1000);
     return 0;
 }
+
+#endif
