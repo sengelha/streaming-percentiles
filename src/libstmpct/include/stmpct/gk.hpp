@@ -37,7 +37,8 @@ private:
     // Even though list<tuple> has better insert/delete O(x),
     // empirical measurements show that vector<tuple> is faster.
     // In any case, we can change the data structure for tuples
-    // simply by modifying the below line.
+    // simply by modifying the below line.  TODO: Explore using
+    // multiset<tuple> instead.
     typedef std::vector<tuple> tuples_t;
 
     static std::vector<int> construct_band_lookup(int two_epsilon_n);
