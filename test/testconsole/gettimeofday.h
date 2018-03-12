@@ -1,9 +1,8 @@
 #pragma once
 
-#ifndef HAS_GETTIMEOFDAY
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#ifdef HAS_GETTIMEOFDAY
+# include <sys/time.h>
+#else
 
 typedef struct timeval {
     long tv_sec;

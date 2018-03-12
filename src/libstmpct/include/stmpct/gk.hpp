@@ -55,4 +55,4 @@ private:
 std::ostream& operator<<(std::ostream& os, const gk& g);
 std::ostream& operator<<(std::ostream& os, const gk::tuple& t);
 
-};
+}
