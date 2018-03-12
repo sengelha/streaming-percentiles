@@ -3,7 +3,7 @@
 #include <random>       // std::default_random_engine
 #include <cassert>
 #include <stmpct/gk.hpp>
-#include <sys/time.h>
+#include "gettimeofday.h"
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
@@ -78,7 +78,7 @@ static void gk_perf()
 
         long start_us = ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
         long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
-        int n = vals.size();
+        int n = (int)vals.size();
         long duration_us = end_us - start_us;
         double n_per_us = n / (double)duration_us;
         double n_per_ms = 1000 * n_per_us;

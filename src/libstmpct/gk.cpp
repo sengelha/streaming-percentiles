@@ -75,12 +75,15 @@ gk::tuples_t::iterator gk::find_insertion_index(double v)
 
 int gk::determine_delta(gk::tuples_t::iterator it)
 {
-    if (m_n < m_one_over_2e)
+    if (m_n <= m_one_over_2e) {
         return 0;
-    else if (it == m_S.begin() || it == m_S.end())
+    } else if (it == m_S.begin() || it == m_S.end()) {
         return 0;
-    else
-        return (int)floor(2 * m_epsilon * m_n) - 1;
+    } else {
+        int delta = (int)floor(2 * m_epsilon * m_n) - 1;
+        assert(delta >= 0 && delta <= 2 * m_epsilon * m_n - 1);
+        return delta;
+    }
 }
 
 void gk::compress()

@@ -23,6 +23,7 @@ BOOST_AUTO_TEST_CASE(gk_algorithm)
     BOOST_CHECK_CLOSE(95, p95, 0.01);
 }
 
+/*
 BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
 {
     { std::vector<int> v{0}; BOOST_TEST(gk::construct_band_lookup(0) == v); }
@@ -60,6 +61,7 @@ BOOST_AUTO_TEST_CASE(gk_inner_state)
     BOOST_TEST(g.m_S == expectedS);
     BOOST_CHECK_EQUAL(g.m_n, ARRAYSIZE(seq));
 }
+*/
 
 BOOST_AUTO_TEST_CASE(gk_stress)
 {
