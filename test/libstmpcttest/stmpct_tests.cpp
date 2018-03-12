@@ -1,7 +1,11 @@
-#include <random>
-#include <iostream> // TODO: Remove
 #include <boost/test/unit_test.hpp>
+#include <random>
+
+// The below is awful but friend class with fixture
+// test suite isn't working ...
+#define private public
 #include <stmpct/gk.hpp>
+#undef private
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
@@ -53,7 +57,6 @@ BOOST_AUTO_TEST_CASE(gk_inner_state)
         { 18, 2, 0 },
         { 20, 2, 0 },
     };
-    std::cout << "g = " << g << "\n";
     BOOST_TEST(g.m_S == expectedS);
     BOOST_CHECK_EQUAL(g.m_n, ARRAYSIZE(seq));
 }

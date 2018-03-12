@@ -15,10 +15,8 @@ public:
     gk(double epsilon);
     virtual void insert(double v) final;
     virtual double quantile(double phi) final;
-    friend std::ostream& operator<<(std::ostream&, const gk&);
 
-// TODO: Below public is so unit testing will work.  Remove this.
-public:
+private:
     static const int MAX_BAND = 999999;
 
     struct tuple {
@@ -31,9 +29,11 @@ public:
         bool operator==(const tuple& rhs) const {
             return v == rhs.v && g == rhs.g && delta == rhs.delta;
         }
-
-        friend std::ostream& operator<<(std::ostream&, const tuple&);
     };
+
+    friend std::ostream& operator<<(std::ostream&, const gk&);
+    friend std::ostream& operator<<(std::ostream&, const gk::tuple&);
+
     // Even though list<tuple> has better insert/delete O(x),
     // empirical measurements show that vector<tuple> is faster.
     // In any case, we can change the data structure for tuples

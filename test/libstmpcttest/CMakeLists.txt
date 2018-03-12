@@ -4,6 +4,7 @@ project(stmpct_test_libstmpcttest)
 file(GLOB LIBSTMPCTTEST_SRC *.cpp)
 
 add_executable(stmpct_test ${LIBSTMPCTTEST_SRC})
+#target_compile_definitions(stmpct_test PRIVATE UNIT_TESTING=1)
 #target_compile_features(stmpct_test PRIVATE cxx_lambdas)
 target_include_directories(stmpct_test PRIVATE
                            ${Boost_INCLUDE_DIRS})
