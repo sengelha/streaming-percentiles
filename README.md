@@ -7,16 +7,18 @@ calculate only approximate percentiles, not exact percentiles.
 For more on streaming percentiles, see [Calculating Percentiles on
 Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
 
-## Compiling
+## Using the Library
+
+### Compiling
 
 Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.
 
-### Prerequisites
+#### Prerequisites
 
 - [CMake](https://cmake.org)
 - [Boost Unit Test Framework](http://www.boost.org)
 
-## Example
+### Example
 
 Here's a simple example on how to use the Greenwald-Khanna streaming
 percentile algorithm:
@@ -34,3 +36,31 @@ double p50 = g.quantile(0.5); // Approx. median
 double p95 = g.quantile(0.95); // Approx. 95th percentile
 ```
 
+## Contributing to the Library
+
+### Versioning Scheme
+
+This project follows [Semantic Versioning 2.0.0](https://semver.org/).
+In short:
+
+Given a version number MAJOR.MINOR.PATCH, increment the:
+- MAJOR version when you make incompatible API changes,
+- MINOR version when you add functionality in a backwards-compatible manner, and
+- PATCH version when you make backwards-compatible bug fixes.
+
+### Branching Model
+
+This project follows Vincent Driessen's [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/).
+In short:
+
+- `master` is the main branch where the source code of HEAD always reflects
+  a production-ready state.
+- `develop` is the main branch where the source code of HEAD always reflects
+  a state with the latest delivered development changes for the next release.
+
+### Making a Release
+
+1. Update `CHANGELOG.md` with the latest change information
+2. Merge all changes to the `master` branch
+3. Tag the release
+4. Push the changes and the tag to `origin`
