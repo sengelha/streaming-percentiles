@@ -138,4 +138,4 @@ ostream& operator<<(ostream& os, const gk::tuple& t)
     return os;
 }
 
-};
+}
