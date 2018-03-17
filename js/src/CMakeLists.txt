@@ -11,5 +11,5 @@ add_executable(stmpct.js ${STMPCT_CPP_SRC})
 target_include_directories(stmpct.js PUBLIC ${STMPCT_CPP_SRCDIR}/include)
 
 install(TARGETS stmpct.js
-        DESTINATION lib
+        DESTINATION js
         COMPONENT js)
