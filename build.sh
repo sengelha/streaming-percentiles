@@ -65,3 +65,4 @@ cd target
 cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
 cmake --build .
 env CTEST_OUTPUT_ON_FAILURE=1 ctest
+cpack

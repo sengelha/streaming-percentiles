@@ -52,6 +52,7 @@ if not exist %__TargetDir% mkdir %__TargetDir%
 cmd /c "cd %__TargetDir% & cmake -G %__CMakeGenerator% --config %__BuildType% %__ProjectDir%" || exit /b 1
 cmd /c "cd %__TargetDir% & cmake --build . --config %__BuildType%" || exit /b 1
 cmd /c "set CTEST_OUTPUT_ON_FAILURE=TRUE & cd %__TargetDir% & ctest -C %__BuildType%" || exit /b 1
+cmd /c "cd %__TargetDir% & cpack -C %__BuildType%" || exit /b 1
 exit /b 0
 
 :Usage
