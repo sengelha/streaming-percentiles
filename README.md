@@ -11,7 +11,11 @@ Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles
 
 ### Compiling
 
-Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.
+Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.  This will
+create a package in the `target` directory, e.g.
+`target/streaming_percentiles-x.y.z-Darwin.tar.gz` for Mac OS X.
+
+Be sure to read the build help text first (e.g. `build.sh --help`).
 
 #### Prerequisites
 
@@ -61,6 +65,7 @@ In short:
 ### Making a Release
 
 1. Update `CHANGELOG.md` with the latest change information
-2. Merge all changes to the `master` branch
-3. Tag the release
-4. Push the changes and the tag to `origin`
+2. Update the version fields in `CMakeLists.txt`
+3. Merge all changes to the `master` branch
+4. Tag the release
+5. Push the changes and the tag to `origin`
