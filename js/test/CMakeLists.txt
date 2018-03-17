@@ -3,6 +3,7 @@ project(stmpct-js-test)
 
 enable_testing()
 
+# TODO: Get rid of the ALL targets; they are inefficient
 add_custom_target(mocha ALL
                   COMMAND npm install mocha)
 add_custom_target(unit.js ALL
