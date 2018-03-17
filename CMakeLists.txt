@@ -1,12 +1,21 @@
 cmake_minimum_required(VERSION 2.6)
 project(stmpct)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
+
+include(FindEmscripten)
+
 set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 set(BUILD_CPP_LIBRARY 1)
+if (EMSCRIPTEN_FOUND)
+  set(BUILD_JS_LIBRARY 1)
+else()
+  set(BUILD_JS_LIBRARY 0)
+endif()
 
 set(CPACK_PACKAGE_NAME "streaming_percentiles")
 set(CPACK_PACKAGE_VENDOR "Steven Engelhardt")
@@ -17,10 +26,16 @@ set(CPACK_PACKAGE_VERSION_PATCH "0")
 if (BUILD_CPP_LIBRARY)
   list(APPEND CPACK_COMPONENTS_ALL cpp)
 endif()
+if (BUILD_JS_LIBRARY)
+  list(APPEND CPACK_COMPONENTS_ALL js)
+endif()
 include(CPack)
 
 enable_testing()
 
 if (BUILD_CPP_LIBRARY)
   add_subdirectory(cpp)
+endif()
+if (BUILD_JS_LIBRARY)
+  add_subdirectory(js)
 endif()
