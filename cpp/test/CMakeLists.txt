@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
-project (stmpct_test)
+project (stmpct-cpp-test)
 
 enable_testing()
 

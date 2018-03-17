@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.6)
-project(stmpct-src)
+cmake_minimum_required (VERSION 2.6)
+project (stmpct-cpp-src)
 
 if(MSVC)
   # Force to always compile with W4
