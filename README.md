@@ -67,5 +67,5 @@ In short:
 1. Update `CHANGELOG.md` with the latest change information
 2. Update the version fields in `CMakeLists.txt`
 3. Merge all changes to the `master` branch
-4. Tag the release
-5. Push the changes and the tag to `origin`
+4. Tag the release (e.g. `git tag vX.Y.Z`)
+5. Push the changes and the tag to `origin` (e.g. `git push && git push --tags`)
