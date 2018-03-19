@@ -8,9 +8,6 @@ add_custom_target(mocha ALL
                   COMMAND npm install mocha)
 add_custom_target(unit.js ALL
                   COMMAND npm install unit.js)
-# TODO: fix the below
-add_custom_target(streaming-percentiles ALL
-                  COMMAND npm install streaming-percentiles)
 
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gk_tests.js
