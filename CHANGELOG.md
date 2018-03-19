@@ -1,3 +1,6 @@
+# 1.2.0 - 2018-03-19
+- Create a JS
+
 # 1.1.0 - 2018-03-17
 - Build both static and shared libraries on most platforms
 - Create a .zip / .tar.gz as the final step of the build

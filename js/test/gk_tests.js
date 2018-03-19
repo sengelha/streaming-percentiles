@@ -1,6 +1,6 @@
 "use strict";
 var test = require('unit.js');
-var sp = require('../src/stmpct.js');
+var sp = require('../src/streamingPercentiles.v1.min.js');
 
 describe('gk_unit_tests', function() {
     it('sanity', function() {
