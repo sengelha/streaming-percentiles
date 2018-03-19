@@ -32,6 +32,7 @@ if (BUILD_JS_LIBRARY)
   list(APPEND CPACK_COMPONENTS_ALL js)
 endif()
 if (WIN32)
+  # Default generator on Win32 is MSI; we prefer ZIP
   set(CPACK_GENERATOR "ZIP")
 endif()
 include(CPack)
