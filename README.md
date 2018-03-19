@@ -1,8 +1,10 @@
 # streaming-percentiles-cpp
 
 This is a C++ library with implementations of various
-percentile algorithms on streams of data.  These algorithms all
-calculate only approximate percentiles, not exact percentiles.
+percentile algorithms on streams of data.  Using the
+magic of [emscripten](https://github.com/kripken/emscripten),
+this package also cross-compiles a JavaScript version of
+the streaming percentiles library as well.
 
 For more on streaming percentiles, see [Calculating Percentiles on
 Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
@@ -13,7 +15,7 @@ Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles
 
 Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.  This will
 create a package in the `target` directory, e.g.
-`target/streaming_percentiles-x.y.z-Darwin.tar.gz` for Mac OS X.
+`target/Debug/streaming_percentiles-x.y.z-Darwin.tar.gz` for Mac OS X.
 
 Be sure to read the build help text first (e.g. `build.sh --help`).
 
@@ -21,11 +23,14 @@ Be sure to read the build help text first (e.g. `build.sh --help`).
 
 - [CMake](https://cmake.org)
 - [Boost Unit Test Framework](http://www.boost.org)
+- If cross-compiling to JavaScript, [Emscripten](https://github.com/kripken/emscripten)
 
 ### Example
 
+#### C++
+
 Here's a simple example on how to use the Greenwald-Khanna streaming
-percentile algorithm:
+percentile algorithm from C++:
 
 ```cpp
 #include <stmpct/gk.hpp>
@@ -39,6 +44,24 @@ for (int i = 0; i < 1000; ++i)
 double p50 = g.quantile(0.5); // Approx. median
 double p95 = g.quantile(0.95); // Approx. 95th percentile
 ```
+
+#### JavaScript
+
+Here's the same example from JavaScript:
+```javascript
+var sp = require('./streamingPercentiles.v1.min.js');
+
+var epsilon = 0.1;
+var g = new sp.GK(epsilon);
+for (var i = 0; i < 1000; ++i)
+    g.insert(Math.random());
+var p50 = g.quantile(0.5); // Approx. median
+var p95 = g.quantile(0.95); // Approx. 95th percentile
+```
+
+### API Reference
+
+Coming soon!
 
 ## Contributing to the Library
 
@@ -65,7 +88,8 @@ In short:
 ### Making a Release
 
 1. Update `CHANGELOG.md` with the latest change information
-2. Update the version fields in `CMakeLists.txt`
-3. Merge all changes to the `master` branch
-4. Tag the release (e.g. `git tag vX.Y.Z`)
-5. Push the changes and the tag to `origin` (e.g. `git push && git push --tags`)
+2. Update `README.md` if necessary
+3. Update the version fields in `CMakeLists.txt`
+4. Merge all changes to the `master` branch
+5. Tag the release (e.g. `git tag vX.Y.Z`)
+6. Push the changes and the tag to `origin` (e.g. `git push && git push --tags`)
