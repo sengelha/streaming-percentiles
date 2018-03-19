@@ -87,10 +87,12 @@ In short:
 
 ### Making a Release
 
-1. Update `CHANGELOG.md` with the latest change information
+1. Update `CHANGELOG.md` with the latest change information (`git diff
+   vX.Y.Z` might be useful here)
 2. Update `README.md` if necessary
 3. Update the version fields in `CMakeLists.txt`
 4. Merge all changes to the `master` branch
 5. Tag the release (e.g. `git tag vX.Y.Z`)
-6. Push the changes and the tag to `origin` (e.g. `git push && git push --tags`)
+6. Push the changes and the tag to `origin` (e.g. `git push && git push
+   --tags`)
 7. Create the release on GitHub and add release notes
