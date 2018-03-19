@@ -93,3 +93,4 @@ In short:
 4. Merge all changes to the `master` branch
 5. Tag the release (e.g. `git tag vX.Y.Z`)
 6. Push the changes and the tag to `origin` (e.g. `git push && git push --tags`)
+7. Create the release on GitHub and add release notes
