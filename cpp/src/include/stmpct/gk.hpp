@@ -31,6 +31,9 @@ private:
         }
     };
 
+#ifdef UNIT_TESTING
+    friend class ::gk_unit_tests;
+#endif
     friend std::ostream& operator<<(std::ostream&, const gk&);
     friend std::ostream& operator<<(std::ostream&, const gk::tuple&);
 
