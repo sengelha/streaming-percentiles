@@ -11,8 +11,11 @@ Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles
 
 ## Obtaining the Library
 
-To download pre-built versions of the library, go to the
-[streaming-percentiles-cpp releases page](https://github.com/sengelha/streaming-percentiles-cpp/releases).
+You can download pre-built versions of the library from the
+[streaming-percentiles-cpp releases
+page](https://github.com/sengelha/streaming-percentiles-cpp/releases).
+Otherwise see [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how
+to compile the library from source.
 
 ## Usage Example
 
