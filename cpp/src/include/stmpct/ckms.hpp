@@ -14,8 +14,8 @@ class ckms : public stmpctalg
 public:
     ckms();
     virtual ~ckms() = default;
-    virtual void insert(double v) final;
-    virtual double quantile(double phi) final;
+    virtual void insert(double v) override;
+    virtual double quantile(double phi) override;
 
 protected:
     virtual bool compress_condition() const = 0;

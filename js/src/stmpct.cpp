@@ -1,5 +1,6 @@
 #include <emscripten/bind.h>
 #include <stmpct/ckms_lbq.hpp>
+#include <stmpct/ckms_uq.hpp>
 #include <stmpct/gk.hpp>
 
 using namespace emscripten;
@@ -11,9 +12,13 @@ EMSCRIPTEN_BINDINGS(streaming_percentiles) {
         .function("insert", &gk::insert)
         .function("quantile", &gk::quantile);
 
-    class_<ckms>("CKMS")
+    class_<ckms_lbq>("CKMS_LBQ")
         .constructor<double>()
+        .function("insert", &ckms_lbq::insert)
         .function("quantile", &ckms_lbq::quantile);
-//        .function("insert", &ckms_lbq::insert)
-//        .function("quantile", &ckms_lbq::quantile);
+
+    class_<ckms_uq>("CKMS_UQ")
+        .constructor<double>()
+        .function("insert", &ckms_uq::insert)
+        .function("quantile", &ckms_uq::quantile);
 }

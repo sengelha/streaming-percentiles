@@ -42,7 +42,7 @@ foreach (testPath ${TESTCASE_SRC})
 
   # Test all unit tests
   add_test(
-    NAME ${testName}
+    NAME js_${testName}
     COMMAND ./node_modules/mocha/bin/mocha ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
   )
 endforeach()

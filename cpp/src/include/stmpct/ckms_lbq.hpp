@@ -6,22 +6,26 @@
 
 namespace stmpct {
 
-class ckms_lbq : public ckms
-{
-public:
-    ckms_lbq(double epsilon);
+    class ckms_lbq : public ckms
+    {
+    public:
+        ckms_lbq(double epsilon);
+        // These functions exist to give jsbind something to bind to.  Ideally
+        // we'd get rid of them.
+        virtual void insert(double v) override final;
+        virtual double quantile(double phi) override final;
 
-protected:
-    bool compress_condition() const override final;
-    double f(double r_i, int n) const override final;
+    protected:
+        bool compress_condition() const override final;
+        double f(double r_i, int n) const override final;
 
-private:
+    private:
 #ifdef UNIT_TESTING
-    friend class ::ckms_lbq_unit_tests;
+        friend class ::ckms_lbq_unit_tests;
 #endif
 
-    double m_epsilon;
-    int m_one_over_2e;
-};
+        double m_epsilon;
+        int m_one_over_2e;
+    };
 
 }

@@ -2,9 +2,9 @@
 var test = require('unit.js');
 var sp = require('../src/streamingPercentiles.v1.min.js');
 
-describe('ckms_lbq_tests', function() {
+describe('ckms_uq_tests', function() {
     it('sanity', function() {
-        var c = new sp.CKMS_LBQ(0.1);
+        var c = new sp.CKMS_UQ(0.1);
         for (var i = 0; i < 1000; ++i)
             c.insert(Math.random());
         var p50 = c.quantile(0.5); // Approx. median
@@ -17,7 +17,7 @@ describe('ckms_lbq_tests', function() {
         this.timeout(60000); // Extend timeout to 60s
 
         for (var epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-            var c = new sp.CKMS_LBQ(epsilon);
+            var c = new sp.CKMS_UQ(epsilon);
 
             // Seed gk so it becomes stable
             for (var i = 0; i < 1000; ++i) {

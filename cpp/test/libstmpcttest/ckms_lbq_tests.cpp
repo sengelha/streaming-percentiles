@@ -62,7 +62,6 @@ BOOST_AUTO_TEST_CASE(ckms_lbq_inner_state)
     BOOST_CHECK_EQUAL(ckms_lbq_unit_tests::n(c), ARRAYSIZE(seq));
 }
 
-/*
 BOOST_AUTO_TEST_CASE(ckms_lbq_stress)
 {
     std::uniform_real_distribution<double> unif(0, 1);
@@ -86,4 +85,3 @@ BOOST_AUTO_TEST_CASE(ckms_lbq_stress)
         }
     }
 }
-*/
