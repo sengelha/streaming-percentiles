@@ -3,6 +3,8 @@ project(stmpct-js-test)
 
 enable_testing()
 
+file(GLOB TESTCASE_SRC *.js)
+
 # Install mocha
 add_custom_command(
   OUTPUT node_modules/mocha/bin/mocha
@@ -23,19 +25,24 @@ add_custom_target(
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/unit.js/package.json
 )
 
-# Copy unit tests to binary folder so they can use installed modules
-add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gk_tests.js
-  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/gk_tests.js ${CMAKE_CURRENT_BINARY_DIR}/gk_tests.js
-  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/gk_tests.js
-)
-add_custom_target(
-  copy_gk_tests.js ALL
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/gk_tests.js
-)
+foreach (testPath ${TESTCASE_SRC})
+  get_filename_component(testFileName ${testPath} NAME)
+  get_filename_component(testName ${testPath} NAME_WE)
 
-# Test all unit tests
-add_test(
-  NAME gk_tests.js
-  COMMAND ./node_modules/mocha/bin/mocha ${CMAKE_CURRENT_BINARY_DIR}/gk_tests.js
-)
+  # Copy unit tests to binary folder so they can use installed modules
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
+    COMMAND ${CMAKE_COMMAND} -E copy ${testPath} ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
+    DEPENDS ${testPath}
+  )
+  add_custom_target(
+    copy_${testName} ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
+  )
+
+  # Test all unit tests
+  add_test(
+    NAME ${testName}
+    COMMAND ./node_modules/mocha/bin/mocha ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
+  )
+endforeach()
