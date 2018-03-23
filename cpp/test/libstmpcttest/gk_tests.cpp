@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE gk_tests
 #include <boost/test/unit_test.hpp>
 #include <random>
 class gk_unit_tests;
@@ -8,6 +9,44 @@ class gk_unit_tests;
 #endif
 
 using namespace stmpct;
+
+BOOST_AUTO_TEST_CASE(gk_algorithm)
+{
+    gk g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(i);
+    }
+    double p95 = g.quantile(0.95);
+    BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(gk_stress)
+{
+    std::uniform_real_distribution<double> unif(0, 1);
+    std::default_random_engine re;
+
+    for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
+        gk g(epsilon);
+
+        // Seed gk so it becomes stable
+        for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {
+            g.insert(unif(re));
+        }
+
+        for (int i = 0; i < 1000; ++i) {
+            g.insert(unif(re));
+            for (double phi = 0.01; phi < 1; phi += 0.01) {
+                double q = g.quantile(phi);
+                BOOST_CHECK_GT(q, 0);
+                BOOST_CHECK_LT(q, 1);
+            }
+        }
+    }
+}
+
+// TODO: Reenable the below (requires being able to test impl)
+
+/*
 
 // This is a friend class to stmpct::gk and provides methods
 // to allow access to private members of gk from unit tests.
@@ -22,16 +61,6 @@ public:
     static int one_over_2e(const gk& g) { return g.m_one_over_2e; }
     static gk::tuples_t S(const gk& g) { return g.m_S; }
 };
-
-BOOST_AUTO_TEST_CASE(gk_algorithm)
-{
-    gk g(0.0005);
-    for (int i = 1; i <= 100; ++i) {
-        g.insert(i);
-    }
-    double p95 = g.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
-}
 
 BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
 {
@@ -71,26 +100,4 @@ BOOST_AUTO_TEST_CASE(gk_inner_state)
     BOOST_CHECK_EQUAL(gk_unit_tests::n(g), ARRAYSIZE(seq));
 }
 
-BOOST_AUTO_TEST_CASE(gk_stress)
-{
-    std::uniform_real_distribution<double> unif(0, 1);
-    std::default_random_engine re;
-
-    for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-        gk g(epsilon);
-
-        // Seed gk so it becomes stable
-        for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {
-            g.insert(unif(re));
-        }
-
-        for (int i = 0; i < 1000; ++i) {
-            g.insert(unif(re));
-            for (double phi = 0.01; phi < 1; phi += 0.01) {
-                double q = g.quantile(phi);
-                BOOST_CHECK_GT(q, 0);
-                BOOST_CHECK_LT(q, 1);
-            }
-        }
-    }
-}
+*/

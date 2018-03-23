@@ -6,37 +6,9 @@
 
 using namespace std;
 
-namespace stmpct {
+static const int MAX_BAND = 999999;
 
-gk::gk(double epsilon) :
-    m_epsilon(epsilon), m_one_over_2e((int)(1/(2 * epsilon))), m_n(0)
-{
-}
-
-void gk::insert(double v)
-{
-    if (m_n % m_one_over_2e == 0)
-        compress();
-    do_insert(v);
-    ++m_n;
-}
-
-double gk::quantile(double phi)
-{
-    double en = m_epsilon * m_n;
-    int r = (int)ceil(phi * m_n);
-    double rmin = 0;
-    for (auto it = m_S.begin(); it != m_S.end(); ++it) {
-        rmin += it->g;
-        double rmax = rmin + it->delta;
-        if (r - rmin <= en && rmax - r <= en)
-            return it->v;
-    }
-
-    throw std::runtime_error("Could not resolve quantile");
-}
-
-std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
+static std::vector<int> construct_band_lookup(int two_epsilon_n)
 {
     // TODO: This function is rather slow.  Rewrite to be faster.
     std::vector<int> bands(two_epsilon_n + 1);
@@ -54,88 +26,122 @@ std::vector<int> gk::construct_band_lookup(int two_epsilon_n)
             bands[i] = alpha;
         }
     }
-    
+
     return bands;
 }
 
-void gk::do_insert(double v)
-{
-    auto it = find_insertion_index(v);
-    tuple t(v, 1, determine_delta(it));
-    m_S.insert(it, t);
-}
+namespace stmpct {
 
-gk::tuples_t::iterator gk::find_insertion_index(double v)
-{
-    gk::tuples_t::iterator it = m_S.begin();
-    while (it != m_S.end() && v >= it->v)
-        ++it;
-    return it;
-}
+    class gk::impl {
+    public:
+        impl(double epsilon)
+            : m_epsilon(epsilon)
+            , m_one_over_2e((int)(1/(2 * epsilon)))
+            , m_n(0)
+        {
+        }
 
-int gk::determine_delta(gk::tuples_t::iterator it)
-{
-    if (m_n <= m_one_over_2e) {
-        return 0;
-    } else if (it == m_S.begin() || it == m_S.end()) {
-        return 0;
-    } else {
-        int delta = (int)floor(2 * m_epsilon * m_n) - 1;
-        assert(delta >= 0 && delta <= 2 * m_epsilon * m_n - 1);
-        return delta;
-    }
-}
+        void insert(double v)
+        {
+            if (m_n % m_one_over_2e == 0)
+                compress();
+            do_insert(v);
+            ++m_n;
+        }
 
-void gk::compress()
-{
-    if (m_S.empty())
-        return;
-
-    int two_epsilon_n = (int)(2 * m_epsilon * m_n);
-    std::vector<int> bands = construct_band_lookup(two_epsilon_n);
-    tuples_t::iterator it = prev(prev(m_S.end()));
-    while (it != m_S.begin()) {
-        tuples_t::iterator it2 = next(it);
-        if (bands[it->delta] <= bands[it2->delta]) {
-            int g_i_star = it->g;
-            tuples_t::iterator start_it = it;
-            while (start_it != next(m_S.begin()) && bands[prev(start_it)->delta] < bands[it->delta]) {
-                --start_it;
-                g_i_star += start_it->g;
+        double quantile(double phi)
+        {
+            double en = m_epsilon * m_n;
+            int r = (int)ceil(phi * m_n);
+            double rmin = 0;
+            for (auto it = m_S.begin(); it != m_S.end(); ++it) {
+                rmin += it->g;
+                double rmax = rmin + it->delta;
+                if (r - rmin <= en && rmax - r <= en)
+                    return it->v;
             }
-            if ((g_i_star + it2->g + it2->delta) < two_epsilon_n) {
-                tuple merged(it2->v, g_i_star + it2->g, it2->delta);
-                *start_it = merged;
-                m_S.erase(next(start_it), next(it2));
-                it = start_it;
+
+            // Should never reach the below
+            assert(false);
+            return nan("");
+        }
+
+    private:
+        struct tuple {
+            double v;
+            int g;
+            int delta;
+
+            tuple(double v, int g, int delta)
+                : v(v), g(g), delta(delta) {}
+        };
+        typedef std::vector<tuple> tuples_t;
+
+        int determine_delta(tuples_t::iterator it)
+        {
+            if (m_n <= m_one_over_2e) {
+                return 0;
+            } else if (it == m_S.begin() || it == m_S.end()) {
+                return 0;
+            } else {
+                int delta = (int)floor(2 * m_epsilon * m_n) - 1;
+                assert(delta >= 0 && delta <= 2 * m_epsilon * m_n - 1);
+                return delta;
             }
         }
-        --it;
-    }
-}
 
-ostream& operator<<(ostream& os, const gk& gk)
-{
-    os << "{epsilon: " << gk.m_epsilon << ", "
-       << "n: " << gk.m_n << ", "
-       << "one_over_2e: " << gk.m_one_over_2e << ", "
-       << "S: [";
-    for (auto it = gk.m_S.begin(); it != gk.m_S.end(); ++it) {
-        if (it != gk.m_S.begin())
-            os << ", ";
-        os << *it;
-    }
-    os << "]}";
-    return os;
-}
+        tuples_t::iterator find_insertion_index(double v)
+        {
+            tuples_t::iterator it = m_S.begin();
+            while (it != m_S.end() && v >= it->v)
+                ++it;
+            return it;
+        }
 
-ostream& operator<<(ostream& os, const gk::tuple& t)
-{
-    os << "{v: " << t.v
-       << ", g: " << t.g
-       << ", delta: " << t.delta
-       << "}";
-    return os;
-}
+        void do_insert(double v)
+        {
+            tuples_t::iterator it = find_insertion_index(v);
+            tuple t(v, 1, determine_delta(it));
+            m_S.insert(it, t);
+        }
+
+        void compress()
+        {
+            if (m_S.empty())
+                return;
+
+            int two_epsilon_n = (int)(2 * m_epsilon * m_n);
+            std::vector<int> bands = construct_band_lookup(two_epsilon_n);
+            tuples_t::iterator it = prev(prev(m_S.end()));
+            while (it != m_S.begin()) {
+                tuples_t::iterator it2 = next(it);
+                if (bands[it->delta] <= bands[it2->delta]) {
+                    int g_i_star = it->g;
+                    tuples_t::iterator start_it = it;
+                    while (start_it != next(m_S.begin()) && bands[prev(start_it)->delta] < bands[it->delta]) {
+                        --start_it;
+                        g_i_star += start_it->g;
+                    }
+                    if ((g_i_star + it2->g + it2->delta) < two_epsilon_n) {
+                        tuple merged(it2->v, g_i_star + it2->g, it2->delta);
+                        *start_it = merged;
+                        m_S.erase(next(start_it), next(it2));
+                        it = start_it;
+                    }
+                }
+                --it;
+            }
+        }
+
+        double m_epsilon;
+        int m_one_over_2e;
+        int m_n;
+        tuples_t m_S;
+    };
+
+    gk::gk(double epsilon) : pImpl(new impl(epsilon)) {}
+    gk::~gk() {}
+    void gk::insert(double v) { pImpl->insert(v); }
+    double gk::quantile(double phi) { return pImpl->quantile(phi); }
 
 }

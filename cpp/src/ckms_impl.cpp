@@ -1,27 +1,23 @@
 #include <cassert>
 #include <cmath>
-#include <iostream>
-#include <stmpct/ckms.hpp>
+#include "ckms_impl.hpp"
 
 using namespace std;
 
-namespace stmpct {
-
-ckms::ckms() : m_n(0) {}
-
-void ckms::insert(double v)
+void ckms_impl::insert(double v)
 {
     do_insert(v);
     if (compress_condition())
         compress();
 }
 
-double ckms::quantile(double phi)
+double ckms_impl::quantile(double phi)
 {
     if (m_S.empty())
-        throw std::runtime_error("Could not resolve quantile -- empty set");
+        return nan("");
 
     double phin = phi * m_n;
+    // TODO: f(phin -- that's not right is it?  The first param is r_i...)
     double comp = phin + f(phin, m_n) / 2;
 
     int r_i = 0;
@@ -38,8 +34,11 @@ double ckms::quantile(double phi)
     return it_prev->v;
 }
 
-void ckms::do_insert(double v)
+void ckms_impl::do_insert(double v)
 {
+    // TODO: Some algorithms (e.g. ckms_uq) do not require
+    // r_i, so calculating r_i is inefficient here... can it
+    // be removed?
     int r_i = 0;
     tuples_t::iterator it = m_S.begin();
     while (it != m_S.end() && v >= it->v) {
@@ -55,10 +54,13 @@ void ckms::do_insert(double v)
     ++m_n;
 }
 
-void ckms::compress() {
+void ckms_impl::compress()
+{
     if (m_S.empty())
         return;
 
+    // TODO: Some algorithms (e.g. ckms_uq) do not require
+    // r_i, can we avoid calculating it?
     int r_i = 0;
     tuples_t::iterator it;
     for (it = m_S.begin(); it != m_S.end(); ++it) {
@@ -78,7 +80,7 @@ void ckms::compress() {
     }
 }
 
-void ckms::merge(tuples_t::iterator it1, tuples_t::iterator it2)
+void ckms_impl::merge(tuples_t::iterator it1, tuples_t::iterator it2)
 {
     it1->v = it2->v;
     it1->g = it1->g + it2->g;
@@ -86,34 +88,3 @@ void ckms::merge(tuples_t::iterator it1, tuples_t::iterator it2)
     m_S.erase(it2);
 }
 
-ostream& operator<<(ostream& os, const ckms& c)
-{
-    os << "{"
-       << "n: " << c.m_n
-       << ", S: " << c.m_S
-       << "}";
-    return os;
-}
-
-ostream& operator<<(ostream& os, const ckms::tuples_t& tuples)
-{
-    os << "[";
-    for (auto it = tuples.begin(); it != tuples.end(); ++it) {
-        if (it != tuples.begin())
-            os << ", ";
-        os << *it;
-    }
-    os << "]";
-    return os;
-}
-
-ostream& operator<<(ostream& os, const ckms::tuple& t)
-{
-    os << "{v: " << t.v
-       << ", g: " << t.g
-       << ", delta: " << t.delta
-       << "}";
-    return os;
-}
-
-}

@@ -1,31 +1,25 @@
 #pragma once
 
-// The Cormode-Korn-Muthukrishnan-Srivastava algorithm for low biased quantiles as defined
-// in the paper Effective Computation of Biased Quantiles over Data Streams
-#include "ckms.hpp"
+// The Cormode-Korn-Muthukrishnan-Srivastava algorithm for low biased
+// quantiles as defined in the paper _Effective Computation of Biased
+// Quantiles over Data Streams_
+
+#include <memory>
+#include "stmpctalg.hpp"
 
 namespace stmpct {
 
-    class ckms_lbq : public ckms
+    class ckms_lbq : public stmpctalg
     {
     public:
         ckms_lbq(double epsilon);
-        // These functions exist to give jsbind something to bind to.  Ideally
-        // we'd get rid of them.
-        virtual void insert(double v) override final;
-        virtual double quantile(double phi) override final;
-
-    protected:
-        bool compress_condition() const override final;
-        double f(double r_i, int n) const override final;
+        ~ckms_lbq();
+        void insert(double v) override final;
+        double quantile(double phi) override final;
 
     private:
-#ifdef UNIT_TESTING
-        friend class ::ckms_lbq_unit_tests;
-#endif
-
-        double m_epsilon;
-        int m_one_over_2e;
+        class impl;
+        std::unique_ptr<impl> pImpl;
     };
 
 }

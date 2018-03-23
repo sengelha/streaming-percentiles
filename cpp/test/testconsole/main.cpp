@@ -3,6 +3,9 @@
 #include <random>       // std::default_random_engine
 #include <cassert>
 #include <stmpct/gk.hpp>
+#include <stmpct/ckms_hbq.hpp>
+#include <stmpct/ckms_lbq.hpp>
+#include <stmpct/ckms_uq.hpp>
 #include "compat/gettimeofday.h"
 
 #ifndef ARRAYSIZE
@@ -22,30 +25,44 @@ static void explore_gk()
 
     gk gk(0.1);
     int i = 0;
-    //std::cout << "Initial state: " << gk << "\n";
     for_each(vals.begin(), vals.end(), [&](double v) {
-        gk.insert(v);
-        std::cout << "After inserting " << v << ": " << gk << "\n";
-    });
-    std::cout << "10% = " << gk.quantile(0.1) << "\n"
-              << "50% = " << gk.quantile(0.5) << "\n"
-              << "90% = " << gk.quantile(0.9) << "\n";
+            gk.insert(v);
+        });
+    cout << "10% = " << gk.quantile(0.1) << "\n"
+         << "50% = " << gk.quantile(0.5) << "\n"
+         << "90% = " << gk.quantile(0.9) << "\n";
 }
 
 static void algorithm_comparison()
 {
     std::vector<double> vals;
-    for (int i = 0; i != 100000; ++i) {
+    for (int i = 0; i != 10000; ++i) {
         vals.push_back(rand() % 100 + 1);
     }
 
     gk gk(0.01);
     for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
-    cout << "GK algorithm:\n"
+    cout << "GK algorithm (epsilon = 0.01):\n"
          << "50% = " << gk.quantile(0.5) << "\n"
          << "90% = " << gk.quantile(0.9) << "\n"
          << "95% = " << gk.quantile(0.95) << "\n"
          << "99% = " << gk.quantile(0.99) << "\n";
+
+    ckms_uq ckms_uq(0.01);
+    for_each(vals.begin(), vals.end(), [&](double v) { ckms_uq.insert(v); });
+    cout << "CKMS_UQ algorithm (epsilon = 0.01):\n"
+         << "50% = " << ckms_uq.quantile(0.5) << "\n"
+         << "90% = " << ckms_uq.quantile(0.9) << "\n"
+         << "95% = " << ckms_uq.quantile(0.95) << "\n"
+         << "99% = " << ckms_uq.quantile(0.99) << "\n";
+
+    ckms_lbq ckms_lbq(0.01);
+    for_each(vals.begin(), vals.end(), [&](double v) { ckms_lbq.insert(v); });
+    cout << "CKMS_LBQ algorithm (epsilon = 0.01):\n"
+         << "50% = " << ckms_lbq.quantile(0.5) << "\n"
+         << "90% = " << ckms_lbq.quantile(0.9) << "\n"
+         << "95% = " << ckms_lbq.quantile(0.95) << "\n"
+         << "99% = " << ckms_lbq.quantile(0.99) << "\n";
 
     // Exact (do this last, because it sorts the array)
     sort(vals.begin(), vals.end());
@@ -56,40 +73,69 @@ static void algorithm_comparison()
          << "99% = " << vals[(int)(vals.size() * 0.99)] << "\n";
 }
 
-static void gk_perf()
+static long measure_perf(stmpctalg& alg, const std::vector<double>& vals)
 {
-    std::vector<double> vals;
-    for (int i = 0; i != 1000000; ++i) {
-        vals.push_back(rand() % 100 + 1);
-    }
+    struct timeval start;
+    gettimeofday(&start, NULL);
 
-    double epsilons[] = { 0.1, 0.05, 0.01, 0.005, 0.001 };
-    for (int i = 0; i < ARRAYSIZE(epsilons); ++i) {
-        double epsilon = epsilons[i];
+    for_each(vals.begin(), vals.end(), [&](double v) { alg.insert(v); });
 
-        struct timeval start;
-        gettimeofday(&start, NULL);
-        gk gk(epsilon);
-        for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
-        cout << "p50 = " << gk.quantile(0.5) << "\n";
+    struct timeval end;
+    gettimeofday(&end, NULL);
 
-        struct timeval end;
-        gettimeofday(&end, NULL);
+    long start_us = ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
+    long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
+    return end_us - start_us;
+}
 
-        long start_us = ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
-        long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
-        int n = (int)vals.size();
-        long duration_us = end_us - start_us;
-        double n_per_us = n / (double)duration_us;
-        double n_per_ms = 1000 * n_per_us;
-        double n_per_sec = 1000 * n_per_ms;
-        cout << "epsilon: " << epsilon
-            << ". # elems: " << n
-            << ". Duration (us): " << duration_us
-            << ". #/microsec: " << n_per_us
-            << ". #/ms: " << n_per_ms
-            << ". #/sec: " << n_per_sec
-            << "\n";
+static void perf_comparison()
+{
+    cout << "Running performance comparison...\n";
+
+    cout << "N,Algorithm,Epsilon,Duration (us),#/sec\n";
+    int ns[] = { 1000, 10000, 100000 };
+    for (int i = 0; i < ARRAYSIZE(ns); ++i) {
+        int n = ns[i];
+
+        std::vector<double> vals;
+        vals.reserve(n);
+        for (int i = 0; i != n; ++i) {
+            vals.push_back(rand() % 100 + 1);
+        }
+
+        double epsilons[] = { 0.1, 0.05, 0.01, 0.005, 0.001 };
+        for (int j = 0; j < ARRAYSIZE(epsilons); ++j) {
+            double epsilon = epsilons[j];
+
+            {
+                gk gk(epsilon);
+                long duration_us = measure_perf(gk, vals);
+                double n_per_s = n / (duration_us / 1000000.0);
+                cout << vals.size() << ",GK," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+            }
+
+            {
+                ckms_uq ckms_uq(epsilon);
+                long duration_us = measure_perf(ckms_uq, vals);
+                double n_per_s = n / (duration_us / 1000000.0);
+                cout << vals.size() << ",CKMS_UQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+            }
+
+            {
+                ckms_hbq ckms_hbq(epsilon);
+                long duration_us = measure_perf(ckms_hbq, vals);
+                double n_per_s = n / (duration_us / 1000000.0);
+                cout << vals.size() << ",CKMS_HBQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+            }
+
+            {
+                ckms_lbq ckms_lbq(epsilon);
+                long duration_us = measure_perf(ckms_lbq, vals);
+                double n_per_s = n / (duration_us / 1000000.0);
+                cout << vals.size() << ",CKMS_LBQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+            }
+
+        }
     }
 }
 
@@ -98,6 +144,7 @@ int main(void)
     srand(12345);
     explore_gk();
     algorithm_comparison();
-    gk_perf();
+    perf_comparison();
     return 0;
 }
+
