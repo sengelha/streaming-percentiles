@@ -10,7 +10,6 @@ set "__ProjectDir=%~dp0"
 
 :Arg_Loop
 if "%1" == "" goto ArgsDone
-
 if /i "%1" == "-?"    goto Usage
 if /i "%1" == "/?"    goto Usage
 if /i "%1" == "/h"    goto Usage
@@ -25,6 +24,10 @@ if /i "%1" == "/d"                    (set __BuildType=Debug&set processedArgs=!
 if /i "%1" == "/debug"                (set __BuildType=Debug&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
 if /i "%1" == "/r"                    (set __BuildType=Release&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
 if /i "%1" == "/release"              (set __BuildType=Release&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
+
+echo.
+echo ERROR: Unrecognized flag %1
+goto Usage
 
 :ArgsDone
 
