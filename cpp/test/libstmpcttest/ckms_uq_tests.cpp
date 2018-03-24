@@ -21,7 +21,31 @@ BOOST_AUTO_TEST_CASE(ckms_uq_sanity)
     BOOST_CHECK_CLOSE(95, p95, 0.01);
 }
 
+BOOST_AUTO_TEST_CASE(ckms_uq_stress)
+{
+    std::uniform_real_distribution<double> unif(0, 1);
+    std::default_random_engine re;
 
+    for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
+        ckms_uq c(epsilon);
+
+        // Seed ckms_uq so it becomes stable
+        for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {
+            c.insert(unif(re));
+        }
+
+        for (int i = 0; i < 1000; ++i) {
+            c.insert(unif(re));
+            for (double phi = 0.01; phi < 1; phi += 0.01) {
+                double q = c.quantile(phi);
+                BOOST_CHECK_GT(q, 0);
+                BOOST_CHECK_LT(q, 1);
+            }
+        }
+    }
+}
+
+// TODO: Re-enable internal implementation tests
 /*
 using namespace std;
 
@@ -56,29 +80,5 @@ BOOST_AUTO_TEST_CASE(ckms_uq_inner_state)
     };
     BOOST_CHECK_EQUAL(ckms_uq_unit_tests::S(c), expectedS);
     BOOST_CHECK_EQUAL(ckms_uq_unit_tests::n(c), ARRAYSIZE(seq));
-}
-
-BOOST_AUTO_TEST_CASE(ckms_uq_stress)
-{
-    std::uniform_real_distribution<double> unif(0, 1);
-    std::default_random_engine re;
-
-    for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-        ckms_uq c(epsilon);
-
-        // Seed ckms_uq so it becomes stable
-        for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {
-            c.insert(unif(re));
-        }
-
-        for (int i = 0; i < 1000; ++i) {
-            c.insert(unif(re));
-            for (double phi = 0.01; phi < 1; phi += 0.01) {
-                double q = c.quantile(phi);
-                BOOST_CHECK_GT(q, 0);
-                BOOST_CHECK_LT(q, 1);
-            }
-        }
-    }
 }
 */

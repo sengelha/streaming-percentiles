@@ -44,8 +44,7 @@ BOOST_AUTO_TEST_CASE(gk_stress)
     }
 }
 
-// TODO: Reenable the below (requires being able to test impl)
-
+// TODO: Re-enable internal implementation tests
 /*
 
 // This is a friend class to stmpct::gk and provides methods

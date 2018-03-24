@@ -47,6 +47,7 @@ BOOST_AUTO_TEST_CASE(ckms_lbq_stress)
 }
 
 
+// TODO: Re-enable internal implementation tests
 /*
 // This is a friend class to stmpct::ckms_lbq and provides methods
 // to allow access to private members of ckms_lbq from unit tests.

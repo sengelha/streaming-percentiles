@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <vector>
 #include <stmpct/gk.hpp>
 
 using namespace std;
