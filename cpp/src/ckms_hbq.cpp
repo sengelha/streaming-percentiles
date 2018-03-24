@@ -32,7 +32,7 @@ namespace stmpct {
     };
 
     ckms_hbq::ckms_hbq(double epsilon) : pImpl(new impl(epsilon)) {}
-    ckms_hbq::~ckms_hbq() {}
+    ckms_hbq::~ckms_hbq() { delete(pImpl); }
     void ckms_hbq::insert(double v) { pImpl->insert(v); }
     double ckms_hbq::quantile(double phi) { return pImpl->quantile(phi); }
 

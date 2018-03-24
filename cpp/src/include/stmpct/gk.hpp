@@ -2,12 +2,12 @@
 
 // The Greenwald-Khanna algorithm as defined in the paper
 // Space-Efficient Online Computation of Quantile Summaries
-#include <memory>
-#include "stmpctalg.hpp"
+#include "stmpct_alg.hpp"
+#include "stmpct_export.hpp"
 
 namespace stmpct {
 
-    class gk : public stmpctalg
+    class STMPCT_EXPORT gk : public stmpct_alg
     {
     public:
         gk(double epsilon);
@@ -16,7 +16,8 @@ namespace stmpct {
         virtual double quantile(double phi) final;
 
     private:
+        // Use of std::unique_ptr triggers warning C4251 on Windows
         class impl;
-        std::unique_ptr<impl> pImpl;
+        impl* pImpl;
     };
 }

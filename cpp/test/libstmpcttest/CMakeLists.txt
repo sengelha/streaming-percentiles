@@ -22,8 +22,11 @@ foreach (testPath ${TESTCASE_SRC})
     target_compile_features(cpp_shared_${testName} PUBLIC cxx_defaulted_functions)
     target_include_directories(cpp_shared_${testName} PRIVATE ${Boost_INCLUDE_DIRS})
     target_link_libraries(cpp_shared_${testName} stmpct_cpp_shared ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+    # Need to set the working directory to be the location of the .DLL
+    # so that the DLL can be found at test time.  (The alternative
+    # is to copy the DLL to the working directory)
     add_test(NAME cpp_shared_${testName}
-      WORKING_DIRECTORY $<TARGET_FILE_DIR:cpp_shared_${testName}>
+      WORKING_DIRECTORY $<TARGET_FILE_DIR:stmpct_cpp_shared>
       COMMAND cpp_shared_${testName})
   endif()
 endforeach()

@@ -141,7 +141,7 @@ namespace stmpct {
     };
 
     gk::gk(double epsilon) : pImpl(new impl(epsilon)) {}
-    gk::~gk() {}
+    gk::~gk() { delete(pImpl); }
     void gk::insert(double v) { pImpl->insert(v); }
     double gk::quantile(double phi) { return pImpl->quantile(phi); }
 

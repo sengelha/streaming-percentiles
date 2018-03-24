@@ -4,12 +4,12 @@
 // quantiles as defined in the paper _Effective Computation of Biased
 // Quantiles over Data Streams_
 
-#include <memory>
-#include "stmpctalg.hpp"
+#include "stmpct_alg.hpp"
+#include "stmpct_export.hpp"
 
 namespace stmpct {
 
-    class ckms_hbq : public stmpctalg
+    class STMPCT_EXPORT ckms_hbq : public stmpct_alg
     {
     public:
         ckms_hbq(double epsilon);
@@ -18,8 +18,9 @@ namespace stmpct {
         double quantile(double phi) override final;
 
     private:
+        // Use of std::unique_ptr triggers warning C4251 on Windows
         class impl;
-        std::unique_ptr<impl> pImpl;
+        impl* pImpl;
     };
 
 }

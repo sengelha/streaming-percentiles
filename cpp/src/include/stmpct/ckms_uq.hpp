@@ -5,12 +5,12 @@
 // Quantiles over Data Streams_.  Conceptually nearly equivalent to
 // the GK algorithm.
 
-#include <memory>
-#include "stmpctalg.hpp"
+#include "stmpct_alg.hpp"
+#include "stmpct_export.hpp"
 
 namespace stmpct {
 
-    class ckms_uq : public stmpctalg
+    class STMPCT_EXPORT ckms_uq : public stmpct_alg
     {
     public:
         ckms_uq(double epsilon);
@@ -19,9 +19,9 @@ namespace stmpct {
         double quantile(double phi) override final;
 
     private:
+        // Use of std::unique_ptr triggers warning C4251 on Windows
         class impl;
-        std::unique_ptr<impl> pImpl;
+        impl* pImpl;
     };
-
 }
 

@@ -73,7 +73,7 @@ static void algorithm_comparison()
          << "99% = " << vals[(int)(vals.size() * 0.99)] << "\n";
 }
 
-static long measure_perf(stmpctalg& alg, const std::vector<double>& vals)
+static long measure_perf(stmpct_alg& alg, const std::vector<double>& vals)
 {
     struct timeval start;
     gettimeofday(&start, NULL);

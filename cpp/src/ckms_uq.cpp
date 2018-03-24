@@ -21,7 +21,7 @@ namespace stmpct {
             return (m_n % m_one_over_2e) == 0;
         }
 
-        double f(double r_i, int n) const override final {
+        double f(double /*r_i*/, int n) const override final {
             return 2 * m_epsilon * n;
         }
 
@@ -31,7 +31,7 @@ namespace stmpct {
     };
 
     ckms_uq::ckms_uq(double epsilon) : pImpl(new impl(epsilon)) {}
-    ckms_uq::~ckms_uq() {}
+    ckms_uq::~ckms_uq() { delete(pImpl); }
     void ckms_uq::insert(double v) { pImpl->insert(v); }
     double ckms_uq::quantile(double phi) { return pImpl->quantile(phi); }
 
