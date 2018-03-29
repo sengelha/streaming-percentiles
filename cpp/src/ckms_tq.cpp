@@ -12,13 +12,19 @@ namespace stmpct {
     class ckms_tq::impl : public ckms_impl {
     public:
         impl(targeted_quantile* tqs, int n)
-            : m_tqs(tqs, tqs + n) {}
+            : m_tqs(tqs, tqs + n)
+        {
+            int rebalance_freq = 0;
+            for (auto it = m_tqs.begin(); it != m_tqs.end(); ++it) {
+                rebalance_freq = max(rebalance_freq, (int)(1 / (2 * it->epsilon)));
+            }
+            m_rebalance_freq = rebalance_freq;
+        }
 
     protected:
         bool compress_condition() const override final {
-            //assert(false);
-            // TODO: Come up with better compress condition
-            return true;
+            assert(m_rebalance_freq > 0);
+            return (m_n % m_rebalance_freq) == 0;
         }
 
         double f(double r_i, int n) const override final {
@@ -37,6 +43,7 @@ namespace stmpct {
 
     private:
         vector<targeted_quantile> m_tqs;
+        int m_rebalance_freq;
     };
 
     ckms_tq::ckms_tq(targeted_quantile* tqs, int n) : pImpl(new impl(tqs, n)) {}
