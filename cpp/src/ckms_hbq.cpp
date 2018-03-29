@@ -21,9 +21,8 @@ namespace stmpct {
             return (m_n % m_one_over_2e) == 0;
         }
 
-        double f(double r_i, int /*n*/) const override final {
-            // TODO: This is wrong, its from lbq
-            return 2 * m_epsilon * r_i;
+        double f(double r_i, int n) const override final {
+            return 2 * m_epsilon * (n - r_i);
         }
 
     private:
