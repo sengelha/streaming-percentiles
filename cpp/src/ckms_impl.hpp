@@ -28,6 +28,7 @@ private:
             : v(v), g(g), delta(delta) {}
     };
 
+    // TODO: Evaluate replacing the below with multiset
     typedef std::vector<tuple> tuples_t;
     tuples_t m_S;
 
