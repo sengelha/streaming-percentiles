@@ -1,3 +1,10 @@
+# 2.0.0 - 2018-03-30
+- Added CKMS algorithm with support for uniform, low-biased,
+  high-biased, and targeted quantiles
+- Build shared libraries on all platforms (including Windows)
+- Changed ABI of all algorithms to use C++ pimpl paradigm so that
+  the ABI should be stable from now on
+
 # 1.2.0 - 2018-03-19
 - Create cross-compiled JavaScript version with emscripten
   (when available)
