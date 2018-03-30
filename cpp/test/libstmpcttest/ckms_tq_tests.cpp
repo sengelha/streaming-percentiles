@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(ckms_tq_sanity)
     tqs.emplace_back(0.375, 0.02);
     tqs.emplace_back(0.75, 0.04);
     tqs.emplace_back(0.875, 0.01);
-    ckms_tq c(&tqs[0], tqs.size());
+    ckms_tq c(tqs);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
@@ -35,13 +35,13 @@ BOOST_AUTO_TEST_CASE(ckms_tq_stress)
     std::uniform_real_distribution<double> val_dist(0, 1);
     std::default_random_engine re;
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 10; ++i) {
         int ntqs = ntq_dist(re);
         std::vector<targeted_quantile> tqs;
         for (int j = 0; j < ntqs; ++j) {
             tqs.emplace_back(phi_dist(re), epsilon_dist(re));
         }
-        ckms_tq c(&tqs[0], tqs.size());
+        ckms_tq c(tqs);
 
         // Seed ckms_hbq so it becomes stable
         for (int j = 0; j < 100; ++j) {

@@ -11,8 +11,8 @@ namespace stmpct {
 
     class ckms_tq::impl : public ckms_impl {
     public:
-        impl(targeted_quantile* tqs, int n)
-            : m_tqs(tqs, tqs + n)
+        impl(const std::vector<targeted_quantile>& tqs)
+            : m_tqs(tqs)
         {
             int rebalance_freq = 0;
             for (auto it = m_tqs.begin(); it != m_tqs.end(); ++it) {
@@ -46,7 +46,7 @@ namespace stmpct {
         int m_rebalance_freq;
     };
 
-    ckms_tq::ckms_tq(targeted_quantile* tqs, int n) : pImpl(new impl(tqs, n)) {}
+    ckms_tq::ckms_tq(const std::vector<targeted_quantile>& tqs) : pImpl(new impl(tqs)) {}
     ckms_tq::~ckms_tq() { delete(pImpl); }
     void ckms_tq::insert(double v) { pImpl->insert(v); }
     double ckms_tq::quantile(double phi) { return pImpl->quantile(phi); }

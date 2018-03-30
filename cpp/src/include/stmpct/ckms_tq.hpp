@@ -21,7 +21,7 @@ namespace stmpct {
     class STMPCT_EXPORT ckms_tq : public stmpct_alg
     {
     public:
-        ckms_tq(targeted_quantile* tqs, int n);
+        ckms_tq(const std::vector<targeted_quantile>& tqs);
         ~ckms_tq();
         void insert(double v) override final;
         double quantile(double phi) override final;
