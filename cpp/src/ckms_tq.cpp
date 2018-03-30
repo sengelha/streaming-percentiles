@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <vector>
 #include <stmpct/ckms_tq.hpp>
 #include "ckms_impl.hpp"
 
