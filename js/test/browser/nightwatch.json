@@ -1,0 +1,20 @@
+{
+    "globals_path": "nightwatch-globals.js",
+    "selenium" : {
+	"start_process" : false
+    },
+    "test_settings" : {
+	"default" : {
+	    "selenium_host": "localhost",
+	    "selenium_port": 9515,
+	    "default_path_prefix": "",
+	    "desiredCapabilities": {
+		"browserName": "chrome",
+		"chromeOptions" : {
+		    "args" : ["--no-sandbox"]
+		},
+		"acceptSslCerts": true
+	    }
+	}
+    }
+}

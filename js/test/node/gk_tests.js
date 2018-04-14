@@ -1,7 +1,7 @@
 "use strict";
 
 var tape = require('tape');
-var sp = require('../src/streamingPercentiles.v1.min.js');
+var sp = require('./streamingPercentiles.v1.min.js');
 
 tape("GK e=0.1 quantiles", function(test) {
     var seq = [];
