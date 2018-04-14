@@ -41,14 +41,17 @@ echo.  Target directory: %__TargetDir%
 echo.
 
 if "%__BuildArch%"=="x64" (
-    set __CMakeGenerator="Visual Studio 14 2015 Win64"
+    set __CMakeGenerator="Visual Studio 15 2017 Win64"
 ) else (
     echo.Unsupported build architecture %__BuildArch%
     exit /b 1
 )
 
-if "%__CleanBuild%"==1 (
-    if exist %__TargetDir% rmdir /s /q %__TargetDir%
+if %__CleanBuild%==1 (
+    if exist %__TargetDir% (
+        echo Deleting %__TargetDir%...
+        rmdir /s /q %__TargetDir%
+    )
 )
 if not exist %__TargetDir% mkdir %__TargetDir%
 

@@ -61,9 +61,9 @@ endforeach()
 
 if (BUILD_SHARED_LIBRARY)
   install(TARGETS stmpct_cpp_shared
-          ARCHIVE DESTINATION lib
-          LIBRARY DESTINATION lib
-          COMPONENT cpp)
+          RUNTIME DESTINATION lib COMPONENT cpp 
+          ARCHIVE DESTINATION lib COMPONENT cpp
+          LIBRARY DESTINATION lib COMPONENT cpp)
 endif()
 
 install(TARGETS stmpct_cpp_static
