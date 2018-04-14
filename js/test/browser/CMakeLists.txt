@@ -82,23 +82,28 @@ foreach (htmlPath ${HTML_SRC})
     )
 endforeach()
 
-# Copy all .JS files to binary directory and set them up as
-# unit tests
+# Copy all .JS files to binary directory
+file(GLOB JS_SRC *.js)
+foreach (jsPath ${JS_SRC})
+  get_filename_component(jsFileName ${jsPath} NAME)
+
+  # Copy JS to binary folder so they can be referred to by the test
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${jsFileName}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${jsFileName} ${CMAKE_CURRENT_BINARY_DIR}/${jsFileName}
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${jsFileName}
+  )
+  add_custom_target(
+    browser_copy_${jsFileName} ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${jsFileName}
+    )
+endforeach()
+
+# Set up JS test cases
 file(GLOB TESTCASE_SRC *_tests.js)
 foreach (testPath ${TESTCASE_SRC})
   get_filename_component(testFileName ${testPath} NAME)
   get_filename_component(testName ${testPath} NAME_WE)
-
-  # Copy unit tests to binary folder so they can use installed modules
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
-    COMMAND ${CMAKE_COMMAND} -E copy ${testPath} ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
-    DEPENDS ${testPath}
-  )
-  add_custom_target(
-    browser_copy_${testFileName} ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
-    )
 
   # Test all unit tests
   add_test(
