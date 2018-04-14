@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>CKMS_HBQ Sanity</title>
+    <script src="streamingPercentiles.v1.min.js"></script>
+  </head>
+  <body>
+    Result: <span id="result"></span>
+    <script>
+// TODO: Below should be streamingPercentiles., but we have to fix
+// the streamingpercentiles build process
+var gk = new Module.CKMS_HBQ(0.01);
+for (var i = 0; i < 1.0; i += 0.0001)
+    gk.insert(i);
+
+document.getElementById('result').textContent = gk.quantile(0.5);
+    </script>
+  </body>
+</html>
