@@ -1,36 +1,18 @@
 "use strict";
-var test = require('unit.js');
+
+var tape = require('tape');
 var sp = require('../src/streamingPercentiles.v1.min.js');
 
-describe('ckms_hbq_tests', function() {
-    it('sanity', function() {
-        var c = new sp.CKMS_HBQ(0.1);
-        for (var i = 0; i < 1000; ++i)
-            c.insert(Math.random());
-        var p50 = c.quantile(0.5); // Approx. median
-        test.number(p50).isApprox(0.5, 0.15);
-        var p95 = c.quantile(0.95); // Approx. 95th percentile
-        test.number(p95).isApprox(0.95, 0.15);
-    });
+tape("ckms_hbq e=0.1 quantiles", function(test) {
+    var seq = [];
+    for (var i = 0; i < 100000; ++i)
+        seq.push(Math.random());
 
-    it('stress', function() {
-        this.timeout(60000); // Extend timeout to 60s
-
-        for (var epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-            var c = new sp.CKMS_HBQ(epsilon);
-
-            // Seed gk so it becomes stable
-            for (var i = 0; i < 1000; ++i) {
-                c.insert(Math.random());
-            }
-
-            for (var i = 0; i < 1000; ++i) {
-                c.insert(Math.random());
-                for (var phi = 0.01; phi < 1; phi += 0.01) {
-                    var q = c.quantile(phi);
-                    test.number(q).isApprox(phi, 0.15);
-                }
-            }
-        }
-    });
-})
+    var gk = new sp.CKMS_HBQ(0.01);
+    for (var i = 0; i < seq.length; ++i)
+        gk.insert(seq[i]);
+    test.ok(gk.quantile(0.1) >= 0.07 && gk.quantile(0.1) <= 0.13);
+    test.ok(gk.quantile(0.5) >= 0.47 && gk.quantile(0.5) <= 0.53);
+    test.ok(gk.quantile(0.9) >= 0.87 && gk.quantile(0.9) <= 0.93);
+    test.end();
+});

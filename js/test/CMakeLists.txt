@@ -5,25 +5,15 @@ enable_testing()
 
 file(GLOB TESTCASE_SRC *.js)
 
-# Install mocha
+# Install tape
 add_custom_command(
-  OUTPUT node_modules/mocha/bin/mocha
-  COMMAND npm install mocha
-)
+  OUTPUT node_modules/tape/package.json
+  COMMAND npm install tape
+  )
 add_custom_target(
-  mocha ALL
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/mocha/bin/mocha
-)
-
-# Install unit.js
-add_custom_command(
-  OUTPUT node_modules/unit.js/package.json
-  COMMAND npm install unit.js
-)
-add_custom_target(
-  unit.js ALL
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/unit.js/package.json
-)
+  tape ALL
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/tape/package.json
+  )
 
 foreach (testPath ${TESTCASE_SRC})
   get_filename_component(testFileName ${testPath} NAME)
@@ -43,6 +33,6 @@ foreach (testPath ${TESTCASE_SRC})
   # Test all unit tests
   add_test(
     NAME js_${testName}
-    COMMAND ./node_modules/mocha/bin/mocha ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
+    COMMAND ./node_modules/tape/bin/tape ${CMAKE_CURRENT_BINARY_DIR}/${testFileName}
   )
 endforeach()
