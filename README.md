@@ -39,7 +39,9 @@ double p95 = g.quantile(0.95); // Approx. 95th percentile
 
 ### JavaScript
 
-Here's the same example from JavaScript:
+#### Node.JS
+
+Here's how to use the library from Node.JS:
 ```javascript
 var sp = require('./streamingPercentiles.v1.min.js');
 
@@ -49,6 +51,21 @@ for (var i = 0; i < 1000; ++i)
     g.insert(Math.random());
 var p50 = g.quantile(0.5); // Approx. median
 var p95 = g.quantile(0.95); // Approx. 95th percentile
+```
+
+#### Browser
+
+Here's how to use the library from a browser.  Note that the
+default module name is streamingPercentiles:
+```html
+<script src="streamingPercentiles.v1.min.js"></script>
+<script>
+var epsilon = 0.1;
+var gk = new streamingPercentiles.GK(epsilon);
+for (var i = 0; i < 1000; ++i)
+    g.insert(Math.random());
+var p50 = g.quantile(0.5);
+</script>
 ```
 
 ## API Reference

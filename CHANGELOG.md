@@ -1,3 +1,9 @@
+# 2.1.0 - 2018-04-14
+- Wrapped JS library into a UMD so that it works from
+  Node, require.js, and script src=...
+- Added browser-based unit tests usig nightwatch.js
+- Changed node unit test framework from unit.js to tape
+
 # 2.0.0 - 2018-03-30
 - Added CKMS algorithm with support for uniform, low-biased,
   high-biased, and targeted quantiles
