@@ -43,6 +43,34 @@ add_custom_command(OUTPUT streamingPercentiles.v1.min.js
 add_custom_target(minify ALL
                   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/streamingPercentiles.v1.min.js)
 
+# Prepare for NPM packaging
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/replace_vars.cmake "
+file(READ \${SRC} S)
+string(REPLACE \"$CPACK_PACKAGE_VERSION_MAJOR\" \"${CPACK_PACKAGE_VERSION_MAJOR}\" S \"\${S}\")
+string(REPLACE \"$CPACK_PACKAGE_VERSION_MINOR\" \"${CPACK_PACKAGE_VERSION_MINOR}\" S \"\${S}\")
+string(REPLACE \"$CPACK_PACKAGE_VERSION_PATCH\" \"${CPACK_PACKAGE_VERSION_PATCH}\" S \"\${S}\")
+file(WRITE \${DST} \"\${S}\")
+")
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/npm_package/package.json
+                   COMMAND ${CMAKE_COMMAND} -D SRC=${CMAKE_CURRENT_SOURCE_DIR}/package.json
+                                            -D DST=${CMAKE_CURRENT_BINARY_DIR}/npm_package/package.json
+                                            -P ${CMAKE_CURRENT_BINARY_DIR}/replace_vars.cmake
+                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/package.json ${CMAKE_CURRENT_BINARY_DIR}/replace_vars.cmake)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/npm_package/streamingPercentiles.v1.js
+                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/streamingPercentiles.v1.js ${CMAKE_CURRENT_BINARY_DIR}/npm_package/streamingPercentiles.v1.js
+                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/package.json ${CMAKE_CURRENT_BINARY_DIR}/streamingPercentiles.v1.js)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/npm_package/LICENSE
+                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../../LICENSE ${CMAKE_CURRENT_BINARY_DIR}/npm_package/LICENSE
+                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../../LICENSE)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/npm_package/README.md
+                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../../README.md ${CMAKE_CURRENT_BINARY_DIR}/npm_package/README.md
+                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../../README.md)
+add_custom_target(prepare_npm_package ALL
+                  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/npm_package/package.json
+		          ${CMAKE_CURRENT_BINARY_DIR}/npm_package/streamingPercentiles.v1.js
+		          ${CMAKE_CURRENT_BINARY_DIR}/npm_package/LICENSE
+			  ${CMAKE_CURRENT_BINARY_DIR}/npm_package/README.md)
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/streamingPercentiles.v1.js
         DESTINATION js
         COMPONENT js)

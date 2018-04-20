@@ -1,0 +1,32 @@
+{
+  "name": "streaming-percentiles",
+  "version": "$CPACK_PACKAGE_VERSION_MAJOR.$CPACK_PACKAGE_VERSION_MINOR.$CPACK_PACKAGE_VERSION_PATCH",
+  "description": "Implementations of various streaming percentile algorithms",
+  "keywords": [
+    "streaming",
+    "percentiles",
+    "analytics"
+  ],
+  "author": {
+    "name": "Steven Engelhardt <sengelha@gmail.com>",
+    "url": "http://stevenengelhardt.com"
+  },
+  "license": "MIT",
+  "main": "streamingPercentiles.v1.js",
+  "module": "index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sengelha/streaming-percentiles-cpp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sengelha/streaming-percentiles-cpp/issues"
+  },
+  "scripts": {
+    "test": "exit 0",
+    "prepare": "npm run test",
+    "postpublish": "echo \"Don't forget to push, push tags, and publish to sengelha.github.io\""
+  },
+  "devDependencies": {
+    "package-preamble": "0.1.0"
+  }
+}

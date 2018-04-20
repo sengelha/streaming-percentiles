@@ -1,10 +1,9 @@
-# streaming-percentiles-cpp
+# streaming-percentiles
 
-This is a C++ library with implementations of various
-percentile algorithms on streams of data.  Using the
-magic of [emscripten](https://github.com/kripken/emscripten),
-this package also cross-compiles a JavaScript version of
-the streaming percentiles library as well.
+This is a library with implementations of various percentile algorithms
+on streams of data, with support for the following languages:
+- C++
+- JavaScript
 
 For more on streaming percentiles, see [Calculating Percentiles on
 Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
@@ -43,7 +42,7 @@ double p95 = g.quantile(0.95); // Approx. 95th percentile
 
 Here's how to use the library from Node.JS:
 ```javascript
-var sp = require('./streamingPercentiles.v1.min.js');
+var sp = require('streaming-percentiles');
 
 var epsilon = 0.1;
 var g = new sp.GK(epsilon);

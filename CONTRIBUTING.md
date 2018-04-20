@@ -41,7 +41,8 @@ In short:
 2. Update `README.md` if necessary
 3. Update the version fields in `CMakeLists.txt`
 4. Merge all changes to the `master` branch
-5. Tag the release (e.g. `git tag vX.Y.Z`)
-6. Push the changes and the tag to `origin` (e.g. `git push && git push
+5. Checkout `master` and run `./build.sh --release --clean --publish`
+6. Tag the release (e.g. `git tag vX.Y.Z`)
+7. Push the changes and the tag to `origin` (e.g. `git push && git push
    --tags`)
-7. Create the release on GitHub and add release notes
+8. Create the release on GitHub and add release notes
