@@ -1,26 +1,38 @@
 # streaming-percentiles
 
-This is a library with implementations of various percentile algorithms
-on streams of data, with support for the following languages:
+This is a cross-pltaform library with implementations of various
+percentile algorithms on streams of data.  For more on streaming
+percentiles, see [Calculating Percentiles on Streaming
+Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
+
+The library supports the following languages:
 - C++
 - JavaScript
 
-For more on streaming percentiles, see [Calculating Percentiles on
-Streaming Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
-
 ## Obtaining the Library
 
-You can download pre-built versions of the library from the
-[streaming-percentiles-cpp releases
-page](https://github.com/sengelha/streaming-percentiles-cpp/releases).
-Otherwise see [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how
-to compile the library from source.
+### C++
+Download the TODO: latest release binaries or TODO: latest release source code.
+
+### JavaScript
+If you use NPM, `npm install streaming-percentiles`. Otherwise, download
+the TODO: latest release binaries or the TODO: latest release source code. You can
+also load directly from TODO: unpkg.com.
+
+For convenience, you can also use the latest release binaries directly
+from a web browser:
+
+<script src="//sengelha.github.io/streaming-percentiles-js/streamingPercentiles.v1.min.js"></script>
+<script>
+var gk = new streamingPercentiles.GK(0.1);
+...
+</script>
 
 ## Usage Example
 
 ### C++
 
-Here's a simple example on how to use the Greenwald-Khanna streaming
+Here's an example on how to use the Greenwald-Khanna streaming
 percentile algorithm from C++:
 
 ```cpp
