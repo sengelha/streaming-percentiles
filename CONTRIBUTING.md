@@ -40,9 +40,13 @@ In short:
    vX.Y.Z` might be useful here)
 2. Update `README.md` if necessary
 3. Update the version fields in `CMakeLists.txt`
-4. Merge all changes to the `master` branch
-5. Checkout `master` and run `./build.sh --release --clean --publish`
-6. Tag the release (e.g. `git tag vX.Y.Z`)
-7. Push the changes and the tag to `origin` (e.g. `git push && git push
+4. Merge all changes to the `master` branch (i.e. `git checkout master
+   && git merge develop`)
+5. Checkout `master` (i.e. `git checkout master`)
+6. Run `./build.sh --release --clean` and ensure that all unit tests
+   pass.
+7. Tag the release (e.g. `git tag vX.Y.Z`)
+8. Push the changes and the tag to `origin` (e.g. `git push && git push
    --tags`)
-8. Create the release on GitHub and add release notes
+9. On each platform, run publish with the above tag name (e.g.
+   `./publish.sh vX.Y.Z`)
