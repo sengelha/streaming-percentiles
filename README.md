@@ -13,22 +13,26 @@ The library supports the following languages:
 
 ### C++
 
-You can download source code and pre-built versions of the library from
-the [streaming-percentiles releases
+You can download pre-built binaries of the library from the
+[streaming-percentiles latest release
 page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
 
-Read
-[CONTRIBUTING.md](//github.com/sengelha/streaming-percentiles-cpp/blob/HEAD/CONTRIBUTING.md)
-for instructions on how to compile the library from source.
-
 ### JavaScript
+
 If you use NPM, `npm install streaming-percentiles`. Otherwise, download
-source code and pre-built versions of the library from the
-[streaming-percentiles releases page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
+pre-built binaries of the library from the [streaming-percentiles latest
+release
+page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
 page.
 
 For convenience, you can also use the latest release JS directly
 from `sengelha.github.io`:
+
+### Source Code
+
+You can download the latest release's source code from the
+[streaming-percentiles latest release
+page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
 
 ```html
 <script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
