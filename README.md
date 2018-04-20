@@ -12,18 +12,21 @@ The library supports the following languages:
 ## Obtaining the Library
 
 ### C++
-Download the TODO: latest release binaries or TODO: latest release source code.
+Download the latest release binaries or source code from the
+[latest release](https://github.com/sengelha/streaming-percentiles-cpp/releases/latest)
+page.
 
 ### JavaScript
 If you use NPM, `npm install streaming-percentiles`. Otherwise, download
-the TODO: latest release binaries or the TODO: latest release source code. You can
-also load directly from TODO: unpkg.com.
+the latest release binaries or source code from the
+[latest release](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
+page.
 
 For convenience, you can also use the latest release binaries directly
-from a web browser:
+from `sengelha.github.io`:
 
 ```html
-<script src="//sengelha.github.io/streaming-percentiles-js/streamingPercentiles.v1.min.js"></script>
+<script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
 <script>
 var gk = new streamingPercentiles.GK(0.1);
 ...
