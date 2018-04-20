@@ -3,7 +3,7 @@
 This is a cross-pltaform library with implementations of various
 percentile algorithms on streams of data.  For more on streaming
 percentiles, see [Calculating Percentiles on Streaming
-Data](https://stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
+Data](//stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
 
 The library supports the following languages:
 - C++
@@ -12,17 +12,22 @@ The library supports the following languages:
 ## Obtaining the Library
 
 ### C++
-Download the latest release binaries or source code from the
-[latest release](https://github.com/sengelha/streaming-percentiles-cpp/releases/latest)
-page.
+
+You can download source code and pre-built versions of the library from
+the [streaming-percentiles releases
+page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
+
+Read
+[CONTRIBUTING.md](//github.com/sengelha/streaming-percentiles-cpp/blob/HEAD/CONTRIBUTING.md)
+for instructions on how to compile the library from source.
 
 ### JavaScript
 If you use NPM, `npm install streaming-percentiles`. Otherwise, download
-the latest release binaries or source code from the
-[latest release](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
+source code and pre-built versions of the library from the
+[streaming-percentiles releases page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
 page.
 
-For convenience, you can also use the latest release binaries directly
+For convenience, you can also use the latest release JS directly
 from `sengelha.github.io`:
 
 ```html
