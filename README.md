@@ -22,11 +22,13 @@ also load directly from TODO: unpkg.com.
 For convenience, you can also use the latest release binaries directly
 from a web browser:
 
+```html
 <script src="//sengelha.github.io/streaming-percentiles-js/streamingPercentiles.v1.min.js"></script>
 <script>
 var gk = new streamingPercentiles.GK(0.1);
 ...
 </script>
+```
 
 ## Usage Example
 
