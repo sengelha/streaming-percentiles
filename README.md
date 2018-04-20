@@ -28,12 +28,6 @@ page.
 For convenience, you can also use the latest release JS directly
 from `sengelha.github.io`:
 
-### Source Code
-
-You can download the latest release's source code from the
-[streaming-percentiles latest release
-page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
-
 ```html
 <script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
 <script>
@@ -41,6 +35,15 @@ var gk = new streamingPercentiles.GK(0.1);
 ...
 </script>
 ```
+
+### Source Code
+
+You can download the latest release's source code from the
+[streaming-percentiles latest release
+page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
+
+See `CONTRIBUTING.md` for instructions on how to build the release from
+source.
 
 ## Usage Example
 
