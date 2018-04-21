@@ -28,13 +28,8 @@ page.
 For convenience, you can also use the latest release JS directly
 from `sengelha.github.io`:
 
-```html
-<script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
-<script>
-var gk = new streamingPercentiles.GK(0.1);
-...
-</script>
-```
+- [Unminified version](//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.js)
+- [Minified version](//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js)
 
 ### Source Code
 
@@ -86,7 +81,7 @@ var p95 = g.quantile(0.95); // Approx. 95th percentile
 Here's how to use the library from a browser.  Note that the
 default module name is streamingPercentiles:
 ```html
-<script src="streamingPercentiles.v1.min.js"></script>
+<script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
 <script>
 var epsilon = 0.1;
 var gk = new streamingPercentiles.GK(epsilon);

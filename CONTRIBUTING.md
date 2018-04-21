@@ -48,7 +48,8 @@ In short:
 7. Tag the release (e.g. `git tag vX.Y.Z`)
 8. Push the changes and the tag to `origin` (e.g. `git push && git push
    --tags`)
-9. Create a GitHub release associated with the tag
+9. Create a GitHub release associated with the tag.  Be sure to include
+   the changes from `CHANGELOG.md`.
 10. For each platform:
     1. Clone the repository (`git clone https://github.com/sengelha/streaming-percentiles-cpp.git`)
     2. Change into the cloned folder (`cd streaming-percentiles-cpp`)
