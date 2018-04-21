@@ -96,7 +96,8 @@ var p50 = g.quantile(0.5);
 ### Usage Notes
 
 - Every algorithm inherits from the interface `stmpct_alg`
-  which defines two methods: `insert(*value*)` and `quantile(*phi*)`.
+  which defines two methods: `void insert(double value)`
+  and `double quantile(double phi)`.
 
 #### C++
 
@@ -149,10 +150,10 @@ var alg = ...;
 var p50 = alg.quantile(0.5);
 ```
 
-### class GK(*epsilon*)
+### class gk(*epsilon*)
 
-Construct an object which implements the Greenwald-Khanna streaming
-percentile algorithm with allowable error *epsilon*.
+Implements the Greenwald-Khanna streaming percentile algorithm
+with allowable error *epsilon*.
 
 #### C++ Example
 
