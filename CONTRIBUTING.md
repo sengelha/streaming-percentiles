@@ -57,5 +57,10 @@ In short:
     4. Build the package in release mode (`./build.sh --release`)
     5. Upload the built artifact(s) to GitHub
 11. Upload the built JS (both minified and unminified) to
-    sengelha.github.io
-12. From the directory `js/src/node_package`, run `npm publish`
+    `sengelha.github.io`.
+    1. Checkout the sengelha.github.io repository (`git clone https://github.com/sengelha/sengelha.github.io`)
+    2. Change into the sengelha.github.io folder (`cd sengelha.github.io`)
+    3. Copy the JS files to the `streaming-percentiles` directory
+    4. Push the new content to GitHub (`git add -A && git commit && git push`)
+12. Publish to NPM.  From the directory `js/src/node_package`, run `npm publish`
+13. Send out a release announcement.
