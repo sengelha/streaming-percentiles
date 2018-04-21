@@ -48,5 +48,9 @@ In short:
 7. Tag the release (e.g. `git tag vX.Y.Z`)
 8. Push the changes and the tag to `origin` (e.g. `git push && git push
    --tags`)
-9. On each platform, run publish with the above tag name (e.g.
-   `./publish.sh vX.Y.Z`)
+9. Create a GitHub release associated with the tag
+10. For each platform, checkout the source code, build the package, and
+    uploaded the built artifact(s) to GitHub
+11. Upload the built JS (both minified and unminified) to
+    sengelha.github.io
+12. From the directory `js/src/node_package`, run `npm publish`

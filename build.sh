@@ -78,3 +78,4 @@ cmake --build .
 if [ $SKIP_TESTS -eq 0 ]; then
   env CTEST_OUTPUT_ON_FAILURE=1 ctest
 fi
+cpack
