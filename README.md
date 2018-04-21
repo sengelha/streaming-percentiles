@@ -93,6 +93,15 @@ var p50 = g.quantile(0.5);
 
 ## API Reference
 
+### Usage Notes
+
+#### C++
+
+- All include files are in the directory `stmpct/`
+- All classes are in the `stmpct` namespace.
+- Every algorithm inherits from the base class `stmpct_alg`
+  which defines two methods: `insert()` and `quantile()`.
+
 ### class GK(*epsilon*)
 
 Construct an object which implements the Greenwald-Khanna streaming
@@ -102,7 +111,7 @@ percentile algorithm with allowable error *epsilon*.
 
 ```cpp
 #include <stmpct/gk.hpp>
-gk g(0.1);
+stmpct::gk g(0.1);
 ```
 
 #### JavaScript Example
