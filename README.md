@@ -149,7 +149,7 @@ var alg = ...;
 var p50 = alg.quantile(0.5);
 ```
 
-### class GK(*epsilon*
+### class GK(*epsilon*)
 
 Construct an object which implements the Greenwald-Khanna streaming
 percentile algorithm with allowable error *epsilon*.
