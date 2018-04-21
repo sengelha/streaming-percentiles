@@ -106,7 +106,8 @@ var p50 = g.quantile(0.5);
 
 #### JavaScript
 
-- For backwards-compatibility reasons, class names are capitalized.
+- For backwards-compatibility reasons, all class names are
+  capitalized.
 
 ### interface stmpct_alg
 
