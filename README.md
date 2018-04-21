@@ -95,14 +95,61 @@ var p50 = g.quantile(0.5);
 
 ### Usage Notes
 
+- Every algorithm inherits from the interface `stmpct_alg`
+  which defines two methods: `insert(*value*)` and `quantile(*phi*)`.
+
 #### C++
 
 - All include files are in the directory `stmpct/`
 - All classes are in the `stmpct` namespace.
-- Every algorithm inherits from the base class `stmpct_alg`
-  which defines two methods: `insert()` and `quantile()`.
 
-### class GK(*epsilon*)
+#### JavaScript
+
+- For backwards-compatibility reasons, class names are capitalized.
+
+### interface stmpct_alg
+
+Defines the interface that all streaming percentile algorithms
+must implement.
+
+### *stmpct_alg*.insert(*value*)
+
+Logs the observation of a value.
+
+#### C++ Example
+
+```cpp
+stmpct_alg* alg = ...;
+alg->insert(rand());
+```
+
+#### JavaScript Example
+
+```javascript
+var alg = ...;
+alg.insert(Math.random());
+```
+
+### *stmpct_alg*.quantile(*phi*)
+
+Compute the approximate quantile at *phi*.  For example, the 95th
+percentile corresponds to *phi* = 0.95.
+
+#### C++ Example
+
+```cpp
+stmpct_alg* alg = ...;
+var p50 = alg->quantile(0.5);
+```
+
+#### JavaScript Example
+
+```javascript
+var alg = ...;
+var p50 = alg.quantile(0.5);
+```
+
+### class GK(*epsilon*
 
 Construct an object which implements the Greenwald-Khanna streaming
 percentile algorithm with allowable error *epsilon*.
@@ -119,27 +166,6 @@ stmpct::gk g(0.1);
 ```javascript
 var sp = require('streaming-percentiles');
 var gk = new sp.GK(0.1);
-```
-
-### *gk*.insert(*value*)
-
-Logs the observation of a value.
-
-#### JavaScript Example
-
-```javascript
-gk.insert(Math.random());
-```
-
-### *gk*.quantile(*phi*)
-
-Compute the approximate quantile at *phi*.  For example, the 95th
-percentile corresponds to *phi* = 0.95.
-
-#### JavaScript Example
-
-```javascript
-var p50 = gk.quantile(0.5);
 ```
 
 ## License
