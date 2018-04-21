@@ -98,13 +98,14 @@ var p50 = g.quantile(0.5);
 Construct an object which implements the Greenwald-Khanna streaming
 percentile algorithm with allowable error *epsilon*.
 
-#### C++ Example
+#### Example
 
-```cpp
+| C++ | JavaScript |
+| --- | ---------- |
+| ```cpp
 #include <stmpct/gk.hpp>
-
 gk g(0.1);
-```
+``` | test |
 
 #### JavaScript Example
 
