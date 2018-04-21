@@ -1,5 +1,7 @@
 # 2.2.0 - 2018-04-20
-- Add creating a NPM package as part of the build process
+- Finish consolidation of streaming-percentiles-cpp and
+  streaming-percentiles-js by adding support of publishing
+  streaming-percentiles package to NPM
 
 # 2.1.0 - 2018-04-14
 - Wrapped JS library into a UMD so that it works from
