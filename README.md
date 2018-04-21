@@ -113,7 +113,7 @@ var p50 = g.quantile(0.5);
 Defines the interface that all streaming percentile algorithms
 must implement.
 
-### *stmpct_alg*.insert(*value*)
+### void *stmpct_alg*.insert(double *value*)
 
 Logs the observation of a value.
 
@@ -131,7 +131,7 @@ var alg = ...;
 alg.insert(Math.random());
 ```
 
-### *stmpct_alg*.quantile(*phi*)
+### double *stmpct_alg*.quantile(double *phi*)
 
 Compute the approximate quantile at *phi*.  For example, the 95th
 percentile corresponds to *phi* = 0.95.
@@ -150,7 +150,7 @@ var alg = ...;
 var p50 = alg.quantile(0.5);
 ```
 
-### class gk(*epsilon*)
+### class gk(double *epsilon*)
 
 Implements the Greenwald-Khanna streaming percentile algorithm
 with allowable error *epsilon*.
