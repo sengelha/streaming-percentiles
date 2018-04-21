@@ -49,8 +49,12 @@ In short:
 8. Push the changes and the tag to `origin` (e.g. `git push && git push
    --tags`)
 9. Create a GitHub release associated with the tag
-10. For each platform, checkout the source code, build the package, and
-    uploaded the built artifact(s) to GitHub
+10. For each platform:
+    1. Clone the repository (`git clone https://github.com/sengelha/streaming-percentiles-cpp.git`)
+    2. Change into the cloned folder (`cd streaming-percentiles-cpp`)
+    3. Checkout the release tag (`git checkout tags/vX.Y.Z`)
+    4. Build the package in release mode (`./build.sh --release`)
+    5. Upload the built artifact(s) to GitHub
 11. Upload the built JS (both minified and unminified) to
     sengelha.github.io
 12. From the directory `js/src/node_package`, run `npm publish`
