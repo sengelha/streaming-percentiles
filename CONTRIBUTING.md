@@ -50,7 +50,7 @@ In short:
    --tags`)
 9. Create a GitHub release associated with the tag.  Be sure to include
    the changes from `CHANGELOG.md`.
-10. For each platform:
+10. Build and publish binaries for each platform:
     1. Clone the repository (`git clone https://github.com/sengelha/streaming-percentiles-cpp.git`)
     2. Change into the cloned folder (`cd streaming-percentiles-cpp`)
     3. Checkout the release tag (`git checkout tags/vX.Y.Z`)
