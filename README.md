@@ -93,7 +93,51 @@ var p50 = g.quantile(0.5);
 
 ## API Reference
 
-Coming soon!
+### class GK(*epsilon*)
+
+Construct an object which implements the Greenwald-Khanna streaming
+percentile algorithm with allowable error *epsilon*.
+
+#### C++ Example
+
+```cpp
+#include <stmpct/gk.hpp>
+
+gk g(0.1);
+```
+
+#### JavaScript Example
+
+```javascript
+var sp = require('streaming-percentiles');
+var gk = new sp.GK(0.1);
+```
+
+### *gk*.insert(*value*)
+
+Logs the observation of a value.
+
+#### JavaScript Example
+
+```javascript
+gk.insert(Math.random());
+```
+
+### *gk*.quantile(*phi*)
+
+Compute the approximate quantile at *phi*.  For example, the 95th
+percentile corresponds to *phi* = 0.95.
+
+#### JavaScript Example
+
+```javascript
+var p50 = gk.quantile(0.5);
+```
+
+## License
+
+This project is licensed under the MIT License.  See
+[LICENSE](LICENSE) for more information.
 
 ## Contributing
 
