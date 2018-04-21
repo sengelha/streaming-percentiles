@@ -169,6 +169,63 @@ var sp = require('streaming-percentiles');
 var gk = new sp.GK(0.1);
 ```
 
+### class ckms_uq(double *epsilon*)
+
+Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
+for uniform percentiles with allowable error *epsilon*.
+
+#### C++ Example
+
+```cpp
+#include <stmpct/ckms_uq.hpp>
+stmpct::ckms_uq c(0.1);
+```
+
+#### JavaScript Example
+
+```javascript
+var sp = require('streaming-percentiles');
+var gk = new sp.CKMS_UQ(0.1);
+```
+
+### class ckms_lbq(double *epsilon*)
+
+Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
+for low-biased quantiles with allowable error *epsilon*.
+
+#### C++ Example
+
+```cpp
+#include <stmpct/ckms_lbq.hpp>
+stmpct::ckms_lbq c(0.1);
+```
+
+#### JavaScript Example
+
+```javascript
+var sp = require('streaming-percentiles');
+var gk = new sp.CKMS_LBQ(0.1);
+```
+
+### class ckms_hbq(double *epsilon*)
+
+Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
+for high-biased quantiles with allowable error *epsilon*.
+
+#### C++ Example
+
+```cpp
+#include <stmpct/ckms_hbq.hpp>
+stmpct::ckms_hbq c(0.1);
+```
+
+#### JavaScript Example
+
+```javascript
+var sp = require('streaming-percentiles');
+var gk = new sp.CKMS_HBQ(0.1);
+```
+
 ## License
 
 This project is licensed under the MIT License.  See
