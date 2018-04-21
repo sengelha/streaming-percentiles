@@ -226,6 +226,38 @@ var sp = require('streaming-percentiles');
 var gk = new sp.CKMS_HBQ(0.1);
 ```
 
+### class ckms_tq(vector<targeted_quantile> *tqs*)
+
+Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
+for the provided set of targeted quantiles *tqs*.  Each
+targeted quantile is the combination of a quantile *phi* and
+allowable error *epsilon*.
+
+#### C++ Example
+
+```cpp
+#include <stmpct/ckms_tq.hpp>
+std::vector<targeted_quantile> tqs;
+tqs.emplace_back(0.125, 0.02);
+tqs.emplace_back(0.375, 0.02);
+tqs.emplace_back(0.75, 0.04);
+tqs.emplace_back(0.875, 0.01);
+ckms_tq c(tqs);
+```
+
+#### JavaScript Example
+
+```javascript
+var sp = require('streaming-percentiles');
+var tqs = [
+    { phi: 0.125, epsilon: 0.02 },
+    { phi: 0.375, epsilon: 0.02 },
+    { phi: 0.75, epsilon: 0.04 },
+    { phi: 0.875, epsilon: 0.01 }
+];
+var c = new sp.CKMS_TQ(tqs);
+```
+
 ## License
 
 This project is licensed under the MIT License.  See
