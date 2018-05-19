@@ -1,10 +1,12 @@
 language: cpp
 
-env:
-  global:
-    # Ubuntu version
-    - LINUX_DIST=trusty
-    - RUN_TESTS=true
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
 
 addons:
   apt:
