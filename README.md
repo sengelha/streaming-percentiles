@@ -1,5 +1,7 @@
 # streaming-percentiles
 
+Build Status: [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles-cpp)
+
 This is a cross-pltaform library with implementations of various
 percentile algorithms on streams of data.  For more on streaming
 percentiles, see [Calculating Percentiles on Streaming
