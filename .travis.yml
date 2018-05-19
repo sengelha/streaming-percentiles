@@ -1,0 +1,15 @@
+language: cpp
+
+env:
+  global:
+    # Ubuntu version
+    - LINUX_DIST=trusty
+    - RUN_TESTS=true
+
+addons:
+  apt:
+    packages:
+    - libboost-test-dev
+
+script:
+  - ./build.sh
