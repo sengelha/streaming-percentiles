@@ -6,9 +6,9 @@ set(STMPCT_CPP_BINDIR ${CMAKE_CURRENT_BINARY_DIR}/../../cpp/src)
 file(GLOB_RECURSE STMPCT_JS_SRC ${STMPCT_CPP_SRCDIR}/*.cpp *.cpp)
 
 set(CMAKE_CXX_COMPILER em++)
-set(CMAKE_CXX_FLAGS_DEBUG "--bind -std=c++11 -O0 -g --memory-init-file 0")
-set(CMAKE_CXX_FLAGS_RELEASE "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0")
+set(CMAKE_CXX_FLAGS_DEBUG "--bind -std=c++11 -O0 -g --memory-init-file 0 -s WASM=0")
+set(CMAKE_CXX_FLAGS_RELEASE "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0 -s WASM=0")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0 -s WASM=0")
 
 add_executable(streamingPercentiles-unwrapped.v1.js ${STMPCT_JS_SRC})
 target_include_directories(streamingPercentiles-unwrapped.v1.js PUBLIC
