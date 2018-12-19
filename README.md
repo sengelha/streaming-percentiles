@@ -101,7 +101,7 @@ var p50 = g.quantile(0.5);
 
 - Every algorithm inherits from the interface `stmpct_alg`
   which defines two methods: `void insert(double value)`
-  and `double quantile(double phi)`.
+  and `double quantile(double phi) const`.
 
 #### C++
 
@@ -136,7 +136,7 @@ var alg = ...;
 alg.insert(Math.random());
 ```
 
-### double *stmpct_alg*.quantile(double *phi*)
+### double *stmpct_alg*.quantile(double *phi*) const
 
 Compute the approximate quantile at *phi*.  For example, the 95th
 percentile corresponds to *phi* = 0.95.
