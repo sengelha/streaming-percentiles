@@ -1,3 +1,7 @@
+# 2.3.0 - 2018-12-19
+- Mark quantile() method as const
+- Add documentation to README.md
+
 # 2.2.0 - 2018-04-20
 - Finish consolidation of streaming-percentiles-cpp and
   streaming-percentiles-js by adding support of publishing
