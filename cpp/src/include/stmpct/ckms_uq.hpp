@@ -14,6 +14,8 @@ namespace stmpct {
     {
     public:
         ckms_uq(double epsilon);
+        ckms_uq(const ckms_uq&) = delete;
+        ckms_uq& operator=(const ckms_uq&) = delete;
         ~ckms_uq();
         void insert(double v) override final;
         double quantile(double phi) override final;

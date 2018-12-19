@@ -11,6 +11,8 @@ namespace stmpct {
     {
     public:
         gk(double epsilon);
+        gk(const gk&) = delete;
+        gk& operator=(const gk&) = delete;
         ~gk();
         virtual void insert(double v) final;
         virtual double quantile(double phi) final;

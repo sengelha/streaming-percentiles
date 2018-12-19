@@ -7,7 +7,7 @@
 // functors
 class ckms_impl {
 public:
-    ckms_impl() : m_n(0) {}
+    ckms_impl() : m_n(0), m_S{} {}
     virtual ~ckms_impl() = default;
     void insert(double v);
     double quantile(double phi);

@@ -22,6 +22,8 @@ namespace stmpct {
     {
     public:
         ckms_tq(const std::vector<targeted_quantile>& tqs);
+        ckms_tq(const ckms_tq&) = delete;
+        ckms_tq& operator=(const ckms_tq&) = delete;
         ~ckms_tq();
         void insert(double v) override final;
         double quantile(double phi) override final;

@@ -13,6 +13,8 @@ namespace stmpct {
     {
     public:
         ckms_lbq(double epsilon);
+        ckms_lbq(const ckms_lbq&) = delete;
+        ckms_lbq& operator=(const ckms_lbq&) = delete;
         ~ckms_lbq();
         void insert(double v) override final;
         double quantile(double phi) override final;

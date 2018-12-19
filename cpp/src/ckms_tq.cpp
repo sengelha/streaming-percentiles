@@ -13,7 +13,7 @@ namespace stmpct {
     class ckms_tq::impl : public ckms_impl {
     public:
         impl(const std::vector<targeted_quantile>& tqs)
-            : m_tqs(tqs)
+            : m_tqs(tqs), m_rebalance_freq(0)
         {
             int rebalance_freq = 0;
             for (auto it = m_tqs.begin(); it != m_tqs.end(); ++it) {
