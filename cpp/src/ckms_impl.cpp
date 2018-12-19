@@ -11,7 +11,7 @@ void ckms_impl::insert(double v)
         compress();
 }
 
-double ckms_impl::quantile(double phi)
+double ckms_impl::quantile(double phi) const
 {
     if (m_S.empty())
         return nan("");
@@ -21,12 +21,13 @@ double ckms_impl::quantile(double phi)
     double comp = phin + f(phin, m_n) / 2;
 
     int r_i = 0;
-    tuples_t::iterator it = m_S.begin();
-    assert(it != m_S.end()); // This is guaranteed by the m_S.empty() check above
+    tuples_t::const_iterator it = m_S.cbegin();
+    tuples_t::const_iterator end = m_S.cend();
+    assert(it != end); // This is guaranteed by the m_S.empty() check above
 
-    tuples_t::iterator it_prev = it;
+    tuples_t::const_iterator it_prev = it;
     ++it;
-    for (; it != m_S.end(); ++it, ++it_prev) {
+    for (; it != end; ++it, ++it_prev) {
         r_i += it_prev->g;
         if (r_i + it->g + it->delta > comp)
             return it_prev->v;

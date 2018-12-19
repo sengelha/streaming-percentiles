@@ -10,7 +10,7 @@ public:
     ckms_impl() : m_n(0), m_S{} {}
     virtual ~ckms_impl() = default;
     void insert(double v);
-    double quantile(double phi);
+    double quantile(double phi) const;
 
 protected:
     virtual bool compress_condition() const = 0;
