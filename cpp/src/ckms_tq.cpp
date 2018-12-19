@@ -50,6 +50,6 @@ namespace stmpct {
     ckms_tq::ckms_tq(const std::vector<targeted_quantile>& tqs) : pImpl(new impl(tqs)) {}
     ckms_tq::~ckms_tq() { delete(pImpl); }
     void ckms_tq::insert(double v) { pImpl->insert(v); }
-    double ckms_tq::quantile(double phi) { return pImpl->quantile(phi); }
+    double ckms_tq::quantile(double phi) const { return pImpl->quantile(phi); }
 
 }

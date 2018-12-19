@@ -14,8 +14,8 @@ namespace stmpct {
         gk(const gk&) = delete;
         gk& operator=(const gk&) = delete;
         ~gk();
-        virtual void insert(double v) final;
-        virtual double quantile(double phi) final;
+        virtual void insert(double v) override final;
+        virtual double quantile(double phi) const override final;
 
     private:
         // Use of std::unique_ptr triggers warning C4251 on Windows

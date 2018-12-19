@@ -33,6 +33,6 @@ namespace stmpct {
     ckms_uq::ckms_uq(double epsilon) : pImpl(new impl(epsilon)) {}
     ckms_uq::~ckms_uq() { delete(pImpl); }
     void ckms_uq::insert(double v) { pImpl->insert(v); }
-    double ckms_uq::quantile(double phi) { return pImpl->quantile(phi); }
+    double ckms_uq::quantile(double phi) const { return pImpl->quantile(phi); }
 
 }

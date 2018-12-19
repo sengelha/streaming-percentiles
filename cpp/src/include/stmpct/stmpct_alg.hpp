@@ -10,7 +10,7 @@ namespace stmpct {
     public:
         virtual ~stmpct_alg() = default;
         virtual void insert(double val) = 0;
-        virtual double quantile(double phi) = 0;
+        virtual double quantile(double phi) const = 0;
     };
 
 }

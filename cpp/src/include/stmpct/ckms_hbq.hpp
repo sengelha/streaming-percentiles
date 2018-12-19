@@ -17,7 +17,7 @@ namespace stmpct {
         ckms_hbq& operator=(const ckms_hbq&) = delete;
         ~ckms_hbq();
         void insert(double v) override final;
-        double quantile(double phi) override final;
+        double quantile(double phi) const override final;
 
     private:
         // Use of std::unique_ptr triggers warning C4251 on Windows
