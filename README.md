@@ -1,30 +1,45 @@
 # streaming-percentiles
 
-## Build Status:
-Develop branch: [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=develop)](https://travis-ci.org/sengelha/streaming-percentiles-cpp)
-Master branch: [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles-cpp)
+## Build Status
+
+| Develop Branch | Master Branch |
+| -------------- | ------------- |
+| [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=develop)](https://travis-ci.org/sengelha/streaming-percentiles-cpp) | [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles-cpp) |
+
+## About the Library
 
 This is a cross-pltaform library with implementations of various
-percentile algorithms on streams of data.  For more on streaming
-percentiles, see [Calculating Percentiles on Streaming
-Data](//stevenengelhardt.com/post-series/calculating-percentiles-on-streaming-data-2018/).
+percentile algorithms on streams of data.  These algorithms allow
+you to calculate approximate percentiles (e.g. 50th percentile,
+95th percentile) in a single pass over a data set.
+They are particularly useful for calculating percentiles for
+immense data sets, for extremely high-throughput systems, or
+for near-real time use cases.
 
 The library supports the following languages:
 - C++
 - JavaScript
 
+Here is a list of streaming percentile algorithms implemented by this library:
+- [Greenwald-Khanna](doc/methodology/GK01.pdf)
+- [Cormode-Korn-Muthukrishnan-Srivastava](doc/methodology/CKMS05.pdf) for high-biased, low-biased, uniform, and targeted quantiles
+
+For more background on streaming
+percentiles, see [Calculating Percentiles on Streaming
+Data](//www.stevenengelhardt.com/postseries/calculating-percentiles-on-streaming-data/).
+
 ## Obtaining the Library
 
 ### C++
 
-You can download pre-built binaries of the library from the
+You can download the latest release of the library from the
 [streaming-percentiles latest release
 page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
 
 ### JavaScript
 
 If you use NPM, `npm install streaming-percentiles`. Otherwise, download
-pre-built binaries of the library from the [streaming-percentiles latest
+the latest release of the library from the [streaming-percentiles latest
 release
 page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest)
 page.
@@ -41,10 +56,10 @@ You can download the latest release's source code from the
 [streaming-percentiles latest release
 page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
 
-See `CONTRIBUTING.md` for instructions on how to build the release from
+See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how to build the release from
 source.
 
-## Usage Example
+## Using the Library
 
 ### C++
 
@@ -54,10 +69,8 @@ percentile algorithm from C++:
 ```cpp
 #include <stmpct/gk.hpp>
 
-using namespace stmpct;
-
 double epsilon = 0.1;
-gk g(epsilon);
+stmpct::gk<double> g(epsilon);
 for (int i = 0; i < 1000; ++i)
     g.insert(rand());
 double p50 = g.quantile(0.5); // Approx. median
@@ -68,7 +81,7 @@ double p95 = g.quantile(0.95); // Approx. 95th percentile
 
 #### Node.JS
 
-Here's how to use the library from Node.JS:
+Here's an example of how to use the library from Node.JS:
 ```javascript
 var sp = require('streaming-percentiles');
 
@@ -82,13 +95,13 @@ var p95 = g.quantile(0.95); // Approx. 95th percentile
 
 #### Browser
 
-Here's how to use the library from a browser.  Note that the
-default module name is streamingPercentiles:
+Here's an example of how to use the library from a browser.  Note that the
+default module name is `streamingPercentiles`:
 ```html
 <script src="//sengelha.github.io/streaming-percentiles/streamingPercentiles.v1.min.js"></script>
 <script>
 var epsilon = 0.1;
-var gk = new streamingPercentiles.GK(epsilon);
+var g = new streamingPercentiles.GK(epsilon);
 for (var i = 0; i < 1000; ++i)
     g.insert(Math.random());
 var p50 = g.quantile(0.5);
@@ -97,171 +110,7 @@ var p50 = g.quantile(0.5);
 
 ## API Reference
 
-### Usage Notes
-
-- Every algorithm inherits from the interface `stmpct_alg`
-  which defines two methods: `void insert(double value)`
-  and `double quantile(double phi) const`.
-
-#### C++
-
-- All include files are in the directory `stmpct/`
-- All classes are in the `stmpct` namespace.
-
-#### JavaScript
-
-- For backwards-compatibility reasons, all class names are
-  capitalized.
-
-### interface stmpct_alg
-
-Defines the interface that all streaming percentile algorithms
-must implement.
-
-### void *stmpct_alg*.insert(double *value*)
-
-Logs the observation of a value.
-
-#### C++ Example
-
-```cpp
-stmpct_alg* alg = ...;
-alg->insert(rand());
-```
-
-#### JavaScript Example
-
-```javascript
-var alg = ...;
-alg.insert(Math.random());
-```
-
-### double *stmpct_alg*.quantile(double *phi*) const
-
-Compute the approximate quantile at *phi*.  For example, the 95th
-percentile corresponds to *phi* = 0.95.
-
-#### C++ Example
-
-```cpp
-stmpct_alg* alg = ...;
-var p50 = alg->quantile(0.5);
-```
-
-#### JavaScript Example
-
-```javascript
-var alg = ...;
-var p50 = alg.quantile(0.5);
-```
-
-### class gk(double *epsilon*)
-
-Implements the Greenwald-Khanna streaming percentile algorithm
-with allowable error *epsilon*.
-
-#### C++ Example
-
-```cpp
-#include <stmpct/gk.hpp>
-stmpct::gk g(0.1);
-```
-
-#### JavaScript Example
-
-```javascript
-var sp = require('streaming-percentiles');
-var gk = new sp.GK(0.1);
-```
-
-### class ckms_uq(double *epsilon*)
-
-Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
-for uniform percentiles with allowable error *epsilon*.
-
-#### C++ Example
-
-```cpp
-#include <stmpct/ckms_uq.hpp>
-stmpct::ckms_uq c(0.1);
-```
-
-#### JavaScript Example
-
-```javascript
-var sp = require('streaming-percentiles');
-var gk = new sp.CKMS_UQ(0.1);
-```
-
-### class ckms_lbq(double *epsilon*)
-
-Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
-for low-biased quantiles with allowable error *epsilon*.
-
-#### C++ Example
-
-```cpp
-#include <stmpct/ckms_lbq.hpp>
-stmpct::ckms_lbq c(0.1);
-```
-
-#### JavaScript Example
-
-```javascript
-var sp = require('streaming-percentiles');
-var gk = new sp.CKMS_LBQ(0.1);
-```
-
-### class ckms_hbq(double *epsilon*)
-
-Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
-for high-biased quantiles with allowable error *epsilon*.
-
-#### C++ Example
-
-```cpp
-#include <stmpct/ckms_hbq.hpp>
-stmpct::ckms_hbq c(0.1);
-```
-
-#### JavaScript Example
-
-```javascript
-var sp = require('streaming-percentiles');
-var gk = new sp.CKMS_HBQ(0.1);
-```
-
-### class ckms_tq(vector<targeted_quantile> *tqs*)
-
-Implements the Cormode-Korn-Muthukrishnan-Srivastava algorithm
-for the provided set of targeted quantiles *tqs*.  Each
-targeted quantile is the combination of a quantile *phi* and
-allowable error *epsilon*.
-
-#### C++ Example
-
-```cpp
-#include <stmpct/ckms_tq.hpp>
-std::vector<targeted_quantile> tqs;
-tqs.emplace_back(0.125, 0.02);
-tqs.emplace_back(0.375, 0.02);
-tqs.emplace_back(0.75, 0.04);
-tqs.emplace_back(0.875, 0.01);
-ckms_tq c(tqs);
-```
-
-#### JavaScript Example
-
-```javascript
-var sp = require('streaming-percentiles');
-var tqs = [
-    { phi: 0.125, epsilon: 0.02 },
-    { phi: 0.375, epsilon: 0.02 },
-    { phi: 0.75, epsilon: 0.04 },
-    { phi: 0.875, epsilon: 0.01 }
-];
-var c = new sp.CKMS_TQ(tqs);
-```
+See [doc/api_reference/](doc/api_reference/index.md) for detailed API reference documentation.
 
 ## License
 

@@ -30,41 +30,82 @@ vector<targeted_quantile> to_tq_vector(const val& tqs)
     return v;
 }
 
+// Wrap ckms_lbq into something where we can bind insert and
+// quantile
+class ckms_lbq_wrapper {
+public:
+    ckms_lbq_wrapper(double epsilon) : m_lbq(epsilon) {}
+    void insert(double val) { m_lbq.insert(val); }
+    double quantile(double phi) { return m_lbq.quantile(phi); }
+
+private:
+    ckms_lbq<double> m_lbq;
+};
+
+// Wrap ckms_hbq into something where we can bind insert and
+// quantile
+class ckms_hbq_wrapper {
+public:
+    ckms_hbq_wrapper(double epsilon) : m_hbq(epsilon) {}
+    void insert(double val) { m_hbq.insert(val); }
+    double quantile(double phi) { return m_hbq.quantile(phi); }
+
+private:
+    ckms_hbq<double> m_hbq;
+};
+
+// Wrap ckms_uq into something where we can bind insert and
+// quantile
+class ckms_uq_wrapper {
+public:
+    ckms_uq_wrapper(double epsilon) : m_uq(epsilon) {}
+    void insert(double val) { m_uq.insert(val); }
+    double quantile(double phi) { return m_uq.quantile(phi); }
+
+private:
+    ckms_uq<double> m_uq;
+};
+
 // We need to wrap ckms_tq into something that can give
 // us better Javascript semantics
 class ckms_tq_wrapper {
 public:
-    ckms_tq_wrapper(val tqs) : m_tq(to_tq_vector(tqs)) {}
-    void insert(double val) { m_tq.insert(val); }
-    double quantile(double phi) { return m_tq.quantile(phi); }
+    ckms_tq_wrapper(val tqs)
+        : m_tqs(to_tq_vector(tqs))
+        , m_c(m_tqs.begin(), m_tqs.end())
+    {
+    }
+    void insert(double val) { m_c.insert(val); }
+    double quantile(double phi) { return m_c.quantile(phi); }
 
 private:
-    ckms_tq m_tq;
+    std::vector<targeted_quantile> m_tqs;
+    ckms_tq<double> m_c;
 };
 
 EMSCRIPTEN_BINDINGS(streaming_percentiles) {
-    class_<gk>("GK")
+    class_<gk<double>>("GK")
         .constructor<double>()
-        .function("insert", &gk::insert)
-        .function("quantile", &gk::quantile);
+        .function("insert", &gk<double>::insert)
+        .function("quantile", &gk<double>::quantile);
 
-    class_<ckms_hbq>("CKMS_HBQ")
+    class_<ckms_hbq_wrapper>("CKMS_HBQ")
         .constructor<double>()
-        .function("insert", &ckms_hbq::insert)
-        .function("quantile", &ckms_hbq::quantile);
+        .function("insert", &ckms_hbq_wrapper::insert)
+        .function("quantile", &ckms_hbq_wrapper::quantile);
 
-    class_<ckms_lbq>("CKMS_LBQ")
+    class_<ckms_lbq_wrapper>("CKMS_LBQ")
         .constructor<double>()
-        .function("insert", &ckms_lbq::insert)
-        .function("quantile", &ckms_lbq::quantile);
+        .function("insert", &ckms_lbq_wrapper::insert)
+        .function("quantile", &ckms_lbq_wrapper::quantile);
 
     class_<ckms_tq_wrapper>("CKMS_TQ")
         .constructor<val>()
         .function("insert", &ckms_tq_wrapper::insert)
         .function("quantile", &ckms_tq_wrapper::quantile);
 
-    class_<ckms_uq>("CKMS_UQ")
+    class_<ckms_uq_wrapper>("CKMS_UQ")
         .constructor<double>()
-        .function("insert", &ckms_uq::insert)
-        .function("quantile", &ckms_uq::quantile);
+        .function("insert", &ckms_uq_wrapper::insert)
+        .function("quantile", &ckms_uq_wrapper::quantile);
 }

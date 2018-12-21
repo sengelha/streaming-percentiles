@@ -1,8 +1,11 @@
 #define BOOST_TEST_MODULE gk_tests
 #include <boost/test/unit_test.hpp>
 #include <random>
+#include <complex>
 class gk_unit_tests;
 #include <stmpct/gk.hpp>
+#include "custom_number_type.hpp"
+#include "minimal_number_type.hpp"
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
@@ -10,14 +13,59 @@ class gk_unit_tests;
 
 using namespace stmpct;
 
-BOOST_AUTO_TEST_CASE(gk_algorithm)
+BOOST_AUTO_TEST_CASE(gk_double)
 {
-    gk g(0.0005);
+    gk<double> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(i);
     }
     double p95 = g.quantile(0.95);
     BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(gk_float)
+{
+    gk<float> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(i);
+    }
+    float p95 = g.quantile(0.95);
+    BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(gk_long_double)
+{
+    gk<long double> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(i);
+    }
+    long double p95 = g.quantile(0.95);
+    BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(gk_custom_number_type)
+{
+    gk<custom_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(custom_number_type(i));
+    }
+    custom_number_type p95 = g.quantile(0.95);
+    BOOST_CHECK_CLOSE(custom_number_type(95), p95, custom_number_type(0.01));
+}
+
+// Validates that stmpct::gk works on a number type with the absolute
+// minimal number of requirements.  We can't use BOOST_CHECK_CLOSE
+// because that imposes all sorts of additional requirements on
+// the number type.
+BOOST_AUTO_TEST_CASE(gk_minimal_number_type)
+{
+    gk<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    minimal_number_type p95 = g.quantile(0.95);
+    // Supress unused variable warning
+    p95 = p95;
 }
 
 BOOST_AUTO_TEST_CASE(gk_stress)
@@ -26,7 +74,7 @@ BOOST_AUTO_TEST_CASE(gk_stress)
     std::default_random_engine re;
 
     for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-        gk g(epsilon);
+        gk<double> g(epsilon);
 
         // Seed gk so it becomes stable
         for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {

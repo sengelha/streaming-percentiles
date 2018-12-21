@@ -4,25 +4,32 @@
 // quantiles as defined in the paper _Effective Computation of Biased
 // Quantiles over Data Streams_
 
-#include "stmpct_alg.hpp"
-#include "stmpct_export.hpp"
+#include "ckms_impl.hpp"
 
 namespace stmpct {
 
-    class STMPCT_EXPORT ckms_hbq : public stmpct_alg
+    template <typename T>
+    class ckms_hbq : public ckms_impl<T>
     {
     public:
-        ckms_hbq(double epsilon);
-        ckms_hbq(const ckms_hbq&) = delete;
-        ckms_hbq& operator=(const ckms_hbq&) = delete;
-        ~ckms_hbq();
-        void insert(double v) override final;
-        double quantile(double phi) const override final;
+        ckms_hbq(double epsilon)
+            : m_epsilon(epsilon)
+            , m_one_over_2e((int)(1 / (2 * epsilon)))
+        {}
+
+    protected:
+        bool compress_condition() const override final {
+            assert(m_one_over_2e > 0);
+            return (this->m_n % m_one_over_2e) == 0;
+        }
+
+        double f(double r_i, int n) const override final {
+            return 2 * m_epsilon * (n - r_i);
+        }
 
     private:
-        // Use of std::unique_ptr triggers warning C4251 on Windows
-        class impl;
-        impl* pImpl;
+        double m_epsilon;
+        int m_one_over_2e;
     };
 
 }

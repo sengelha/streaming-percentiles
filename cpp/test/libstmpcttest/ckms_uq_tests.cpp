@@ -4,6 +4,8 @@
 #include <random>
 class ckms_uq_unit_tests;
 #include <stmpct/ckms_uq.hpp>
+#include "custom_number_type.hpp"
+#include "minimal_number_type.hpp"
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
@@ -11,14 +13,39 @@ class ckms_uq_unit_tests;
 
 using namespace stmpct;
 
-BOOST_AUTO_TEST_CASE(ckms_uq_sanity)
+BOOST_AUTO_TEST_CASE(ckms_uq_double)
 {
-    ckms_uq c(0.001);
+    ckms_uq<double> c(0.001);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
     double p95 = c.quantile(0.95);
     BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_custom_number_type)
+{
+    ckms_uq<custom_number_type> c(0.001);
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(custom_number_type(i));
+    }
+    custom_number_type p95 = c.quantile(0.95);
+    BOOST_CHECK_CLOSE(custom_number_type(95), p95, custom_number_type(0.01));
+}
+
+// Validates that stmpct::ckms_uq works on a number type with the absolute
+// minimal number of requirements.  We can't use BOOST_CHECK_CLOSE
+// because that imposes all sorts of additional requirements on
+// the number type.
+BOOST_AUTO_TEST_CASE(ckms_uq_minimal_number_type)
+{
+    ckms_uq<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    minimal_number_type p95 = g.quantile(0.95);
+    // Supress unused variable warning
+    p95 = p95;
 }
 
 BOOST_AUTO_TEST_CASE(ckms_uq_stress)
@@ -27,7 +54,7 @@ BOOST_AUTO_TEST_CASE(ckms_uq_stress)
     std::default_random_engine re;
 
     for (double epsilon = 0.01; epsilon <= 0.1; epsilon += 0.01) {
-        ckms_uq c(epsilon);
+        ckms_uq<double> c(epsilon);
 
         // Seed ckms_uq so it becomes stable
         for (int i = 0; i < (int)1 / (2 * epsilon); ++i) {

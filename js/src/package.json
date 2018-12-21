@@ -16,10 +16,10 @@
   "module": "index",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sengelha/streaming-percentiles-cpp.git"
+    "url": "git+https://github.com/sengelha/streaming-percentiles.git"
   },
   "bugs": {
-    "url": "https://github.com/sengelha/streaming-percentiles-cpp/issues"
+    "url": "https://github.com/sengelha/streaming-percentiles/issues"
   },
   "scripts": {
     "test": "exit 0",

@@ -5,25 +5,32 @@
 // Quantiles over Data Streams_.  Conceptually nearly equivalent to
 // the GK algorithm.
 
-#include "stmpct_alg.hpp"
-#include "stmpct_export.hpp"
+#include "ckms_impl.hpp"
 
 namespace stmpct {
 
-    class STMPCT_EXPORT ckms_uq : public stmpct_alg
+    template <typename T>
+    class ckms_uq : public ckms_impl<T>
     {
     public:
-        ckms_uq(double epsilon);
-        ckms_uq(const ckms_uq&) = delete;
-        ckms_uq& operator=(const ckms_uq&) = delete;
-        ~ckms_uq();
-        void insert(double v) override final;
-        double quantile(double phi) const override final;
+        ckms_uq(double epsilon)
+            : m_epsilon(epsilon)
+            , m_one_over_2e((int)(1 / (2 * epsilon)))
+        {}
+
+    protected:
+        bool compress_condition() const override final {
+            assert(m_one_over_2e > 0);
+            return (this->m_n % m_one_over_2e) == 0;
+        }
+
+        double f(double /*r_i*/, int n) const override final {
+            return 2 * m_epsilon * n;
+        }
 
     private:
-        // Use of std::unique_ptr triggers warning C4251 on Windows
-        class impl;
-        impl* pImpl;
+        double m_epsilon;
+        int m_one_over_2e;
     };
-}
 
+}

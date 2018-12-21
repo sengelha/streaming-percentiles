@@ -4,6 +4,8 @@
 #include <random>
 class ckms_tq_unit_tests;
 #include <stmpct/ckms_tq.hpp>
+#include "custom_number_type.hpp"
+#include "minimal_number_type.hpp"
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
@@ -12,19 +14,54 @@ class ckms_tq_unit_tests;
 using namespace std;
 using namespace stmpct;
 
-BOOST_AUTO_TEST_CASE(ckms_tq_sanity)
+BOOST_AUTO_TEST_CASE(ckms_tq_double)
 {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
     tqs.emplace_back(0.75, 0.04);
     tqs.emplace_back(0.875, 0.01);
-    ckms_tq c(tqs);
+    ckms_tq<double> c(tqs.begin(), tqs.end());
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
     double p95 = c.quantile(0.95);
     BOOST_CHECK_CLOSE(95, p95, 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(ckms_tq_custom_number_type)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    ckms_tq<custom_number_type> c(tqs.begin(), tqs.end());
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(custom_number_type(i));
+    }
+    custom_number_type p95 = c.quantile(0.95);
+    BOOST_CHECK_CLOSE(custom_number_type(95), p95, custom_number_type(0.01));
+}
+
+// Validates that stmpct::ckms_tq works on a number type with the absolute
+// minimal number of requirements.  We can't use BOOST_CHECK_CLOSE
+// because that imposes all sorts of additional requirements on
+// the number type.
+BOOST_AUTO_TEST_CASE(ckms_tq_minimal_number_type)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    ckms_tq<minimal_number_type> c(tqs.begin(), tqs.end());
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(minimal_number_type(i));
+    }
+    minimal_number_type p95 = c.quantile(0.95);
+    // Supress unused variable warning
+    p95 = p95;
 }
 
 BOOST_AUTO_TEST_CASE(ckms_tq_stress)
@@ -41,7 +78,7 @@ BOOST_AUTO_TEST_CASE(ckms_tq_stress)
         for (int j = 0; j < ntqs; ++j) {
             tqs.emplace_back(phi_dist(re), epsilon_dist(re));
         }
-        ckms_tq c(tqs);
+        ckms_tq<double> c(tqs.begin(), tqs.end());
 
         // Seed ckms_hbq so it becomes stable
         for (int j = 0; j < 100; ++j) {

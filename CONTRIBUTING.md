@@ -1,4 +1,4 @@
-# Contributing to streaming-percentiles-cpp
+# Contributing to streaming-percentiles
 
 ## Compiling
 
@@ -51,8 +51,8 @@ In short:
 9. Create a GitHub release associated with the tag.  Be sure to include
    the changes from `CHANGELOG.md`.
 10. Build and publish binaries.  For each platform:
-    1. Clone the repository (`git clone https://github.com/sengelha/streaming-percentiles-cpp.git`)
-    2. Change into the cloned folder (`cd streaming-percentiles-cpp`)
+    1. Clone the repository (`git clone https://github.com/sengelha/streaming-percentiles.git`)
+    2. Change into the cloned folder (`cd streaming-percentiles`)
     3. Checkout the release tag (`git checkout tags/vX.Y.Z`)
     4. Build the package in release mode (`./build.sh --release`)
     5. Upload the built artifact(s) to GitHub
@@ -62,5 +62,5 @@ In short:
     2. Change into the sengelha.github.io folder (`cd sengelha.github.io`)
     3. Copy the JS files to the `streaming-percentiles` directory
     4. Push the new content to GitHub (`git add -A && git commit && git push`)
-12. Publish to NPM.  From the directory `js/src/node_package`, run `npm publish`
+12. Publish to NPM.  From the directory `target/Release/js/src/node_package`, run `npm publish`
 13. Send out a release announcement.
