@@ -4,7 +4,7 @@
 
 | Develop Branch | Master Branch |
 | -------------- | ------------- |
-| [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=develop)](https://travis-ci.org/sengelha/streaming-percentiles-cpp) | [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles-cpp.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles-cpp) |
+| [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles.svg?branch=develop)](https://travis-ci.org/sengelha/streaming-percentiles) | [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles) |
 
 ## About the Library
 
