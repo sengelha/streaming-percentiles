@@ -17,10 +17,12 @@ immense data sets, for extremely high-throughput systems, or
 for near-real time use cases.
 
 The library supports the following languages:
+
 - C++
 - JavaScript
 
-Here is a list of streaming percentile algorithms implemented by this library:
+The library implements the following streaming percentile algorithms:
+
 - [Greenwald-Khanna](doc/methodology/GK01.pdf)
 - [Cormode-Korn-Muthukrishnan-Srivastava](doc/methodology/CKMS05.pdf) for high-biased, low-biased, uniform, and targeted quantiles
 
