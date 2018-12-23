@@ -8,7 +8,7 @@
 
 ## About the Library
 
-This is a cross-pltaform library with implementations of various
+This is a cross-platform library with implementations of various
 percentile algorithms on streams of data.  These algorithms allow
 you to calculate approximate percentiles (e.g. 50th percentile,
 95th percentile) in a single pass over a data set.
@@ -31,6 +31,9 @@ percentiles, see [Calculating Percentiles on Streaming
 Data](//www.stevenengelhardt.com/postseries/calculating-percentiles-on-streaming-data/).
 
 ## Obtaining the Library
+
+The current version of the library is 3.0.0, and it was released
+December 21, 2018.
 
 ### C++
 
@@ -60,6 +63,10 @@ page](//github.com/sengelha/streaming-percentiles-cpp/releases/latest).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how to build the release from
 source.
+
+### Historical Releases
+
+Historical releases may be downloaded from the [streaming-percentiles release page](//github.com/sengelha/streaming-percentiles/releases).
 
 ## Using the Library
 
