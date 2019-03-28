@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.1.0 - 2019-03-28
+
+- Support copy construction, assignment, move construction, and move
+  assignment on all analytics classes, enabling them to, among
+  other things, be used in STL containers.
+
 ## 3.0.0 - 2018-12-21
 
 - Parameterize all algorithms by measurement type

@@ -32,8 +32,8 @@ Data](//www.stevenengelhardt.com/postseries/calculating-percentiles-on-streaming
 
 ## Obtaining the Library
 
-The current version of the library is 3.0.0, and it was released
-December 21, 2018.
+The current version of the library is 3.1.0, and it was released
+March 28, 2019.
 
 ### C++
 
