@@ -44,8 +44,8 @@ BOOST_AUTO_TEST_CASE(ckms_uq_minimal_number_type)
         g.insert(minimal_number_type(i));
     }
     minimal_number_type p95 = g.quantile(0.95);
-    // Supress unused variable warning
-    p95 = p95;
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
 }
 
 BOOST_AUTO_TEST_CASE(ckms_uq_stress)
@@ -70,6 +70,70 @@ BOOST_AUTO_TEST_CASE(ckms_uq_stress)
             }
         }
     }
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_can_be_put_in_continer)
+{
+    std::vector<ckms_uq<minimal_number_type>> v;
+    v.emplace_back(0.001);
+    v.emplace_back(0.0001);
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        for (int i = 1; i <= 100; ++i) {
+            it->insert(minimal_number_type(i));
+        }
+
+        minimal_number_type p95 = it->quantile(0.95);
+        BOOST_CHECK(minimal_number_type(94) < p95);
+        BOOST_CHECK(p95 < minimal_number_type(96));
+    }
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_is_copy_constructible)
+{
+    ckms_uq<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    ckms_uq<minimal_number_type> g2(g);
+    minimal_number_type p95 = g2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_is_assignable)
+{
+    ckms_uq<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    ckms_uq<minimal_number_type> g2 = g;
+    minimal_number_type p95 = g2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_is_movable)
+{
+    ckms_uq<minimal_number_type> c(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(minimal_number_type(i));
+    }
+    ckms_uq<minimal_number_type> c2 = std::move(c);
+    minimal_number_type p95 = c2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_uq_type_traits)
+{
+    BOOST_CHECK(std::is_move_constructible<ckms_uq<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_uq<double>>::value);
+    BOOST_CHECK(std::is_move_constructible<ckms_uq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_uq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_move_assignable<ckms_uq<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_uq<double>>::value);
+    BOOST_CHECK(std::is_move_assignable<ckms_uq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_uq<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests

@@ -11,6 +11,11 @@ namespace stmpct {
         ckms_impl() : m_S(), m_n(0) {}
         virtual ~ckms_impl() {}
 
+        ckms_impl(const ckms_impl&) = default;
+        ckms_impl& operator=(const ckms_impl&) = default;
+        ckms_impl(ckms_impl&&) = default;
+        ckms_impl& operator=(ckms_impl&&) = default;
+
         void insert(T v)
         {
             do_insert(v);

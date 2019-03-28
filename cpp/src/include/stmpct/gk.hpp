@@ -19,9 +19,6 @@ namespace stmpct {
         {
         }
 
-        gk(const gk&) = delete;
-        gk& operator=(const gk&) = delete;
-
         void insert(T v) {
             if (m_n % m_one_over_2e == 0)
                 compress();

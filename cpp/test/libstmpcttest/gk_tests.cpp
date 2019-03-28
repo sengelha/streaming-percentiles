@@ -64,8 +64,8 @@ BOOST_AUTO_TEST_CASE(gk_minimal_number_type)
         g.insert(minimal_number_type(i));
     }
     minimal_number_type p95 = g.quantile(0.95);
-    // Supress unused variable warning
-    p95 = p95;
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
 }
 
 BOOST_AUTO_TEST_CASE(gk_stress)
@@ -90,6 +90,70 @@ BOOST_AUTO_TEST_CASE(gk_stress)
             }
         }
     }
+}
+
+BOOST_AUTO_TEST_CASE(gk_can_be_put_in_continer)
+{
+    std::vector<gk<minimal_number_type>> v;
+    v.emplace_back(0.001);
+    v.emplace_back(0.0001);
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        for (int i = 1; i <= 100; ++i) {
+            it->insert(minimal_number_type(i));
+        }
+
+        minimal_number_type p95 = it->quantile(0.95);
+        BOOST_CHECK(minimal_number_type(94) < p95);
+        BOOST_CHECK(p95 < minimal_number_type(96));
+    }
+}
+
+BOOST_AUTO_TEST_CASE(gk_is_copy_constructible)
+{
+    gk<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    gk<minimal_number_type> g2(g);
+    minimal_number_type p95 = g2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(gk_is_assignable)
+{
+    gk<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    gk<minimal_number_type> g2 = g;
+    minimal_number_type p95 = g2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(gk_is_movable)
+{
+    gk<minimal_number_type> g(0.0005);
+    for (int i = 1; i <= 100; ++i) {
+        g.insert(minimal_number_type(i));
+    }
+    gk<minimal_number_type> g2 = std::move(g);
+    minimal_number_type p95 = g2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(gk_type_traits)
+{
+    BOOST_CHECK(std::is_move_constructible<gk<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<gk<double>>::value);
+    BOOST_CHECK(std::is_move_constructible<gk<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<gk<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_move_assignable<gk<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<gk<double>>::value);
+    BOOST_CHECK(std::is_move_assignable<gk<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<gk<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests

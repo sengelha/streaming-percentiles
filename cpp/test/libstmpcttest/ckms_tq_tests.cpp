@@ -60,8 +60,8 @@ BOOST_AUTO_TEST_CASE(ckms_tq_minimal_number_type)
         c.insert(minimal_number_type(i));
     }
     minimal_number_type p95 = c.quantile(0.95);
-    // Supress unused variable warning
-    p95 = p95;
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
 }
 
 BOOST_AUTO_TEST_CASE(ckms_tq_stress)
@@ -96,6 +96,88 @@ BOOST_AUTO_TEST_CASE(ckms_tq_stress)
     }
 }
 
+BOOST_AUTO_TEST_CASE(ckms_tq_can_be_put_in_continer)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    std::vector<ckms_tq<minimal_number_type>> v;
+    v.emplace_back(tqs.begin(), tqs.end());
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        for (int i = 1; i <= 100; ++i) {
+            it->insert(minimal_number_type(i));
+        }
+
+        minimal_number_type p95 = it->quantile(0.95);
+        BOOST_CHECK(minimal_number_type(94) < p95);
+        BOOST_CHECK(p95 < minimal_number_type(96));
+    }
+}
+
+BOOST_AUTO_TEST_CASE(ckms_tq_is_copy_constructible)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    ckms_tq<minimal_number_type> c(tqs.begin(), tqs.end());
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(minimal_number_type(i));
+    }
+    ckms_tq<minimal_number_type> c2(c);
+    minimal_number_type p95 = c2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_tq_is_assignable)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    ckms_tq<minimal_number_type> c(tqs.begin(), tqs.end());
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(minimal_number_type(i));
+    }
+    ckms_tq<minimal_number_type> c2 = c;
+    minimal_number_type p95 = c2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_tq_is_movable)
+{
+    std::vector<targeted_quantile> tqs;
+    tqs.emplace_back(0.125, 0.02);
+    tqs.emplace_back(0.375, 0.02);
+    tqs.emplace_back(0.75, 0.04);
+    tqs.emplace_back(0.875, 0.01);
+    ckms_tq<minimal_number_type> c(tqs.begin(), tqs.end());
+    for (int i = 1; i <= 100; ++i) {
+        c.insert(minimal_number_type(i));
+    }
+    ckms_tq<minimal_number_type> c2 = std::move(c);
+    minimal_number_type p95 = c2.quantile(0.95);
+    BOOST_CHECK(minimal_number_type(94) < p95);
+    BOOST_CHECK(p95 < minimal_number_type(96));
+}
+
+BOOST_AUTO_TEST_CASE(ckms_tq_type_traits)
+{
+    BOOST_CHECK(std::is_move_constructible<ckms_tq<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_tq<double>>::value);
+    BOOST_CHECK(std::is_move_constructible<ckms_tq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_tq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_move_assignable<ckms_tq<double>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_tq<double>>::value);
+    BOOST_CHECK(std::is_move_assignable<ckms_tq<minimal_number_type>>::value);
+    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_tq<minimal_number_type>>::value);
+}
 
 // TODO: Re-enable internal implementation tests
 /*
