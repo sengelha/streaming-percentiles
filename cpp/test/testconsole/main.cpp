@@ -99,7 +99,7 @@ static void perf_comparison()
 
         std::vector<double> vals;
         vals.reserve(n);
-        for (int i = 0; i != n; ++i) {
+        for (int j = 0; j != n; ++j) {
             vals.push_back(rand() % 100 + 1);
         }
 
