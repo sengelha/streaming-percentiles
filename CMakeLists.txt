@@ -5,11 +5,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 
 include(FindEmscripten)
 
-set(Boost_USE_STATIC_LIBS        ON)
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-
 set(BUILD_CPP_LIBRARY 1)
 if (EMSCRIPTEN_FOUND)
   set(BUILD_JS_LIBRARY 1)
@@ -39,6 +34,7 @@ include(CPack)
 
 enable_testing()
 
+add_subdirectory(googletest)
 if (BUILD_CPP_LIBRARY)
   add_subdirectory(cpp)
 endif()

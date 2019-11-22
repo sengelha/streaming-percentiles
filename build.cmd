@@ -8,7 +8,7 @@ set __BuildType=Debug
 set __CleanBuild=0
 set __Test=1
 set __Package=1
-set __GeneratorName=Ninja
+set __CPackExe=C:\Program Files\CMake\bin\cpack.exe
 set "__ProjectDir=%~dp0"
 
 :Arg_Loop
@@ -54,6 +54,7 @@ if %__CleanBuild%==1 (
 if not exist %__TargetDir% mkdir %__TargetDir%
 
 if defined __GeneratorName set __CMakeOpts=-G "%__GeneratorName%"
+set __CMakeOpts=%__CMakeOpts% -Dgtest_force_shared_crt=ON -DINSTALL_GTEST=OFF
 
 cmd /c "cd %__TargetDir% & cmake %__CMakeOpts% %__ProjectDir%" || exit /b 1
 cmd /c "cd %__TargetDir% & cmake --build . --config %__BuildType%" || exit /b 1
@@ -61,7 +62,7 @@ if %__Test%==1 (
   cmd /c "set CTEST_OUTPUT_ON_FAILURE=TRUE & cd %__TargetDir% & ctest -C %__BuildType%" || exit /b 1
 )
 if %__Package%==1 (
-  cmd /c "cd %__TargetDir% & cpack -C %__BuildType%" || exit /b 1
+  cmd /c "cd %__TargetDir% & "%__CPackExe%" -C %__BuildType%" || exit /b 1
 )
 exit /b 0
 

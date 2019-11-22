@@ -1,10 +1,8 @@
-#define BOOST_TEST_MODULE ckms_hbq_tests
-#include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <random>
 #include <type_traits>
 #include <vector>
-class ckms_hbq_unit_tests;
+#include <gtest/gtest.h>
 #include <stmpct/ckms_hbq.hpp>
 #include "custom_number_type.hpp"
 #include "minimal_number_type.hpp"
@@ -16,62 +14,68 @@ class ckms_hbq_unit_tests;
 using namespace std;
 using namespace stmpct;
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_double)
+template <typename T>
+T abs(T t)
+{
+    return t < 0 ? -t : t;
+}
+
+TEST(ckms_hbq, double)
 {
     ckms_hbq<double> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
     double p95 = c.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_float)
+TEST(ckms_hbq, float)
 {
     ckms_hbq<float> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
     float p95 = c.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_long_double)
+TEST(ckms_hbq, long_double)
 {
     ckms_hbq<long double> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
     }
     long double p95 = c.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_custom_number_type)
+TEST(ckms_hbq, custom_number_type)
 {
     ckms_hbq<custom_number_type> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(custom_number_type(i));
     }
     custom_number_type p95 = c.quantile(0.95);
-    BOOST_CHECK_CLOSE(custom_number_type(95), p95, custom_number_type(0.01));
+    ASSERT_LT(abs(custom_number_type(95) - p95), custom_number_type(0.01));
 }
 
 // Validates that stmpct::ckms_hbq works on a number type with the absolute
-// minimal number of requirements.  We can't use BOOST_CHECK_CLOSE
+// minimal number of requirements.  We can't use ASSERT_NEAR
 // because that imposes all sorts of additional requirements on
 // the number type.
-BOOST_AUTO_TEST_CASE(ckms_hbq_minimal_number_type)
+TEST(ckms_hbq, minimal_number_type)
 {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(minimal_number_type(i));
     }
     minimal_number_type p95 = g.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_LT(minimal_number_type(94), p95);
+    ASSERT_LT(p95, minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_stress)
+TEST(ckms_hbq, stress)
 {
     std::uniform_real_distribution<double> unif(0, 1);
     std::default_random_engine re;
@@ -88,14 +92,14 @@ BOOST_AUTO_TEST_CASE(ckms_hbq_stress)
             c.insert(unif(re));
             for (double phi = 0.01; phi < 1; phi += 0.01) {
                 double q = c.quantile(phi);
-                BOOST_CHECK_GT(q, 0);
-                BOOST_CHECK_LT(q, 1);
+                ASSERT_GT(q, 0);
+                ASSERT_LT(q, 1);
             }
         }
     }
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_can_be_put_in_continer)
+TEST(ckms_hbq, can_be_put_in_continer)
 {
     std::vector<ckms_hbq<minimal_number_type>> v;
     v.emplace_back(0.001);
@@ -106,12 +110,12 @@ BOOST_AUTO_TEST_CASE(ckms_hbq_can_be_put_in_continer)
         }
 
         minimal_number_type p95 = it->quantile(0.95);
-        BOOST_CHECK(minimal_number_type(94) < p95);
-        BOOST_CHECK(p95 < minimal_number_type(96));
+        ASSERT_LT(minimal_number_type(94), p95);
+        ASSERT_LT(p95, minimal_number_type(96));
     }
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_is_copy_constructible)
+TEST(ckms_hbq, is_copy_constructible)
 {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -119,11 +123,11 @@ BOOST_AUTO_TEST_CASE(ckms_hbq_is_copy_constructible)
     }
     ckms_hbq<minimal_number_type> g2(g);
     minimal_number_type p95 = g2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_LT(minimal_number_type(94), p95);
+    ASSERT_LT(p95, minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_is_assignable)
+TEST(ckms_hbq, is_assignable)
 {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -131,11 +135,11 @@ BOOST_AUTO_TEST_CASE(ckms_hbq_is_assignable)
     }
     ckms_hbq<minimal_number_type> g2 = g;
     minimal_number_type p95 = g2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_LT(minimal_number_type(94), p95);
+    ASSERT_LT(p95, minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_is_movable)
+TEST(ckms_hbq, is_movable)
 {
     ckms_hbq<minimal_number_type> c(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -143,20 +147,20 @@ BOOST_AUTO_TEST_CASE(ckms_hbq_is_movable)
     }
     ckms_hbq<minimal_number_type> c2 = std::move(c);
     minimal_number_type p95 = c2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_LT(minimal_number_type(94), p95);
+    ASSERT_LT(p95, minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(ckms_hbq_type_traits)
+TEST(ckms_hbq, type_traits)
 {
-    BOOST_CHECK(std::is_move_constructible<ckms_hbq<double>>::value);
-    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_hbq<double>>::value);
-    BOOST_CHECK(std::is_move_constructible<ckms_hbq<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_nothrow_move_constructible<ckms_hbq<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_move_assignable<ckms_hbq<double>>::value);
-    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_hbq<double>>::value);
-    BOOST_CHECK(std::is_move_assignable<ckms_hbq<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_nothrow_move_assignable<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_move_constructible<ckms_hbq<double>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_hbq<double>>::value);
+    ASSERT_TRUE(std::is_move_constructible<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_move_assignable<ckms_hbq<double>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_hbq<double>>::value);
+    ASSERT_TRUE(std::is_move_assignable<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_hbq<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests
@@ -175,7 +179,7 @@ public:
 */
 
 /*
-BOOST_AUTO_TEST_CASE(ckms_hbq_inner_state)
+TEST(ckms_hbq, inner_state)
 {
     int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13, 16, 17};
     ckms_hbq c(0.1);
