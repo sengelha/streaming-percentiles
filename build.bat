@@ -6,6 +6,9 @@ echo Starting Build at %TIME%
 set __BuildArch=x64
 set __BuildType=Debug
 set __CleanBuild=0
+set __Test=1
+set __Package=1
+set __GeneratorName=Ninja
 set "__ProjectDir=%~dp0"
 
 :Arg_Loop
@@ -24,6 +27,8 @@ if /i "%1" == "/d"                    (set __BuildType=Debug&set processedArgs=!
 if /i "%1" == "/debug"                (set __BuildType=Debug&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
 if /i "%1" == "/r"                    (set __BuildType=Release&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
 if /i "%1" == "/release"              (set __BuildType=Release&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
+if /i "%1" == "/notest"               (set __Test=0&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
+if /i "%1" == "/nopackage"            (set __Package=0&set processedArgs=!processedArgs! %1&shift&goto Arg_Loop)
 
 echo.
 echo ERROR: Unrecognized flag %1
@@ -40,13 +45,6 @@ echo.  Clean build: %__CleanBuild%
 echo.  Target directory: %__TargetDir%
 echo.
 
-if "%__BuildArch%"=="x64" (
-    set __CMakeGenerator="Visual Studio 15 2017 Win64"
-) else (
-    echo.Unsupported build architecture %__BuildArch%
-    exit /b 1
-)
-
 if %__CleanBuild%==1 (
     if exist %__TargetDir% (
         echo Deleting %__TargetDir%...
@@ -55,10 +53,16 @@ if %__CleanBuild%==1 (
 )
 if not exist %__TargetDir% mkdir %__TargetDir%
 
-cmd /c "cd %__TargetDir% & cmake -G %__CMakeGenerator% --config %__BuildType% %__ProjectDir%" || exit /b 1
+if defined __GeneratorName set __CMakeOpts=-G "%__GeneratorName%"
+
+cmd /c "cd %__TargetDir% & cmake %__CMakeOpts% %__ProjectDir%" || exit /b 1
 cmd /c "cd %__TargetDir% & cmake --build . --config %__BuildType%" || exit /b 1
-cmd /c "set CTEST_OUTPUT_ON_FAILURE=TRUE & cd %__TargetDir% & ctest -C %__BuildType%" || exit /b 1
-cmd /c "cd %__TargetDir% & cpack -C %__BuildType%" || exit /b 1
+if %__Test%==1 (
+  cmd /c "set CTEST_OUTPUT_ON_FAILURE=TRUE & cd %__TargetDir% & ctest -C %__BuildType%" || exit /b 1
+)
+if %__Package%==1 (
+  cmd /c "cd %__TargetDir% & cpack -C %__BuildType%" || exit /b 1
+)
 exit /b 0
 
 :Usage
@@ -75,4 +79,6 @@ echo.  /c, /clean     perform a clean build
 echo.  /d, /debug     perform a debug build (default)
 echo.  /h, /help      print help and exit
 echo.  /r, /release   perform a release build
+echo.  /notest        skip the testing step of the build
+echo.  /nopackage     skip the packaging step of the build
 exit /b 1
