@@ -5,10 +5,6 @@ matrix:
   - name: "Clang on Linux (Debug)"
     os: linux
     compiler: clang
-    addons:
-      apt:
-        packages:
-        - libboost-test-dev
     script:
     - ./build.sh --clean -d
 
