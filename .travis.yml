@@ -14,8 +14,7 @@ matrix:
     script:
     - ./build.sh --clean -d
 
-  - name: "Clang on Windows (Debug)"
+  - name: "Visual C++ on Windows (Debug)"
     os: windows
-    compiler: clang
     script:
     - ./build.sh --clean -d
