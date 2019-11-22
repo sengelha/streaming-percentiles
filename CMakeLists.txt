@@ -34,7 +34,11 @@ include(CPack)
 
 enable_testing()
 
+if (MSVC)
+  set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
+endif()
 add_subdirectory(googletest)
+
 if (BUILD_CPP_LIBRARY)
   add_subdirectory(cpp)
 endif()

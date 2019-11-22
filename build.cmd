@@ -54,7 +54,6 @@ if %__CleanBuild%==1 (
 if not exist %__TargetDir% mkdir %__TargetDir%
 
 if defined __GeneratorName set __CMakeOpts=-G "%__GeneratorName%"
-set __CMakeOpts=%__CMakeOpts% -Dgtest_force_shared_crt=ON -DINSTALL_GTEST=OFF
 
 cmd /c "cd %__TargetDir% & cmake %__CMakeOpts% %__ProjectDir%" || exit /b 1
 cmd /c "cd %__TargetDir% & cmake --build . --config %__BuildType%" || exit /b 1
