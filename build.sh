@@ -59,6 +59,12 @@ done
 PROJECT_BASE_DIR=${PWD}
 TARGET_DIR=target/${BUILD_TYPE}
 
+if [ -x "C:/Program Files/CMake/bin/cpack.exe" ]; then
+  CPACK_EXE="C:/Program Files/CMake/bin/cpack.exe"
+else
+  CPACK_EXE=cpack
+fi
+
 echo "Building streaming-percentiles with the following settings:"
 echo "  Build type: ${BUILD_TYPE}"
 echo "  Clean build: ${CLEAN_BUILD}"
@@ -78,4 +84,4 @@ cmake --build .
 if [ $SKIP_TESTS -eq 0 ]; then
   env CTEST_OUTPUT_ON_FAILURE=1 ctest
 fi
-cpack
+"$CPACK_EXE"
