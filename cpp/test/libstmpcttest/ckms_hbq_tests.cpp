@@ -4,6 +4,7 @@
 #include <vector>
 #include <gtest/gtest.h>
 #include <stmpct/ckms_hbq.hpp>
+#include "abs.hpp"
 #include "custom_number_type.hpp"
 #include "minimal_number_type.hpp"
 
@@ -14,11 +15,6 @@
 using namespace std;
 using namespace stmpct;
 
-template <typename T>
-T abs(T t)
-{
-    return t < 0 ? -t : t;
-}
 
 TEST(ckms_hbq, double)
 {

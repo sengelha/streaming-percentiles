@@ -1,9 +1,9 @@
-#define BOOST_TEST_MODULE gk_tests
-#include <boost/test/unit_test.hpp>
 #include <random>
 #include <complex>
+#include <gtest/gtest.h>
 class gk_unit_tests;
 #include <stmpct/gk.hpp>
+#include "abs.hpp"
 #include "custom_number_type.hpp"
 #include "minimal_number_type.hpp"
 
@@ -13,62 +13,62 @@ class gk_unit_tests;
 
 using namespace stmpct;
 
-BOOST_AUTO_TEST_CASE(gk_double)
+TEST(gk, double)
 {
     gk<double> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(i);
     }
     double p95 = g.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(gk_float)
+TEST(gk, float)
 {
     gk<float> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(i);
     }
     float p95 = g.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(gk_long_double)
+TEST(gk, long_double)
 {
     gk<long double> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(i);
     }
     long double p95 = g.quantile(0.95);
-    BOOST_CHECK_CLOSE(95, p95, 0.01);
+    ASSERT_NEAR(95, p95, 0.01);
 }
 
-BOOST_AUTO_TEST_CASE(gk_custom_number_type)
+TEST(gk, custom_number_type)
 {
     gk<custom_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(custom_number_type(i));
     }
     custom_number_type p95 = g.quantile(0.95);
-    BOOST_CHECK_CLOSE(custom_number_type(95), p95, custom_number_type(0.01));
+    ASSERT_LT(abs(custom_number_type(95) - p95), custom_number_type(0.01));
 }
 
 // Validates that stmpct::gk works on a number type with the absolute
-// minimal number of requirements.  We can't use BOOST_CHECK_CLOSE
+// minimal number of requirements.  We can't use ASSERT_NEAR
 // because that imposes all sorts of additional requirements on
 // the number type.
-BOOST_AUTO_TEST_CASE(gk_minimal_number_type)
+TEST(gk, minimal_number_type)
 {
     gk<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(minimal_number_type(i));
     }
     minimal_number_type p95 = g.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_TRUE(minimal_number_type(94) < p95);
+    ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(gk_stress)
+TEST(gk, stress)
 {
     std::uniform_real_distribution<double> unif(0, 1);
     std::default_random_engine re;
@@ -85,14 +85,14 @@ BOOST_AUTO_TEST_CASE(gk_stress)
             g.insert(unif(re));
             for (double phi = 0.01; phi < 1; phi += 0.01) {
                 double q = g.quantile(phi);
-                BOOST_CHECK_GT(q, 0);
-                BOOST_CHECK_LT(q, 1);
+                ASSERT_GT(q, 0);
+                ASSERT_LT(q, 1);
             }
         }
     }
 }
 
-BOOST_AUTO_TEST_CASE(gk_can_be_put_in_continer)
+TEST(gk, can_be_put_in_continer)
 {
     std::vector<gk<minimal_number_type>> v;
     v.emplace_back(0.001);
@@ -103,12 +103,12 @@ BOOST_AUTO_TEST_CASE(gk_can_be_put_in_continer)
         }
 
         minimal_number_type p95 = it->quantile(0.95);
-        BOOST_CHECK(minimal_number_type(94) < p95);
-        BOOST_CHECK(p95 < minimal_number_type(96));
+        ASSERT_TRUE(minimal_number_type(94) < p95);
+        ASSERT_TRUE(p95 < minimal_number_type(96));
     }
 }
 
-BOOST_AUTO_TEST_CASE(gk_is_copy_constructible)
+TEST(gk, is_copy_constructible)
 {
     gk<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -116,11 +116,11 @@ BOOST_AUTO_TEST_CASE(gk_is_copy_constructible)
     }
     gk<minimal_number_type> g2(g);
     minimal_number_type p95 = g2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_TRUE(minimal_number_type(94) < p95);
+    ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(gk_is_assignable)
+TEST(gk, is_assignable)
 {
     gk<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -128,11 +128,11 @@ BOOST_AUTO_TEST_CASE(gk_is_assignable)
     }
     gk<minimal_number_type> g2 = g;
     minimal_number_type p95 = g2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_TRUE(minimal_number_type(94) < p95);
+    ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(gk_is_movable)
+TEST(gk, is_movable)
 {
     gk<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
@@ -140,20 +140,20 @@ BOOST_AUTO_TEST_CASE(gk_is_movable)
     }
     gk<minimal_number_type> g2 = std::move(g);
     minimal_number_type p95 = g2.quantile(0.95);
-    BOOST_CHECK(minimal_number_type(94) < p95);
-    BOOST_CHECK(p95 < minimal_number_type(96));
+    ASSERT_TRUE(minimal_number_type(94) < p95);
+    ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-BOOST_AUTO_TEST_CASE(gk_type_traits)
+TEST(gk, type_traits)
 {
-    BOOST_CHECK(std::is_move_constructible<gk<double>>::value);
-    BOOST_CHECK(std::is_nothrow_move_constructible<gk<double>>::value);
-    BOOST_CHECK(std::is_move_constructible<gk<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_nothrow_move_constructible<gk<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_move_assignable<gk<double>>::value);
-    BOOST_CHECK(std::is_nothrow_move_assignable<gk<double>>::value);
-    BOOST_CHECK(std::is_move_assignable<gk<minimal_number_type>>::value);
-    BOOST_CHECK(std::is_nothrow_move_assignable<gk<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_move_constructible<gk<double>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<gk<double>>::value);
+    ASSERT_TRUE(std::is_move_constructible<gk<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<gk<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_move_assignable<gk<double>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_assignable<gk<double>>::value);
+    ASSERT_TRUE(std::is_move_assignable<gk<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_assignable<gk<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests
@@ -173,7 +173,7 @@ public:
     static gk::tuples_t S(const gk& g) { return g.m_S; }
 };
 
-BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
+TEST(gk, construct_band_lookup)
 {
     { std::vector<int> v{0}; BOOST_TEST(gk_unit_tests::construct_band_lookup(0) == v); }
     { std::vector<int> v{gk_unit_tests::max_band(), 0}; BOOST_TEST(gk_unit_tests::construct_band_lookup(1) == v); }
@@ -183,14 +183,14 @@ BOOST_AUTO_TEST_CASE(gk_construct_band_lookup)
     { std::vector<int> v{gk_unit_tests::max_band(), 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 0}; BOOST_TEST(gk_unit_tests::construct_band_lookup(25) == v); }
 }
 
-BOOST_AUTO_TEST_CASE(gk_inner_state)
+TEST(gk, inner_state)
 {
     int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13, 16, 17};
     gk g(0.1);
     for (int i = 0; i < ARRAYSIZE(seq); ++i)
         g.insert(seq[i]);
-    BOOST_CHECK_EQUAL(gk_unit_tests::epsilon(g), 0.1);
-    BOOST_CHECK_EQUAL(gk_unit_tests::one_over_2e(g), 5);
+    ASSERT_TRUE_EQUAL(gk_unit_tests::epsilon(g), 0.1);
+    ASSERT_TRUE_EQUAL(gk_unit_tests::one_over_2e(g), 5);
     gk_unit_tests::tuples_t expectedS {
         { 1, 1, 0 },
         { 3, 2, 0 },
@@ -208,7 +208,7 @@ BOOST_AUTO_TEST_CASE(gk_inner_state)
         { 20, 2, 0 },
     };
     BOOST_TEST(gk_unit_tests::S(g) == expectedS);
-    BOOST_CHECK_EQUAL(gk_unit_tests::n(g), ARRAYSIZE(seq));
+    ASSERT_TRUE_EQUAL(gk_unit_tests::n(g), ARRAYSIZE(seq));
 }
 
 */

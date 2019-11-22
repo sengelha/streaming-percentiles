@@ -3,7 +3,7 @@ project(stmpct_test_libstmpcttest)
 
 include(GoogleTest)
 
-file(GLOB TESTCASE_SRC ckms_hbq_tests.cpp)
+file(GLOB TESTCASE_SRC *.cpp)
 
 add_executable(libstmpcttest ${TESTCASE_SRC})
 target_compile_features(libstmpcttest PRIVATE cxx_defaulted_functions)
