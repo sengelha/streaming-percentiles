@@ -22,4 +22,4 @@ matrix:
     os: windows
     compiler: clang
     script:
-    - cmd /c "build.bat /c"
+    - ./build.sh --clean -d
