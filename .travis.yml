@@ -6,13 +6,13 @@ matrix:
     os: linux
     compiler: clang
     script:
-    - ./build.sh --clean -t Debug
+    - ./build.sh --clean -d
 
   - name: "Clang on OS X (Debug)"
     os: osx
     compiler: clang
     script:
-    - ./build.sh --clean -t Debug
+    - ./build.sh --clean -d
 
   - name: "Clang on Windows (Debug)"
     os: windows
