@@ -1,17 +1,21 @@
 language: cpp
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+  - name: "Clang on Linux (Debug)"
+    os: linux
+    compiler: clang
+    script:
+    - ./build.sh --clean -t Debug
 
-compiler:
-  - gcc
-  - clang
+  - name: "Clang on OS X (Debug)"
+    os: osx
+    compiler: clang
+    script:
+    - ./build.sh --clean -t Debug
 
-addons:
-  apt:
-    packages:
-    - libboost-test-dev
-
-script:
-  - ./build.sh
+  - name: "Clang on Windows (Debug)"
+    os: windows
+    compiler: clang
+    script:
+    - cmd /c "./build.bat /c"
