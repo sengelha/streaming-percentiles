@@ -11,7 +11,7 @@ namespace stmpct {
     class gk
     {
     public:
-        gk(double epsilon)
+        explicit gk(double epsilon)
             : m_epsilon(epsilon)
             , m_one_over_2e((int)(1/(2 * epsilon)))
             , m_n(0)

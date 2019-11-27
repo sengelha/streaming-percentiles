@@ -12,7 +12,7 @@ namespace stmpct {
     class ckms_lbq : public ckms_impl<T>
     {
     public:
-        ckms_lbq(double epsilon)
+        explicit ckms_lbq(double epsilon)
             : m_epsilon(epsilon)
             , m_one_over_2e((int)(1 / (2 * epsilon)))
         {}
