@@ -4,4 +4,4 @@ project(stmpct-js-test)
 enable_testing()
 
 add_subdirectory(node)
-add_subdirectory(browser)
+#add_subdirectory(browser)

@@ -1,19 +1,21 @@
 cmake_minimum_required(VERSION 2.8)
 project(stmpct-js-src)
 
+set(CMAKE_CXX_COMPILER em++)
+set(CMAKE_CXX_FLAGS "-s WASM=0 --memory-init-file 0")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG")
+set(CMAKE_EXE_LINKER_FLAGS "--bind")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
+
 set(STMPCT_CPP_SRCDIR ../../cpp/src)
-set(STMPCT_CPP_BINDIR ${CMAKE_CURRENT_BINARY_DIR}/../../cpp/src)
 file(GLOB_RECURSE STMPCT_JS_SRC ${STMPCT_CPP_SRCDIR}/*.cpp *.cpp)
 
-set(CMAKE_CXX_COMPILER em++)
-set(CMAKE_CXX_FLAGS_DEBUG "--bind -std=c++11 -O0 -g --memory-init-file 0 -s WASM=0")
-set(CMAKE_CXX_FLAGS_RELEASE "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0 -s WASM=0")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "--bind -std=c++11 -O3 -DNDEBUG --memory-init-file 0 -s WASM=0")
-
 add_executable(streamingPercentiles-unwrapped.v1.js ${STMPCT_JS_SRC})
-target_include_directories(streamingPercentiles-unwrapped.v1.js PUBLIC
-                           ${STMPCT_CPP_SRCDIR}/include
-                           ${STMPCT_CPP_BINDIR}/include/stmpct)
+target_compile_features(streamingPercentiles-unwrapped.v1.js PRIVATE cxx_std_11)
+target_include_directories(streamingPercentiles-unwrapped.v1.js PRIVATE
+                           ${STMPCT_CPP_SRCDIR}/include)
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/concat.cmake "
 file(WRITE \${DST} \"\")
