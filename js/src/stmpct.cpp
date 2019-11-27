@@ -5,6 +5,7 @@
 #include <stmpct/ckms_tq.hpp>
 #include <stmpct/ckms_uq.hpp>
 #include <stmpct/gk.hpp>
+#include <stmpct/qdigest.hpp>
 
 using namespace emscripten;
 using namespace std;
@@ -83,6 +84,18 @@ private:
     ckms_tq<double> m_c;
 };
 
+// Wrap qdigest into something where we can bind insert and
+// quantile
+class qdigest_wrapper {
+public:
+    qdigest_wrapper(int compression_factor) : m_q(compression_factor) {}
+    void insert(int val) { m_q.insert(val); }
+    int quantile(double phi) { return m_q.quantile(phi); }
+
+private:
+    qdigest m_q;
+};
+
 EMSCRIPTEN_BINDINGS(streaming_percentiles) {
     class_<gk<double>>("GK")
         .constructor<double>()
@@ -108,4 +121,9 @@ EMSCRIPTEN_BINDINGS(streaming_percentiles) {
         .constructor<double>()
         .function("insert", &ckms_uq_wrapper::insert)
         .function("quantile", &ckms_uq_wrapper::quantile);
+
+    class_<qdigest_wrapper>("QDigest")
+        .constructor<int>()
+        .function("insert", &qdigest_wrapper::insert)
+        .function("quantile", &qdigest_wrapper::quantile);
 }
