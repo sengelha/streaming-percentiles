@@ -25,6 +25,7 @@ The library implements the following streaming percentile algorithms:
 
 - [Greenwald-Khanna](doc/methodology/GK01.pdf)
 - [Cormode-Korn-Muthukrishnan-Srivastava](doc/methodology/CKMS05.pdf) for high-biased, low-biased, uniform, and targeted quantiles
+- [Q-Digest](doc/methodology/q-digest.pdf)
 
 For more background on streaming
 percentiles, see [Calculating Percentiles on Streaming
