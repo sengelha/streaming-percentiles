@@ -11,6 +11,7 @@ usage()
     echo "  -d, --debug          build a debug build (default)"
     echo "  -h, --help           print help and exit"
     echo "  -r, --release        build a release build"
+    echo "  --skip-package       skip creating a package as part of build"
     echo "  --skip-tests         skip running tests as part of build"
     exit 1
 }
@@ -18,6 +19,7 @@ usage()
 CLEAN_BUILD=0
 BUILD_TYPE=Debug
 SKIP_TESTS=0
+SKIP_PACKAGE=0
 
 while :; do
     if [ $# -le 0 ]; then
@@ -41,6 +43,10 @@ while :; do
 
         -r|--release)
             BUILD_TYPE=RelWithDebInfo
+            ;;
+
+        --skip-package)
+            SKIP_PACKAGE=1
             ;;
 
         --skip-tests)
@@ -69,6 +75,7 @@ echo "Building streaming-percentiles with the following settings:"
 echo "  Build type: ${BUILD_TYPE}"
 echo "  Clean build: ${CLEAN_BUILD}"
 echo "  Skip tests: ${SKIP_TESTS}"
+echo "  Skip package: ${SKIP_PACKAGE}"
 echo "  Target directory: ${TARGET_DIR}"
 echo
 
@@ -84,4 +91,6 @@ cmake --build .
 if [ $SKIP_TESTS -eq 0 ]; then
   env CTEST_OUTPUT_ON_FAILURE=1 ctest
 fi
-"$CPACK_EXE"
+if [ $SKIP_PACKAGE -eq 0 ]; then
+  "$CPACK_EXE"
+fi
