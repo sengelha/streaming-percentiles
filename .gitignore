@@ -1,4 +1,4 @@
-/target/
+/bazel-*
 .DS_Store
 .vscode
 *.sublime-project

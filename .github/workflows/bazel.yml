@@ -1,0 +1,19 @@
+name: CMake
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Build
+      run: bazel --bazelrc=.github/github.bazelrc build //...
+
+    - name: Test
+      run: bazel --bazelrc=.github/github.bazelrc test //...
