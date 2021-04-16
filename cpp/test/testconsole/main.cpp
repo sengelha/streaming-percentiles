@@ -6,7 +6,7 @@
 #include <stmpct/ckms_hbq.hpp>
 #include <stmpct/ckms_lbq.hpp>
 #include <stmpct/ckms_uq.hpp>
-#include "compat/gettimeofday.h"
+#include <sys/time.h>
 
 #ifndef ARRAYSIZE
 # define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))

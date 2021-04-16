@@ -1,0 +1,2 @@
+build -c opt
+test -c opt
