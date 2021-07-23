@@ -2,9 +2,7 @@
 
 ## Build Status
 
-| Develop Branch | Master Branch |
-| -------------- | ------------- |
-| [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles.svg?branch=develop)](https://travis-ci.org/sengelha/streaming-percentiles) | [![Build Status](https://travis-ci.org/sengelha/streaming-percentiles.svg?branch=master)](https://travis-ci.org/sengelha/streaming-percentiles) |
+![Build Status](https://github.com/sengelha/streaming-percentiles/actions/workflows/ci.yml/badge.svg)
 
 ## About the Library
 

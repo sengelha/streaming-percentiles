@@ -1,4 +1,4 @@
-name: bazel
+name: ci
 
 on: [push]
 
