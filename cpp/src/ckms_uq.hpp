@@ -9,28 +9,24 @@
 
 namespace stmpct {
 
-    template <typename T>
-    class ckms_uq : public ckms_impl<T>
-    {
-    public:
-        explicit ckms_uq(double epsilon)
-            : m_epsilon(epsilon)
-            , m_one_over_2e((int)(1 / (2 * epsilon)))
-        {}
+template <typename T> class ckms_uq : public ckms_impl<T> {
+  public:
+    explicit ckms_uq(double epsilon)
+        : m_epsilon(epsilon), m_one_over_2e((int)(1 / (2 * epsilon))) {}
 
-    protected:
-        bool compress_condition() const override final {
-            assert(m_one_over_2e > 0);
-            return (this->m_n % m_one_over_2e) == 0;
-        }
+  protected:
+    bool compress_condition() const override final {
+        assert(m_one_over_2e > 0);
+        return (this->m_n % m_one_over_2e) == 0;
+    }
 
-        double f(double /*r_i*/, int n) const override final {
-            return 2 * m_epsilon * n;
-        }
+    double f(double /*r_i*/, int n) const override final {
+        return 2 * m_epsilon * n;
+    }
 
-    private:
-        double m_epsilon;
-        int m_one_over_2e;
-    };
+  private:
+    double m_epsilon;
+    int m_one_over_2e;
+};
 
-}
+} // namespace stmpct

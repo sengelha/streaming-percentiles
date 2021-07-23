@@ -1,21 +1,20 @@
+#include <gtest/gtest.h>
 #include <iostream>
 #include <random>
-#include <gtest/gtest.h>
 class ckms_tq_unit_tests;
-#include <stmpct/ckms_tq.hpp>
 #include "abs.hpp"
 #include "custom_number_type.hpp"
 #include "minimal_number_type.hpp"
+#include <stmpct/ckms_tq.hpp>
 
 #ifndef ARRAYSIZE
-# define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
+#define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
 #endif
 
 using namespace std;
 using namespace stmpct;
 
-TEST(ckms_tq, double)
-{
+TEST(ckms_tq, double) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -29,8 +28,7 @@ TEST(ckms_tq, double)
     ASSERT_NEAR(95, p95, 0.01);
 }
 
-TEST(ckms_tq, custom_number_type)
-{
+TEST(ckms_tq, custom_number_type) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -48,8 +46,7 @@ TEST(ckms_tq, custom_number_type)
 // minimal number of requirements.  We can't use ASSERT_NEAR
 // because that imposes all sorts of additional requirements on
 // the number type.
-TEST(ckms_tq, minimal_number_type)
-{
+TEST(ckms_tq, minimal_number_type) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -64,8 +61,7 @@ TEST(ckms_tq, minimal_number_type)
     ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-TEST(ckms_tq, stress)
-{
+TEST(ckms_tq, stress) {
     std::uniform_int_distribution<> ntq_dist(1, 10);
     std::uniform_real_distribution<double> phi_dist(0, 1);
     std::uniform_real_distribution<double> epsilon_dist(0.01, 0.1);
@@ -96,8 +92,7 @@ TEST(ckms_tq, stress)
     }
 }
 
-TEST(ckms_tq, can_be_put_in_continer)
-{
+TEST(ckms_tq, can_be_put_in_continer) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -116,8 +111,7 @@ TEST(ckms_tq, can_be_put_in_continer)
     }
 }
 
-TEST(ckms_tq, is_copy_constructible)
-{
+TEST(ckms_tq, is_copy_constructible) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -133,8 +127,7 @@ TEST(ckms_tq, is_copy_constructible)
     ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-TEST(ckms_tq, is_assignable)
-{
+TEST(ckms_tq, is_assignable) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -150,8 +143,7 @@ TEST(ckms_tq, is_assignable)
     ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-TEST(ckms_tq, is_movable)
-{
+TEST(ckms_tq, is_movable) {
     std::vector<targeted_quantile> tqs;
     tqs.emplace_back(0.125, 0.02);
     tqs.emplace_back(0.375, 0.02);
@@ -167,16 +159,18 @@ TEST(ckms_tq, is_movable)
     ASSERT_TRUE(p95 < minimal_number_type(96));
 }
 
-TEST(ckms_tq, type_traits)
-{
+TEST(ckms_tq, type_traits) {
     ASSERT_TRUE(std::is_move_constructible<ckms_tq<double>>::value);
     ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_tq<double>>::value);
-    ASSERT_TRUE(std::is_move_constructible<ckms_tq<minimal_number_type>>::value);
-    ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_tq<minimal_number_type>>::value);
+    ASSERT_TRUE(
+        std::is_move_constructible<ckms_tq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<
+                ckms_tq<minimal_number_type>>::value);
     ASSERT_TRUE(std::is_move_assignable<ckms_tq<double>>::value);
     ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_tq<double>>::value);
     ASSERT_TRUE(std::is_move_assignable<ckms_tq<minimal_number_type>>::value);
-    ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_tq<minimal_number_type>>::value);
+    ASSERT_TRUE(
+        std::is_nothrow_move_assignable<ckms_tq<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests
@@ -197,9 +191,8 @@ public:
 /*
 BOOST_AUTO_TEST_CASE(ckms_hbq_inner_state)
 {
-    int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13, 16, 17};
-    ckms_hbq c(0.1);
-    for (int i = 0; i < ARRAYSIZE(seq); ++i)
+    int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13,
+16, 17}; ckms_hbq c(0.1); for (int i = 0; i < ARRAYSIZE(seq); ++i)
         c.insert(seq[i]);
     ASSERT_TRUE_EQUAL(ckms_hbq_unit_tests::epsilon(c), 0.1);
     ASSERT_TRUE_EQUAL(ckms_hbq_unit_tests::one_over_2e(c), 5);

@@ -1,23 +1,21 @@
-#include <iostream>
-#include <random>
-#include <type_traits>
-#include <vector>
-#include <gtest/gtest.h>
-#include <stmpct/ckms_hbq.hpp>
 #include "abs.hpp"
 #include "custom_number_type.hpp"
 #include "minimal_number_type.hpp"
+#include <gtest/gtest.h>
+#include <iostream>
+#include <random>
+#include <stmpct/ckms_hbq.hpp>
+#include <type_traits>
+#include <vector>
 
 #ifndef ARRAYSIZE
-# define ARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
+#define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
 #endif
 
 using namespace std;
 using namespace stmpct;
 
-
-TEST(ckms_hbq, double)
-{
+TEST(ckms_hbq, double) {
     ckms_hbq<double> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
@@ -26,8 +24,7 @@ TEST(ckms_hbq, double)
     ASSERT_NEAR(95, p95, 0.01);
 }
 
-TEST(ckms_hbq, float)
-{
+TEST(ckms_hbq, float) {
     ckms_hbq<float> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
@@ -36,8 +33,7 @@ TEST(ckms_hbq, float)
     ASSERT_NEAR(95, p95, 0.01);
 }
 
-TEST(ckms_hbq, long_double)
-{
+TEST(ckms_hbq, long_double) {
     ckms_hbq<long double> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(i);
@@ -46,8 +42,7 @@ TEST(ckms_hbq, long_double)
     ASSERT_NEAR(95, p95, 0.01);
 }
 
-TEST(ckms_hbq, custom_number_type)
-{
+TEST(ckms_hbq, custom_number_type) {
     ckms_hbq<custom_number_type> c(0.01);
     for (int i = 1; i <= 100; ++i) {
         c.insert(custom_number_type(i));
@@ -60,8 +55,7 @@ TEST(ckms_hbq, custom_number_type)
 // minimal number of requirements.  We can't use ASSERT_NEAR
 // because that imposes all sorts of additional requirements on
 // the number type.
-TEST(ckms_hbq, minimal_number_type)
-{
+TEST(ckms_hbq, minimal_number_type) {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(minimal_number_type(i));
@@ -71,8 +65,7 @@ TEST(ckms_hbq, minimal_number_type)
     ASSERT_LT(p95, minimal_number_type(96));
 }
 
-TEST(ckms_hbq, stress)
-{
+TEST(ckms_hbq, stress) {
     std::uniform_real_distribution<double> unif(0, 1);
     std::default_random_engine re;
 
@@ -95,8 +88,7 @@ TEST(ckms_hbq, stress)
     }
 }
 
-TEST(ckms_hbq, can_be_put_in_continer)
-{
+TEST(ckms_hbq, can_be_put_in_continer) {
     std::vector<ckms_hbq<minimal_number_type>> v;
     v.emplace_back(0.001);
     v.emplace_back(0.0001);
@@ -111,8 +103,7 @@ TEST(ckms_hbq, can_be_put_in_continer)
     }
 }
 
-TEST(ckms_hbq, is_copy_constructible)
-{
+TEST(ckms_hbq, is_copy_constructible) {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(minimal_number_type(i));
@@ -123,8 +114,7 @@ TEST(ckms_hbq, is_copy_constructible)
     ASSERT_LT(p95, minimal_number_type(96));
 }
 
-TEST(ckms_hbq, is_assignable)
-{
+TEST(ckms_hbq, is_assignable) {
     ckms_hbq<minimal_number_type> g(0.0005);
     for (int i = 1; i <= 100; ++i) {
         g.insert(minimal_number_type(i));
@@ -135,8 +125,7 @@ TEST(ckms_hbq, is_assignable)
     ASSERT_LT(p95, minimal_number_type(96));
 }
 
-TEST(ckms_hbq, is_movable)
-{
+TEST(ckms_hbq, is_movable) {
     ckms_hbq<minimal_number_type> c(0.0005);
     for (int i = 1; i <= 100; ++i) {
         c.insert(minimal_number_type(i));
@@ -147,16 +136,18 @@ TEST(ckms_hbq, is_movable)
     ASSERT_LT(p95, minimal_number_type(96));
 }
 
-TEST(ckms_hbq, type_traits)
-{
+TEST(ckms_hbq, type_traits) {
     ASSERT_TRUE(std::is_move_constructible<ckms_hbq<double>>::value);
     ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_hbq<double>>::value);
-    ASSERT_TRUE(std::is_move_constructible<ckms_hbq<minimal_number_type>>::value);
-    ASSERT_TRUE(std::is_nothrow_move_constructible<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(
+        std::is_move_constructible<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(std::is_nothrow_move_constructible<
+                ckms_hbq<minimal_number_type>>::value);
     ASSERT_TRUE(std::is_move_assignable<ckms_hbq<double>>::value);
     ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_hbq<double>>::value);
     ASSERT_TRUE(std::is_move_assignable<ckms_hbq<minimal_number_type>>::value);
-    ASSERT_TRUE(std::is_nothrow_move_assignable<ckms_hbq<minimal_number_type>>::value);
+    ASSERT_TRUE(
+        std::is_nothrow_move_assignable<ckms_hbq<minimal_number_type>>::value);
 }
 
 // TODO: Re-enable internal implementation tests
@@ -177,9 +168,8 @@ public:
 /*
 TEST(ckms_hbq, inner_state)
 {
-    int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13, 16, 17};
-    ckms_hbq c(0.1);
-    for (int i = 0; i < ARRAYSIZE(seq); ++i)
+    int seq[] = {11, 20, 18, 5, 12, 6, 3, 2, 1, 8, 14, 19, 15, 4, 10, 7, 9, 13,
+16, 17}; ckms_hbq c(0.1); for (int i = 0; i < ARRAYSIZE(seq); ++i)
         c.insert(seq[i]);
     BOOST_CHECK_EQUAL(ckms_hbq_unit_tests::epsilon(c), 0.1);
     BOOST_CHECK_EQUAL(ckms_hbq_unit_tests::one_over_2e(c), 5);

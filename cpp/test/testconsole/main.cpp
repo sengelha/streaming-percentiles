@@ -1,22 +1,21 @@
 #include <algorithm>
-#include <iostream>
-#include <random>       // std::default_random_engine
 #include <cassert>
-#include <stmpct/gk.hpp>
+#include <iostream>
+#include <random> // std::default_random_engine
 #include <stmpct/ckms_hbq.hpp>
 #include <stmpct/ckms_lbq.hpp>
 #include <stmpct/ckms_uq.hpp>
+#include <stmpct/gk.hpp>
 #include <sys/time.h>
 
 #ifndef ARRAYSIZE
-# define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
+#define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
 #endif
 
 using namespace std;
 using namespace stmpct;
 
-static void explore_gk()
-{
+static void explore_gk() {
     std::vector<double> vals;
     for (int i = 1; i <= 10; ++i) {
         vals.push_back(i);
@@ -24,16 +23,13 @@ static void explore_gk()
     shuffle(vals.begin(), vals.end(), default_random_engine(12345));
 
     gk<double> gk(0.1);
-    for_each(vals.begin(), vals.end(), [&](double v) {
-        gk.insert(v);
-    });
+    for_each(vals.begin(), vals.end(), [&](double v) { gk.insert(v); });
     cout << "10% = " << gk.quantile(0.1) << "\n"
          << "50% = " << gk.quantile(0.5) << "\n"
          << "90% = " << gk.quantile(0.9) << "\n";
 }
 
-static void algorithm_comparison()
-{
+static void algorithm_comparison() {
     std::vector<double> vals;
     for (int i = 0; i != 10000; ++i) {
         vals.push_back(rand() % 100 + 1);
@@ -73,8 +69,7 @@ static void algorithm_comparison()
 }
 
 template <typename stmpct_alg>
-static long measure_perf(stmpct_alg& alg, const std::vector<double>& vals)
-{
+static long measure_perf(stmpct_alg &alg, const std::vector<double> &vals) {
     struct timeval start;
     gettimeofday(&start, NULL);
 
@@ -83,17 +78,17 @@ static long measure_perf(stmpct_alg& alg, const std::vector<double>& vals)
     struct timeval end;
     gettimeofday(&end, NULL);
 
-    long start_us = ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
+    long start_us =
+        ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
     long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
     return end_us - start_us;
 }
 
-static void perf_comparison()
-{
+static void perf_comparison() {
     cout << "Running performance comparison...\n";
 
     cout << "N,Algorithm,Epsilon,Duration (us),#/sec\n";
-    int ns[] = { 1000, 10000, 100000 };
+    int ns[] = {1000, 10000, 100000};
     for (size_t i = 0; i != ARRAYSIZE(ns); ++i) {
         int n = ns[i];
 
@@ -103,7 +98,7 @@ static void perf_comparison()
             vals.push_back(rand() % 100 + 1);
         }
 
-        double epsilons[] = { 0.1, 0.05, 0.01, 0.005, 0.001 };
+        double epsilons[] = {0.1, 0.05, 0.01, 0.005, 0.001};
         for (size_t j = 0; j != ARRAYSIZE(epsilons); ++j) {
             double epsilon = epsilons[j];
 
@@ -111,40 +106,41 @@ static void perf_comparison()
                 gk<double> gk(epsilon);
                 long duration_us = measure_perf(gk, vals);
                 double n_per_s = n / (duration_us / 1000000.0);
-                cout << vals.size() << ",GK," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+                cout << vals.size() << ",GK," << epsilon << "," << duration_us
+                     << "," << n_per_s << "\n";
             }
 
             {
                 ckms_uq<double> ckms_uq(epsilon);
                 long duration_us = measure_perf(ckms_uq, vals);
                 double n_per_s = n / (duration_us / 1000000.0);
-                cout << vals.size() << ",CKMS_UQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+                cout << vals.size() << ",CKMS_UQ," << epsilon << ","
+                     << duration_us << "," << n_per_s << "\n";
             }
 
             {
                 ckms_hbq<double> ckms_hbq(epsilon);
                 long duration_us = measure_perf(ckms_hbq, vals);
                 double n_per_s = n / (duration_us / 1000000.0);
-                cout << vals.size() << ",CKMS_HBQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+                cout << vals.size() << ",CKMS_HBQ," << epsilon << ","
+                     << duration_us << "," << n_per_s << "\n";
             }
 
             {
                 ckms_lbq<double> ckms_lbq(epsilon);
                 long duration_us = measure_perf(ckms_lbq, vals);
                 double n_per_s = n / (duration_us / 1000000.0);
-                cout << vals.size() << ",CKMS_LBQ," << epsilon << "," << duration_us << "," << n_per_s << "\n";
+                cout << vals.size() << ",CKMS_LBQ," << epsilon << ","
+                     << duration_us << "," << n_per_s << "\n";
             }
-
         }
     }
 }
 
-int main(void)
-{
+int main(void) {
     srand(12345);
     explore_gk();
     algorithm_comparison();
     perf_comparison();
     return 0;
 }
-

@@ -3,7 +3,7 @@
 var tape = require('tape');
 var sp = require('./streamingPercentiles.v1.min.js');
 
-tape("ckms_lbq e=0.1 quantiles", function(test) {
+tape("ckms_lbq e=0.1 quantiles", function (test) {
     var seq = [];
     for (var i = 0; i < 100000; ++i)
         seq.push(Math.random());

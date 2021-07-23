@@ -2,13 +2,12 @@
 
 namespace stmpct {
 
-    struct targeted_quantile
-    {
-        double phi;
-        double epsilon;
+struct targeted_quantile {
+    double phi;
+    double epsilon;
 
-        targeted_quantile(double phi, double epsilon)
-            : phi(phi), epsilon(epsilon) {}
-    };
+    targeted_quantile(double phi, double epsilon)
+        : phi(phi), epsilon(epsilon) {}
+};
 
-}
+} // namespace stmpct
