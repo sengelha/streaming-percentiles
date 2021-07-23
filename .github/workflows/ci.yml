@@ -1,19 +1,17 @@
 name: ci
-
 on: [push]
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
     steps:
-    - name: Checkout repository and submodules
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-
-    - name: Build
-      run: bazel --bazelrc=.github/github.bazelrc build //...
-
-    - name: Test
-      run: bazel --bazelrc=.github/github.bazelrc test //...
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build
+        run: bazel --bazelrc=.github/github.bazelrc build //...
+      - name: Test
+        run: bazel --bazelrc=.github/github.bazelrc test //...
