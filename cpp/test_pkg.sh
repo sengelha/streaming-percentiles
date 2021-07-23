@@ -24,7 +24,7 @@ EXPECTED_FILES=(
   ./include/stmpct/string_utils.hpp
   ./include/stmpct/targeted_quantile.hpp
 )
-readarray -t ACTUAL_FILES < <(tar tzf $PKG_FILE)
+ACTUAL_FILES=($(tar tzf $PKG_FILE))
 
 MISSING_FILES=$(comm -13 <(printf '%s\n' "${ACTUAL_FILES[@]}" | sort) <(printf '%s\n' "${EXPECTED_FILES[@]}" | sort))
 if [[ ! -z "$MISSING_FILES" ]]; then
