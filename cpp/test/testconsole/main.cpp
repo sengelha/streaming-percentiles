@@ -1,12 +1,12 @@
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <iostream>
 #include <random> // std::default_random_engine
 #include <stmpct/ckms_hbq.hpp>
 #include <stmpct/ckms_lbq.hpp>
 #include <stmpct/ckms_uq.hpp>
 #include <stmpct/gk.hpp>
-#include <sys/time.h>
 
 #ifndef ARRAYSIZE
 #define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
@@ -70,18 +70,14 @@ static void algorithm_comparison() {
 
 template <typename stmpct_alg>
 static long measure_perf(stmpct_alg &alg, const std::vector<double> &vals) {
-    struct timeval start;
-    gettimeofday(&start, NULL);
+    auto start = std::chrono::high_resolution_clock::now();
 
     for_each(vals.begin(), vals.end(), [&](double v) { alg.insert(v); });
 
-    struct timeval end;
-    gettimeofday(&end, NULL);
-
-    long start_us =
-        ((unsigned long long)start.tv_sec * 1000000) + start.tv_usec;
-    long end_us = ((unsigned long long)end.tv_sec * 1000000) + end.tv_usec;
-    return end_us - start_us;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration =
+        std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    return duration.count();
 }
 
 static void perf_comparison() {

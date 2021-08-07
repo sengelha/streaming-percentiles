@@ -4,7 +4,11 @@ cc_library(
     name = "cpp",
     hdrs = glob(["src/*.hpp"]),
     include_prefix = "stmpct",
-    linkopts = ["-lm"],
+    linkopts = select({
+        "@platforms//os:linux": ["-lm"],
+        "@platforms//os:osx": ["-lm"],
+        "@platforms//os:windows": [],
+    }),
     strip_include_prefix = "src",
 )
 
@@ -33,8 +37,8 @@ pkg_tar(
     package_dir = "include/stmpct",
 )
 
-sh_test(
+py_test(
     name = "test_pkg",
-    srcs = ["test_pkg.sh"],
+    srcs = ["test_pkg.py"],
     data = ["pkg.tar.gz"],
 )
