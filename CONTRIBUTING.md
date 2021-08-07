@@ -2,17 +2,12 @@
 
 ## Compiling
 
-Use `build.sh` on Linux or Mac OS X or `build.bat` on Windows.  This will
-create a package in the `target` directory, e.g.
-`target/Debug/streaming_percentiles-x.y.z-Darwin.tar.gz` for Mac OS X.
+The streaming percentiles library uses [Bazel](https://bazel.build/) to
+build.
 
-Be sure to read the build help text first (e.g. `build.sh --help`).
-
-### Prerequisites
-
-- [CMake](https://cmake.org)
-- [Boost Unit Test Framework](http://www.boost.org)
-- If cross-compiling to JavaScript, [Emscripten](https://github.com/kripken/emscripten)
+Once Bazel (or, preferrably, [Bazelisk](https://github.com/bazelbuild/bazelisk))
+is installed, build everything with `bazel build //...` and run
+all unit tests with `bazel test //...`.
 
 ## Versioning Scheme
 
