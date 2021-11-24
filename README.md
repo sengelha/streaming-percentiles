@@ -116,6 +116,11 @@ var p50 = g.quantile(0.5);
 </script>
 ```
 
+## Benchmarks
+
+Benchmarks are auto-generated on every `master` build.  They can be viewed
+at [https://sengelha.github.io/streaming-percentiles/dev/bench/](https://sengelha.github.io/streaming-percentiles/dev/bench/).
+
 ## API Reference
 
 See [doc/api_reference/](doc/api_reference/index.md) for detailed API reference documentation.

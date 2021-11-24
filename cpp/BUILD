@@ -13,6 +13,15 @@ cc_library(
 )
 
 cc_binary(
+    name = "benchmark",
+    srcs = glob(["bmark/*.cpp"]),
+    deps = [
+        ":cpp",
+        "@benchmark//:benchmark",
+    ],
+)
+
+cc_binary(
     name = "testconsole",
     srcs = glob(["test/testconsole/**"]),
     deps = [
