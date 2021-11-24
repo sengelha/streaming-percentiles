@@ -1,0 +1,27 @@
+name: benchmark
+on:
+  push:
+    branches:
+      - master
+permissions:
+  # deployments permission to deploy GitHub pages website
+  deployments: write
+  # contents permission to update benchmark contents in gh-pages branch
+  contents: write
+jobs:
+  benchmark:
+    name: Check performance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run benchmark
+        run: bazel --bazelrc=.github/github.bazelrc run //cpp:benchmark -- --benchmark_format=json | tee benchmark_result.json
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'googlecpp'
+          output-file-path: benchmark_result.json
+          fail-on-alert: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          auto-push: true
