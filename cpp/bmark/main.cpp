@@ -6,47 +6,51 @@
 
 static void BM_ckms_hbq(benchmark::State& state) {
   for (auto _ : state) {
-    stmpct::ckms_hbq<double> g(0.0005);
-    for (int i = 1; i <= 100000; ++i) {
+    double epsilon = 1/(double)state.range(0);
+    stmpct::ckms_hbq<double> g(epsilon);
+    for (int i = 1; i <= state.range(1); ++i) {
         g.insert(i);
     }
-    g.quantile(0.95);
+    benchmark::DoNotOptimize(g.quantile(0.95));
   }
 }
 
 static void BM_ckms_lbq(benchmark::State& state) {
   for (auto _ : state) {
-    stmpct::ckms_hbq<double> g(0.0005);
-    for (int i = 1; i <= 100000; ++i) {
+    double epsilon = 1/(double)state.range(0);
+    stmpct::ckms_hbq<double> g(epsilon);
+    for (int i = 1; i <= state.range(1); ++i) {
         g.insert(i);
     }
-    g.quantile(0.95);
+    benchmark::DoNotOptimize(g.quantile(0.95));
   }
 }
 
 static void BM_ckms_uq(benchmark::State& state) {
   for (auto _ : state) {
-    stmpct::ckms_uq<double> g(0.0005);
-    for (int i = 1; i <= 100000; ++i) {
+    double epsilon = 1/(double)state.range(0);
+    stmpct::ckms_uq<double> g(epsilon);
+    for (int i = 1; i <= state.range(1); ++i) {
         g.insert(i);
     }
-    g.quantile(0.95);
+    benchmark::DoNotOptimize(g.quantile(0.95));
   }
 }
 
 static void BM_gk(benchmark::State& state) {
   for (auto _ : state) {
-    stmpct::gk<double> g(0.0005);
-    for (int i = 1; i <= 100000; ++i) {
+    double epsilon = 1/(double)state.range(0);
+    stmpct::gk<double> g(epsilon);
+    for (int i = 1; i <= state.range(1); ++i) {
         g.insert(i);
     }
-    g.quantile(0.95);
+    benchmark::DoNotOptimize(g.quantile(0.95));
   }
 }
 
-BENCHMARK(BM_ckms_hbq);
-BENCHMARK(BM_ckms_lbq);
-BENCHMARK(BM_ckms_uq);
-BENCHMARK(BM_gk);
+BENCHMARK(BM_ckms_hbq)->Ranges({{8, 4096}, {512, 32768}});
+BENCHMARK(BM_ckms_lbq)->Ranges({{8, 4096}, {512, 32768}});
+BENCHMARK(BM_ckms_uq)->Ranges({{8, 4096}, {512, 32768}});
+BENCHMARK(BM_gk)->Ranges({{8, 4096}, {512, 32768}});
 
 BENCHMARK_MAIN();
