@@ -37,6 +37,7 @@ cc_test(
         "@gtest",
         "@gtest//:gtest_main",
     ],
+    tags = ["L0"],
 )
 
 pkg_tar(
@@ -50,4 +51,5 @@ py_test(
     name = "test_pkg",
     srcs = ["test_pkg.py"],
     data = ["pkg.tar.gz"],
+    tags = ["L0"],
 )
