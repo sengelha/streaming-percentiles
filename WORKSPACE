@@ -3,10 +3,10 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # --- Begin rules_emscripten
 http_archive(
     name = "rules_emscripten",
-    # Version 1.1.0, latest as of 2021-12-08
-    sha256 = "059b4009bd0030fc842edb5f081c2bf88c32b7cb538d913eb54e98939f1fb294",
-    urls = ["https://github.com/sengelha/rules_emscripten/archive/refs/tags/v1.1.0.tar.gz"],
-    strip_prefix = "rules_emscripten-1.1.0",
+    # Version 1.2.0, latest as of 2021-12-09
+    sha256 = "d04c564984b646257c152d28e9a37ab21d944876e66bb52d53e375baf8bf52d8",
+    urls = ["https://github.com/sengelha/rules_emscripten/archive/refs/tags/v1.2.0.tar.gz"],
+    strip_prefix = "rules_emscripten-1.2.0",
 )
 
 load("@rules_emscripten//emscripten:deps.bzl", "emscripten_rules_dependencies")
