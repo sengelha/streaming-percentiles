@@ -1,9 +1,12 @@
 #pragma once
 
-#include "binary_tree.hpp"
 #include <algorithm>
+#include <cassert>
+#include <cmath>
 #include <memory>
 #include <sstream>
+#include <vector>
+#include "binary_tree.hpp"
 
 // A Q-Digest is actually a summary data structure
 // which can be built frmo a set of observations.

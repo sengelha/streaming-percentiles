@@ -1,8 +1,14 @@
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
+filegroup(
+    name = "hdrs",
+    srcs = glob(["src/*.hpp"]),
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "cpp",
-    hdrs = glob(["src/*.hpp"]),
+    hdrs = [":hdrs"],
     include_prefix = "stmpct",
     linkopts = select({
         "@platforms//os:linux": ["-lm"],
@@ -10,6 +16,7 @@ cc_library(
         "@platforms//os:windows": [],
     }),
     strip_include_prefix = "src",
+    visibility = ["//visibility:public"],
 )
 
 cc_binary(

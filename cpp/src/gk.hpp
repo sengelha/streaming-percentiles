@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cassert>
 #include <cmath>
+#include <vector>
 
 // The Greenwald-Khanna algorithm as defined in the paper
 // Space-Efficient Online Computation of Quantile Summaries

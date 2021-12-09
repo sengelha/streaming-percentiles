@@ -4,6 +4,7 @@
 // quantiles as defined in the paper _Effective Computation of Biased
 // Quantiles over Data Streams_
 
+#include <cassert>
 #include "ckms_impl.hpp"
 
 namespace stmpct {

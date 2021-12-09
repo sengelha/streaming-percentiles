@@ -4,6 +4,8 @@
 // quantiles as defined in the paper _Effective Computation of Biased
 // Quantiles over Data Streams_
 
+#include <cassert>
+#include <vector>
 #include "ckms_impl.hpp"
 #include "targeted_quantile.hpp"
 
