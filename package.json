@@ -1,0 +1,7 @@
+{
+  "name": "streaming-percentiles",
+  "private": true,
+  "devDependencies": {
+    "tape": "5.3.2"
+  }
+}

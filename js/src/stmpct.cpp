@@ -1,11 +1,11 @@
 #include <emscripten/bind.h>
-#include <stmpct/ckms_hbq.hpp>
-#include <stmpct/ckms_lbq.hpp>
-#include <stmpct/ckms_tq.hpp>
-#include <stmpct/ckms_uq.hpp>
-#include <stmpct/gk.hpp>
-#include <stmpct/qdigest.hpp>
 #include <vector>
+#include "../../cpp/src/ckms_hbq.hpp"
+#include "../../cpp/src/ckms_lbq.hpp"
+#include "../../cpp/src/ckms_tq.hpp"
+#include "../../cpp/src/ckms_uq.hpp"
+#include "../../cpp/src/gk.hpp"
+#include "../../cpp/src/qdigest.hpp"
 
 using namespace emscripten;
 using namespace std;

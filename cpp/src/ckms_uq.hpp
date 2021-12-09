@@ -5,6 +5,7 @@
 // Quantiles over Data Streams_.  Conceptually nearly equivalent to
 // the GK algorithm.
 
+#include <cassert>
 #include "ckms_impl.hpp"
 
 namespace stmpct {
