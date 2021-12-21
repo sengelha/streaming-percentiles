@@ -1,22 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# --- Begin rules_emscripten
-http_archive(
-    name = "rules_emscripten",
-    # Version 1.2.0, latest as of 2021-12-09
-    sha256 = "d04c564984b646257c152d28e9a37ab21d944876e66bb52d53e375baf8bf52d8",
-    urls = ["https://github.com/sengelha/rules_emscripten/archive/refs/tags/v1.2.0.tar.gz"],
-    strip_prefix = "rules_emscripten-1.2.0",
-)
-
-load("@rules_emscripten//emscripten:deps.bzl", "emscripten_rules_dependencies")
-emscripten_rules_dependencies()
-
-load("@rules_emscripten//emscripten:def.bzl", "emscripten_setup")
-emscripten_setup(version = "3.0.0")
-# --- End rules_emscripten
-
-# --- Begin build_bazel_rules_nodejs
+# --- Begin build_bazel_rules_nodejs (must be loaded before rules_emscripten)
 http_archive(
     name = "build_bazel_rules_nodejs",
     sha256 = "cfc289523cf1594598215901154a6c2515e8bf3671fd708264a6f6aefe02bf39",
@@ -34,6 +18,22 @@ yarn_install(
     yarn_lock = "//:yarn.lock",
 )
 # --- End build_bazel_rules_nodejs
+
+# --- Begin rules_emscripten
+http_archive(
+    name = "rules_emscripten",
+    # Version 1.3.0, latest as of 2021-12-21
+    sha256 = "28d2d87ea15d3d6185465707edbe5677a06dd8e8e44bf1a5e71e4f4a31772d5b",
+    urls = ["https://github.com/sengelha/rules_emscripten/archive/refs/tags/v1.3.0.tar.gz"],
+    strip_prefix = "rules_emscripten-1.3.0",
+)
+
+load("@rules_emscripten//emscripten:deps.bzl", "emscripten_rules_dependencies")
+emscripten_rules_dependencies()
+
+load("@rules_emscripten//emscripten:def.bzl", "emscripten_setup")
+emscripten_setup(version = "3.0.0")
+# --- End rules_emscripten
 
 http_archive(
     name = "gtest",
