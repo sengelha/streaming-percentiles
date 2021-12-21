@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run benchmark
-        run: bazel --bazelrc=.github/github.bazelrc run //cpp:benchmark -- --benchmark_format=json | tee benchmark_result.json
+        run: bazel run --config=github //cpp:benchmark -- --benchmark_format=json | tee benchmark_result.json
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:

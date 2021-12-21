@@ -17,12 +17,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Find untagged tests
         run: |
-          UNTAGGED_TESTS=$(bazel --bazelrc=.github/github.bazelrc query 'tests(//...) except attr(tags, L0, tests(//...)) except attr(tags, L1, tests(//...)) except attr(tags, L2, tests(//...)) except attr(tags, L3, tests(//...)) except attr(tags, Nightly, tests(//...)) except attr(tags, manual, tests(//...))')
+          UNTAGGED_TESTS=$(bazel query 'tests(//...) except attr(tags, L0, tests(//...)) except attr(tags, L1, tests(//...)) except attr(tags, L2, tests(//...)) except attr(tags, L3, tests(//...)) except attr(tags, Nightly, tests(//...)) except attr(tags, manual, tests(//...))')
           if [ -n "${UNTAGGED_TESTS}" ]; then
             echo "ERROR: Following Bazel tests are untagged: ${UNTAGGED_TESTS}" 1>&2
             exit 1
           fi
       - name: Build
-        run: bazel --bazelrc=.github/github.bazelrc build //...
+        run: bazel build --config=github //...
       - name: Test
-        run: bazel --bazelrc=.github/github.bazelrc test //...
+        run: bazel test --config=github //...

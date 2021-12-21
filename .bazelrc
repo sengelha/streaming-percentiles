@@ -1,1 +1,6 @@
+# All GitHub Actions builds
+build:github -c opt
+test:github -c opt
+
+# Settings for all builds
 test --test_output=errors
