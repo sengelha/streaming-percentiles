@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640117449562,
+  "lastUpdate": 1640117538912,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -3120,6 +3120,318 @@ window.BENCHMARK_DATA = {
             "value": 81017361.74689399,
             "unit": "ns/iter",
             "extra": "iterations: 9\ncpu: 81010311.11111073 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "distinct": true,
+          "id": "acd3dafd59f5e91e42f52ef2353767e3f5d2723d",
+          "message": "chg: Do not cache bazel dirs",
+          "timestamp": "2021-12-21T14:08:31-06:00",
+          "tree_id": "f63866edfc9983a6b0696f4901279e5710b18600",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/acd3dafd59f5e91e42f52ef2353767e3f5d2723d"
+        },
+        "date": 1640117538105,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_ckms_hbq/8/512",
+            "value": 31552.520994188897,
+            "unit": "ns/iter",
+            "extra": "iterations: 22173\ncpu: 31548.89279754657 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/64/512",
+            "value": 66511.39531298736,
+            "unit": "ns/iter",
+            "extra": "iterations: 10520\ncpu: 66508.63117870722 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/512/512",
+            "value": 100841.95770334009,
+            "unit": "ns/iter",
+            "extra": "iterations: 6942\ncpu: 100839.8156150965 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/4096/512",
+            "value": 98811.64447390246,
+            "unit": "ns/iter",
+            "extra": "iterations: 7084\ncpu: 98808.34274421226 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/8/4096",
+            "value": 318315.3542605313,
+            "unit": "ns/iter",
+            "extra": "iterations: 2200\ncpu: 318272.63636363635 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/64/4096",
+            "value": 851861.7423239928,
+            "unit": "ns/iter",
+            "extra": "iterations: 821\ncpu: 851833.8611449457 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/512/4096",
+            "value": 3305080.9266432277,
+            "unit": "ns/iter",
+            "extra": "iterations: 212\ncpu: 3304856.1320754704 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/4096/4096",
+            "value": 5743290.557235968,
+            "unit": "ns/iter",
+            "extra": "iterations: 122\ncpu: 5742959.836065576 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/8/32768",
+            "value": 3147765.3228484835,
+            "unit": "ns/iter",
+            "extra": "iterations: 222\ncpu: 3147586.9369369396 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/64/32768",
+            "value": 9269168.50240607,
+            "unit": "ns/iter",
+            "extra": "iterations: 76\ncpu: 9256619.73684209 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/512/32768",
+            "value": 45185357.332229614,
+            "unit": "ns/iter",
+            "extra": "iterations: 16\ncpu: 44667718.74999998 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_hbq/4096/32768",
+            "value": 213772137.9597982,
+            "unit": "ns/iter",
+            "extra": "iterations: 3\ncpu: 213759566.66666636 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/8/512",
+            "value": 31514.67045282187,
+            "unit": "ns/iter",
+            "extra": "iterations: 22245\ncpu: 31512.537648909914 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/64/512",
+            "value": 66482.71169199633,
+            "unit": "ns/iter",
+            "extra": "iterations: 10529\ncpu: 66481.21379048353 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/512/512",
+            "value": 101120.71006369189,
+            "unit": "ns/iter",
+            "extra": "iterations: 6939\ncpu: 100962.17034154783 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/4096/512",
+            "value": 98834.92784983899,
+            "unit": "ns/iter",
+            "extra": "iterations: 7077\ncpu: 98824.1769111206 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/8/4096",
+            "value": 318330.63472401013,
+            "unit": "ns/iter",
+            "extra": "iterations: 2200\ncpu: 318234.2727272734 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/64/4096",
+            "value": 852280.2090383476,
+            "unit": "ns/iter",
+            "extra": "iterations: 821\ncpu: 852219.8538367867 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/512/4096",
+            "value": 3265830.8324679523,
+            "unit": "ns/iter",
+            "extra": "iterations: 213\ncpu: 3265572.30046948 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/4096/4096",
+            "value": 5750401.946138744,
+            "unit": "ns/iter",
+            "extra": "iterations: 121\ncpu: 5745346.280991731 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/8/32768",
+            "value": 3147721.290588379,
+            "unit": "ns/iter",
+            "extra": "iterations: 222\ncpu: 3147581.9819819746 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/64/32768",
+            "value": 9240062.613236276,
+            "unit": "ns/iter",
+            "extra": "iterations: 76\ncpu: 9239277.631578963 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/512/32768",
+            "value": 45638910.92936198,
+            "unit": "ns/iter",
+            "extra": "iterations: 15\ncpu: 45636420.00000007 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_lbq/4096/32768",
+            "value": 214306910.832723,
+            "unit": "ns/iter",
+            "extra": "iterations: 3\ncpu: 214286766.66666746 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/8/512",
+            "value": 22098.735477189715,
+            "unit": "ns/iter",
+            "extra": "iterations: 31711\ncpu: 22090.84860143177 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/64/512",
+            "value": 40416.90959982301,
+            "unit": "ns/iter",
+            "extra": "iterations: 17279\ncpu: 40413.606111464775 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/512/512",
+            "value": 89885.3575367881,
+            "unit": "ns/iter",
+            "extra": "iterations: 7675\ncpu: 89878.46254071665 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/4096/512",
+            "value": 79945.18756647823,
+            "unit": "ns/iter",
+            "extra": "iterations: 8724\ncpu: 79938.25080238422 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/8/4096",
+            "value": 244839.69697091362,
+            "unit": "ns/iter",
+            "extra": "iterations: 2858\ncpu: 244831.70048985354 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/64/4096",
+            "value": 524749.998924793,
+            "unit": "ns/iter",
+            "extra": "iterations: 1334\ncpu: 524716.3418290839 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/512/4096",
+            "value": 1584233.8717010706,
+            "unit": "ns/iter",
+            "extra": "iterations: 443\ncpu: 1584139.277652371 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/4096/4096",
+            "value": 5823550.621668498,
+            "unit": "ns/iter",
+            "extra": "iterations: 120\ncpu: 5823162.500000005 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/8/32768",
+            "value": 2569841.1114075603,
+            "unit": "ns/iter",
+            "extra": "iterations: 272\ncpu: 2569561.7647058815 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/64/32768",
+            "value": 5990596.91795936,
+            "unit": "ns/iter",
+            "extra": "iterations: 117\ncpu: 5990425.641025634 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/512/32768",
+            "value": 24160278.25454186,
+            "unit": "ns/iter",
+            "extra": "iterations: 29\ncpu: 24159124.137930963 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_ckms_uq/4096/32768",
+            "value": 128482913.97094727,
+            "unit": "ns/iter",
+            "extra": "iterations: 5\ncpu: 128477639.99999984 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/8/512",
+            "value": 38793.13168191744,
+            "unit": "ns/iter",
+            "extra": "iterations: 18091\ncpu: 38787.05986402075 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/64/512",
+            "value": 31752.59633225917,
+            "unit": "ns/iter",
+            "extra": "iterations: 22006\ncpu: 31751.058802144875 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/512/512",
+            "value": 77694.88135208424,
+            "unit": "ns/iter",
+            "extra": "iterations: 8932\ncpu: 77687.6735333634 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/4096/512",
+            "value": 77215.65904896506,
+            "unit": "ns/iter",
+            "extra": "iterations: 9086\ncpu: 77210.48866387861 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/8/4096",
+            "value": 765082.0935358767,
+            "unit": "ns/iter",
+            "extra": "iterations: 915\ncpu: 765033.0054644805 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/64/4096",
+            "value": 271233.125702872,
+            "unit": "ns/iter",
+            "extra": "iterations: 2586\ncpu: 271209.1260634196 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/512/4096",
+            "value": 1174765.556602924,
+            "unit": "ns/iter",
+            "extra": "iterations: 599\ncpu: 1171261.7696160208 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/4096/4096",
+            "value": 4973010.8139362745,
+            "unit": "ns/iter",
+            "extra": "iterations: 141\ncpu: 4972716.312056773 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/8/32768",
+            "value": 27103524.941664476,
+            "unit": "ns/iter",
+            "extra": "iterations: 26\ncpu: 27101338.461538494 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/64/32768",
+            "value": 2553935.4686319395,
+            "unit": "ns/iter",
+            "extra": "iterations: 274\ncpu: 2553663.5036496418 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/512/32768",
+            "value": 9237088.655170642,
+            "unit": "ns/iter",
+            "extra": "iterations: 76\ncpu: 9236218.42105261 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_gk/4096/32768",
+            "value": 81108676.06268989,
+            "unit": "ns/iter",
+            "extra": "iterations: 9\ncpu: 81102355.55555552 ns\nthreads: 1"
           }
         ]
       }
