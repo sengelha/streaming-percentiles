@@ -15,32 +15,28 @@ namespace stmpct {
 // on the fly
 class gk_bands {
   private:
-    std::vector<int> _bands;
-
+    int _two_epsilon_n;
   public:
-    gk_bands(int two_epsilon_n) : _bands(two_epsilon_n + 1) {
-        _bands[0] =
-            std::numeric_limits<int>::max(); // delta = 0 is its own band
-        _bands[two_epsilon_n] =
-            0; // delta = two_epsilon_n is band 0 by definition
+    gk_bands(int two_epsilon_n) : _two_epsilon_n(two_epsilon_n) {}
 
-        for (int alpha = 1; alpha <= ceil(log2(two_epsilon_n)); ++alpha) {
-            int two_alpha_minus_1 = (1 << (alpha - 1));
-            int two_alpha = two_alpha_minus_1 << 1;
-            int lower = two_epsilon_n - two_alpha - (two_epsilon_n % two_alpha);
+    int operator[](int delta) const {
+        if (delta == _two_epsilon_n)
+            return 0; // delta = two_epsilon_n is band 0 by definition
+        else if (delta == 0)
+            return std::numeric_limits<int>::max(); // delta = 0 is its own band
+
+        int alpha = 1;
+        for (;;) {
+            int two_alpha = (1 << alpha);
+            int lower = _two_epsilon_n - two_alpha - (_two_epsilon_n % two_alpha);
             if (lower < 0)
                 lower = 0;
-            int upper = two_epsilon_n - two_alpha_minus_1 -
-                        (two_epsilon_n % two_alpha_minus_1);
-            for (int i = lower + 1; i <= upper; ++i) {
-                _bands[i] = alpha;
-            }
+            int two_alpha_minus_1 = (1 << (alpha - 1));
+            int upper = _two_epsilon_n - two_alpha_minus_1 - (_two_epsilon_n % two_alpha_minus_1);
+            if (delta >= lower + 1 && delta <= upper)
+                return alpha;
+            ++alpha;
         }
-    }
-
-    int operator[](std::vector<int>::size_type indx) const {
-        assert(indx >= 0 && indx < _bands.size());
-        return _bands[indx];
     }
 };
 
