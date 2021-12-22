@@ -116,7 +116,24 @@ var p50 = g.quantile(0.5);
 </script>
 ```
 
-## Benchmarks
+## Performance
+
+Below is the performance of the C++ implementation of these algorithms
+tested on December 22, 2021 on a Intel(R) Core(TM) i7-8809G CPU @ 3.10GHz:
+
+| Algorithm | Epsilon |         N | Input Type | Throughput (thousands of insertions/s) |
+| --------- | ------: | --------: | ---------- | -------------------------------------: |
+| ckms_hbq  |     0.1 | 1,000,000 | sorted     |                                1,517.7 |
+| ckms_hbq  |    0.01 | 1,000,000 | sorted     |                                1,094.1 |
+| ckms_hbq  |   0.001 | 1,000,000 | sorted     |                                  289.8 |
+| ckms_uq   |     0.1 | 1,000,000 | sorted     |                                1,533.9 |
+| ckms_uq   |    0.01 | 1,000,000 | sorted     |                                1,654.2 |
+| ckms_uq   |   0.001 | 1,000,000 | sorted     |                                  399.2 |
+| gk        |     0.1 | 1,000,000 | sorted     |                                1,392.1 |
+| gk        |    0.01 | 1,000,000 | sorted     |                                1,444.9 |
+| gk        |   0.001 | 1,000,000 | sorted     |                                1,114.9 |
+
+See `//cpp:benchmark` for the benchmark program.
 
 Benchmarks are auto-generated on every `master` build.  They can be viewed
 at [https://sengelha.github.io/streaming-percentiles/dev/bench/](https://sengelha.github.io/streaming-percentiles/dev/bench/).
