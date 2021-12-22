@@ -157,7 +157,7 @@ static std::vector<int> construct_band_lookup(int two_epsilon_n)
     return result;
 }
 
-TEST(gk_bands, array_index) {
+TEST(gk_bands, indexing_operator) {
     {
         std::vector<int> expected{0};
         std::vector<int> actual = construct_band_lookup(0);
