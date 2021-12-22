@@ -2,12 +2,47 @@
 
 #include <cassert>
 #include <cmath>
+#include <iostream>
+#include <limits>
 #include <vector>
 
 // The Greenwald-Khanna algorithm as defined in the paper
 // Space-Efficient Online Computation of Quantile Summaries
 
 namespace stmpct {
+
+// TODO: Rewrite this class from precomputing bands to compugit ting them
+// on the fly
+class gk_bands {
+  private:
+    std::vector<int> _bands;
+
+  public:
+    gk_bands(int two_epsilon_n) : _bands(two_epsilon_n + 1) {
+        _bands[0] =
+            std::numeric_limits<int>::max(); // delta = 0 is its own band
+        _bands[two_epsilon_n] =
+            0; // delta = two_epsilon_n is band 0 by definition
+
+        for (int alpha = 1; alpha <= ceil(log2(two_epsilon_n)); ++alpha) {
+            int two_alpha_minus_1 = (1 << (alpha - 1));
+            int two_alpha = two_alpha_minus_1 << 1;
+            int lower = two_epsilon_n - two_alpha - (two_epsilon_n % two_alpha);
+            if (lower < 0)
+                lower = 0;
+            int upper = two_epsilon_n - two_alpha_minus_1 -
+                        (two_epsilon_n % two_alpha_minus_1);
+            for (int i = lower + 1; i <= upper; ++i) {
+                _bands[i] = alpha;
+            }
+        }
+    }
+
+    int operator[](std::vector<int>::size_type indx) const {
+        assert(indx >= 0 && indx < _bands.size());
+        return _bands[indx];
+    }
+};
 
 template <typename T> class gk {
   public:
@@ -81,7 +116,7 @@ template <typename T> class gk {
             return;
 
         int two_epsilon_n = (int)(2 * m_epsilon * m_n);
-        std::vector<int> bands = construct_band_lookup(two_epsilon_n);
+        gk_bands bands(two_epsilon_n);
         tuples_iterator it = prev(prev(m_S.end()));
         while (it != m_S.begin()) {
             tuples_iterator it2 = next(it);
@@ -102,30 +137,6 @@ template <typename T> class gk {
             }
             --it;
         }
-    }
-
-    static const int MAX_BAND = 999999;
-    static std::vector<int> construct_band_lookup(int two_epsilon_n) {
-        // TODO: This function is rather slow.  Rewrite to be faster.
-        std::vector<int> bands(two_epsilon_n + 1);
-        bands[0] = MAX_BAND; // delta = 0 is its own band
-        bands[two_epsilon_n] =
-            0; // delta = two_epsilon_n is band 0 by definition
-
-        for (int alpha = 1; alpha <= ceil(log2(two_epsilon_n)); ++alpha) {
-            int two_alpha_minus_1 = (1 << (alpha - 1));
-            int two_alpha = two_alpha_minus_1 << 1;
-            int lower = two_epsilon_n - two_alpha - (two_epsilon_n % two_alpha);
-            if (lower < 0)
-                lower = 0;
-            int upper = two_epsilon_n - two_alpha_minus_1 -
-                        (two_epsilon_n % two_alpha_minus_1);
-            for (int i = lower + 1; i <= upper; ++i) {
-                bands[i] = alpha;
-            }
-        }
-
-        return bands;
     }
 
     double m_epsilon;
