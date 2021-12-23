@@ -1,7 +1,7 @@
 "use strict";
 
 var tape = require('tape');
-var sp = require('../../streamingPercentiles.js');
+var sp = require('{sptgt}');
 
 tape("ckms_lbq e=0.1 quantiles", function (test) {
     var seq = [];

@@ -1,7 +1,7 @@
 "use strict";
 
 var tape = require('tape');
-var sp = require('../../streamingPercentiles.js');
+var sp = require('{sptgt}');
 
 tape("qdigest cf=100 quantiles", function (test) {
     var seq = [];
