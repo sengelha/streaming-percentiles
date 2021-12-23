@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640207371369,
+  "lastUpdate": 1640285362374,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -312,6 +312,84 @@ window.BENCHMARK_DATA = {
             "value": 540539026.260376,
             "unit": "ns/iter",
             "extra": "iterations: 1\ncpu: 540528600 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "distinct": true,
+          "id": "718bf9dc8696eb6dc5ecec3ea3ec0e39eeb52dc3",
+          "message": "chg: Add .bazelignore file",
+          "timestamp": "2021-12-23T12:46:01-06:00",
+          "tree_id": "ee8807f365cb9715c37db7650f2f177cd061e893",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/718bf9dc8696eb6dc5ecec3ea3ec0e39eeb52dc3"
+        },
+        "date": 1640285361767,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 sorted",
+            "value": 129883003.23486328,
+            "unit": "ns/iter",
+            "extra": "iterations: 5\ncpu: 129866180 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 sorted",
+            "value": 565906763.0767822,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 564672599.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 sorted",
+            "value": 4123791933.0596924,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 4120705799.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 sorted",
+            "value": 108100930.8497111,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 108094300.00000001 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 sorted",
+            "value": 383400559.425354,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 383384249.99999976 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 sorted",
+            "value": 3105692386.6271973,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 3104180100.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 sorted",
+            "value": 18652771.648607757,
+            "unit": "ns/iter",
+            "extra": "iterations: 38\ncpu: 18651950.00000003 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 sorted",
+            "value": 77069547.44127062,
+            "unit": "ns/iter",
+            "extra": "iterations: 9\ncpu: 77069144.44444439 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 sorted",
+            "value": 539319753.6468506,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 539283400.0000004 ns\nthreads: 1"
           }
         ]
       }
