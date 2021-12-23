@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640287808886,
+  "lastUpdate": 1640289411018,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -624,6 +624,84 @@ window.BENCHMARK_DATA = {
             "value": 541021108.6273193,
             "unit": "ns/iter",
             "extra": "iterations: 1\ncpu: 540980299.9999993 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ab26f5f6212a24e90fb6c802f523c949879daeea",
+          "message": "Merge pull request #58 from sengelha/add_packages\n\nnew: Add JS and C++ .tar.gz packages",
+          "timestamp": "2021-12-23T13:53:50-06:00",
+          "tree_id": "16d640cd7e7d3a07983d63a97c69d13cca5c71ca",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/ab26f5f6212a24e90fb6c802f523c949879daeea"
+        },
+        "date": 1640289410237,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 sorted",
+            "value": 129874324.79858398,
+            "unit": "ns/iter",
+            "extra": "iterations: 5\ncpu: 129806260 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 sorted",
+            "value": 564385414.1235352,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 563934700.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 sorted",
+            "value": 4116161346.435547,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 4115684099.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 sorted",
+            "value": 108055075.0096639,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 108050650.00000001 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 sorted",
+            "value": 383515954.01763916,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 383505800 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 sorted",
+            "value": 3097706556.3201904,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 3088398700.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 sorted",
+            "value": 18596926.250973262,
+            "unit": "ns/iter",
+            "extra": "iterations: 37\ncpu: 18592400.000000007 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 sorted",
+            "value": 77352576.78561741,
+            "unit": "ns/iter",
+            "extra": "iterations: 9\ncpu: 77346677.77777776 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 sorted",
+            "value": 539572000.50354,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 539529899.9999998 ns\nthreads: 1"
           }
         ]
       }
