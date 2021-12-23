@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640289411018,
+  "lastUpdate": 1640290263609,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -702,6 +702,84 @@ window.BENCHMARK_DATA = {
             "value": 539572000.50354,
             "unit": "ns/iter",
             "extra": "iterations: 1\ncpu: 539529899.9999998 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "distinct": true,
+          "id": "2a0b7248fb6d31dc5c9ffd778db33f8ea87a4598",
+          "message": "fix: Fix builds on Mac OS X due to missing mapfile",
+          "timestamp": "2021-12-23T14:08:02-06:00",
+          "tree_id": "d849c17b9c589744554d848edcd2da392f8ff277",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/2a0b7248fb6d31dc5c9ffd778db33f8ea87a4598"
+        },
+        "date": 1640290263141,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 sorted",
+            "value": 130557918.54858398,
+            "unit": "ns/iter",
+            "extra": "iterations: 5\ncpu: 129736379.99999996 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 sorted",
+            "value": 563403129.5776367,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 563337299.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 sorted",
+            "value": 4115057468.4143066,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 4114847300 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 sorted",
+            "value": 107978502.90934245,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 107971933.33333333 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 sorted",
+            "value": 383358836.17401123,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 383341450.00000006 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 sorted",
+            "value": 3081534624.0997314,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 3077515100.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 sorted",
+            "value": 18633578.95299008,
+            "unit": "ns/iter",
+            "extra": "iterations: 38\ncpu: 18630134.210526314 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 sorted",
+            "value": 77473719.91475423,
+            "unit": "ns/iter",
+            "extra": "iterations: 9\ncpu: 77469955.55555555 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 sorted",
+            "value": 540861606.5979004,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 540844200.0000005 ns\nthreads: 1"
           }
         ]
       }
