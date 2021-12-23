@@ -48,15 +48,15 @@ cc_test(
 )
 
 pkg_tar(
-    name = "pkg",
+    name = "streaming_percentiles-cpp",
     srcs = glob(["src/*.hpp"]),
     extension = "tar.gz",
     package_dir = "include/stmpct",
 )
 
-py_test(
+sh_test(
     name = "test_pkg",
-    srcs = ["test_pkg.py"],
-    data = ["pkg.tar.gz"],
+    srcs = ["test/test_pkg.sh"],
+    data = ["streaming_percentiles-cpp.tar.gz"],
     tags = ["L0"],
 )
