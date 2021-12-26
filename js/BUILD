@@ -10,6 +10,7 @@ emcc_library(
     ],
     modularize = False,
     emit_wasm = False,
+    emit_memory_init_file = False,
     extern_pre_js = "src/umdprefix.js",
     extern_post_js = "src/umdsuffix.js",
     linkopts = ["--bind"],
