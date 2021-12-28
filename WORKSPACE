@@ -1,6 +1,6 @@
 workspace(
     name = "streaming-percentiles",
-    managed_directories = {"@npm": ["node_modules"]},
+    managed_directories = {"@yarn": ["node_modules"]},
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -15,13 +15,19 @@ http_archive(
 load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 
 yarn_install(
-    name = "npm",
+    name = "yarn",
+    exports_directories_only = False,
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )
 
 load("@build_bazel_rules_nodejs//toolchains/cypress:cypress_repositories.bzl", "cypress_repositories")
-cypress_repositories(name = "cypress", version = "9.2.0")
+
+cypress_repositories(
+    name = "cypress",
+    version = "9.2.0",
+    linux_sha256 = "925e6bdcf3c97049c9d84f4c47e4a2c9ef13a6995f982c53d5760c1a59b85098",
+)
 # --- End build_bazel_rules_nodejs
 
 # --- Begin rules_emscripten

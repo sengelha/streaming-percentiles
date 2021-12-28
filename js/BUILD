@@ -1,6 +1,6 @@
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 load("@rules_emscripten//emscripten:def.bzl", "emcc_library")
-load("@npm//@bazel/terser:terser_minified.bzl", "terser_minified")
+load("@yarn//@bazel/terser:terser_minified.bzl", "terser_minified")
 
 emcc_library(
     name = "streamingPercentiles.v1",
