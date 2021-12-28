@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640662006454,
+  "lastUpdate": 1640731307113,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -936,6 +936,84 @@ window.BENCHMARK_DATA = {
             "value": 539474964.1418457,
             "unit": "ns/iter",
             "extra": "iterations: 1\ncpu: 539469699.9999998 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "distinct": true,
+          "id": "dafb82399036f1a5da30da9507b972a6a4c6b5c6",
+          "message": "chg: Remove map file from js package",
+          "timestamp": "2021-12-28T16:38:32-06:00",
+          "tree_id": "b3918d061a1cd052464f788411cdb337b0503e25",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/dafb82399036f1a5da30da9507b972a6a4c6b5c6"
+        },
+        "date": 1640731306285,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 sorted",
+            "value": 143716573.71520996,
+            "unit": "ns/iter",
+            "extra": "iterations: 5\ncpu: 143677300 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 sorted",
+            "value": 628407239.9139404,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 628234400.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 sorted",
+            "value": 5536299228.668213,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 5535623800 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 sorted",
+            "value": 111328125,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 111316483.33333348 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 sorted",
+            "value": 375164985.6567383,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 374330399.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 sorted",
+            "value": 2715191364.28833,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 2649020999.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 sorted",
+            "value": 19977930.613926478,
+            "unit": "ns/iter",
+            "extra": "iterations: 35\ncpu: 19974094.285714272 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 sorted",
+            "value": 71271586.41815186,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 71261689.99999987 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 sorted",
+            "value": 510833859.44366455,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 510771949.99999964 ns\nthreads: 1"
           }
         ]
       }
