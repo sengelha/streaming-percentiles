@@ -53,7 +53,6 @@ EXPECTED_FILES=(
     js/
     js/streamingPercentiles.v1.js
     js/streamingPercentiles.v1.min.js
-    js/streamingPercentiles.v1.min.js.map
 )
 readarray -t ACTUAL_FILES < <(tar -tzf $TAR_FILE | sed -e 's#^./##')
 

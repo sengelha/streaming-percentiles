@@ -20,6 +20,7 @@ emcc_library(
 terser_minified(
     name = "streamingPercentiles.v1.min",
     src = ":streamingPercentiles.v1",
+    sourcemap = False,
     visibility = ["//visibility:public"],
 )
 
