@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <title>RequireJS Test</title>
+  <script src="require.js"></script>
+</head>
+
+<body>
+  <h1>RequireJS Tests</h1>
+  p50: <span id="p50"></span>
+  p99: <span id="p99"></span>
+  <script>
+    console.log("about to load streaming percentiles...");
+    require(['/streamingPercentiles.v1.min.js'], function (sp) {
+      var gk = new sp.GK(0.01);
+      for (var i = 0; i < 1000; ++i) {
+        gk.insert(i);
+      }
+      document.getElementById('p50').textContent = JSON.stringify(gk);
+
+      //document.getElementById('p50').textContent = gk.quantile(0.5);
+      //document.getElementById('p99').textContent = gk.quantile(0.99);
+    });
+  </script>
+</body>
+
+</html>

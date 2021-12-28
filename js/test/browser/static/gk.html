@@ -1,0 +1,22 @@
+<html>
+
+<head>
+  <title>gk</title>
+  <script src="/streamingPercentiles.v1.min.js"></script>
+</head>
+
+<body>
+  <h1>gk</h1>
+  p50: <span id="p50"></span>
+  p99: <span id="p99"></span>
+  <script>
+    var gk = new streamingPercentiles.GK(0.001);
+    for (var i = 0; i < 1000; ++i) {
+      gk.insert(i);
+    }
+    document.getElementById('p50').textContent = gk.quantile(0.5);
+    document.getElementById('p99').textContent = gk.quantile(0.99);
+  </script>
+</body>
+
+</html>
