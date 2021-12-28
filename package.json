@@ -2,7 +2,9 @@
   "name": "streaming-percentiles",
   "private": true,
   "devDependencies": {
+    "@bazel/cypress": "^4.5.0",
     "@bazel/terser": "^4.5.0",
+    "cypress": "^9.2.0",
     "tape": "5.3.2",
     "terser": "^5.10.0"
   }

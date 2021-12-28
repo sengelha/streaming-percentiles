@@ -19,6 +19,9 @@ yarn_install(
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )
+
+load("@build_bazel_rules_nodejs//toolchains/cypress:cypress_repositories.bzl", "cypress_repositories")
+cypress_repositories(name = "cypress", version = "9.2.0")
 # --- End build_bazel_rules_nodejs
 
 # --- Begin rules_emscripten
