@@ -24,10 +24,9 @@ yarn_install(
 # --- Begin rules_emscripten
 http_archive(
     name = "rules_emscripten",
-    # Version 1.4.0, latest as of 2021-12-26
-    sha256 = "9e7dabbad663a5ff5798dba6c3d195b19995ebe5671d2861f4f1824296e10f09",
-    strip_prefix = "rules_emscripten-1.4.0",
-    urls = ["https://github.com/sengelha/rules_emscripten/archive/refs/tags/v1.4.0.tar.gz"],
+    # Version 1.5.2, latest as of 2022-01-05
+    sha256 = "d4e2f81085f27579609411c97989bb586f7b9ae0c555345a0617c96b7d1aa47e",
+    urls = ["https://github.com/sengelha/rules_emscripten/releases/download/v1.5.2/rules_emscripten-1.5.2.zip"],
 )
 
 load("@rules_emscripten//emscripten:deps.bzl", "emscripten_rules_dependencies")
@@ -36,7 +35,7 @@ emscripten_rules_dependencies()
 
 load("@rules_emscripten//emscripten:def.bzl", "emscripten_setup")
 
-emscripten_setup(version = "3.0.0")
+emscripten_setup(version = "3.1.0")
 # --- End rules_emscripten
 
 http_archive(
