@@ -21,12 +21,22 @@ yarn_install(
 )
 # --- End build_bazel_rules_nodejs
 
+# --- Begin rules_python
+http_archive(
+    name = "rules_python",
+    sha256 = "a30abdfc7126d497a7698c29c46ea9901c6392d6ed315171a6df5ce433aa4502",
+    # Latest as of 2022-01-08
+    strip_prefix = "rules_python-0.6.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/0.6.0.tar.gz",
+)
+# --- End rules_python
+
 # --- Begin rules_emscripten
 http_archive(
     name = "rules_emscripten",
-    # Version 1.5.2, latest as of 2022-01-05
-    sha256 = "d4e2f81085f27579609411c97989bb586f7b9ae0c555345a0617c96b7d1aa47e",
-    urls = ["https://github.com/sengelha/rules_emscripten/releases/download/v1.5.2/rules_emscripten-1.5.2.zip"],
+    # Version 1.6.0, latest as of 2022-01-08
+    sha256 = "facd744bddd64f3e1bbb5c07175644cdaf9ed908136fd0a0319488951772da4c",
+    urls = ["https://github.com/sengelha/rules_emscripten/releases/download/v1.6.0/rules_emscripten-1.6.0.zip"],
 )
 
 load("@rules_emscripten//emscripten:deps.bzl", "emscripten_rules_dependencies")

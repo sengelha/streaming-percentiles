@@ -1,5 +1,6 @@
 /bazel-*
 /node_modules
+.vs/
 .DS_Store
 .vscode
 *.sublime-project

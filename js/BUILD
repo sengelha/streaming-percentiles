@@ -34,9 +34,10 @@ pkg_tar(
     ]   
 )
 
-sh_test(
-    name = "test_tar_pkg",
-    srcs = ["test/test_tar_pkg.sh"],
+py_test(
+    name = "test_pkg",
+    srcs = ["test/test_pkg.py"],
     data = [":streaming_percentiles-js.tar.gz"],
+    deps = ["@rules_python//python/runfiles"],
     tags = ["L0"],
 )
