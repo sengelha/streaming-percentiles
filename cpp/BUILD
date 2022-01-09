@@ -54,9 +54,10 @@ pkg_tar(
     package_dir = "include/stmpct",
 )
 
-sh_test(
+py_test(
     name = "test_pkg",
-    srcs = ["test/test_pkg.sh"],
+    srcs = ["test/test_pkg.py"],
     data = ["streaming_percentiles-cpp.tar.gz"],
+    deps = ["@rules_python//python/runfiles"],
     tags = ["L0"],
 )
