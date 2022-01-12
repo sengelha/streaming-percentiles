@@ -126,7 +126,7 @@ static void BM_qdigest(benchmark::State& state, Args&&... args) {
           g.insert(i);
           break;
         case data_order::random:
-          g.insert(i * rand());
+          g.insert(rand() % n);
           break;
       }
     }
