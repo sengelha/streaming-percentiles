@@ -1,6 +1,5 @@
 workspace(
     name = "streaming-percentiles",
-    managed_directories = {"@npm": ["node_modules"]},
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -50,9 +49,9 @@ emscripten_setup(version = "3.1.0")
 
 http_archive(
     name = "gtest",
-    sha256 = "9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb",
-    strip_prefix = "googletest-release-1.10.0",
-    url = "https://github.com/google/googletest/archive/refs/tags/release-1.10.0.tar.gz",
+    sha256 = "ad7fdba11ea011c1d925b3289cf4af2c66a352e18d4c7264392fead75e919363",
+    strip_prefix = "googletest-1.13.0",
+    url = "https://github.com/google/googletest/archive/refs/tags/v1.13.0.tar.gz",
 )
 
 http_archive(
@@ -61,3 +60,17 @@ http_archive(
     strip_prefix = "benchmark-1.6.0",
     url = "https://github.com/google/benchmark/archive/refs/tags/v1.6.0.tar.gz",
 )
+
+# For using pkg_tar()
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.8.0/rules_pkg-0.8.0.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.8.0/rules_pkg-0.8.0.tar.gz",
+    ],
+    sha256 = "eea0f59c28a9241156a47d7a8e32db9122f3d50b505fae0f33de6ce4d9b61834",
+)
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+rules_pkg_dependencies()
+
