@@ -1,0 +1,30 @@
+name: Nightly build and test
+on:
+  schedule:
+    # 1 AM UTC every day
+    - cron: '0 1 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Find untagged tests
+        run: |
+          UNTAGGED_TESTS=$(bazel query 'tests(//...) except attr(tags, L0, tests(//...)) except attr(tags, L1, tests(//...)) except attr(tags, L2, tests(//...)) except attr(tags, L3, tests(//...)) except attr(tags, Nightly, tests(//...)) except attr(tags, manual, tests(//...))')
+          if [ -n "${UNTAGGED_TESTS}" ]; then
+            echo "ERROR: Following Bazel tests are untagged: ${UNTAGGED_TESTS}" 1>&2
+            exit 1
+          fi
+        if: runner.os == 'Linux'
+      - name: Build
+        run: bazel build --config=github //...
+      - name: Test
+        run: bazel test --config=github //...
