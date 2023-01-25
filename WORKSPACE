@@ -1,6 +1,5 @@
 workspace(
-    name = "streaming-percentiles",
-    managed_directories = {"@npm": ["node_modules"]},
+    name = "streaming-percentiles"
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
