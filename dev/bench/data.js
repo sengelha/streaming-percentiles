@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1674606485523,
+  "lastUpdate": 1674607440241,
   "repoUrl": "https://github.com/sengelha/streaming-percentiles",
   "entries": {
     "Benchmark": [
@@ -2310,6 +2310,174 @@ window.BENCHMARK_DATA = {
             "value": 386060595.51239014,
             "unit": "ns/iter",
             "extra": "iterations: 2\ncpu: 386016399.99999905 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sengelha@gmail.com",
+            "name": "Steven Engelhardt",
+            "username": "sengelha"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "692d78adf646534f24c02ca29872904fa4661946",
+          "message": "Merge pull request #70 from sengelha/dependabot/npm_and_yarn/minimatch-3.1.2\n\nbump minimatch from 3.0.4 to 3.1.2",
+          "timestamp": "2023-01-24T18:40:38-06:00",
+          "tree_id": "991d36df96d81d04d5d9bb938bfc504b5f03f93a",
+          "url": "https://github.com/sengelha/streaming-percentiles/commit/692d78adf646534f24c02ca29872904fa4661946"
+        },
+        "date": 1674607439430,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 sorted",
+            "value": 123690923.05501302,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 123678566.66666667 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 sorted",
+            "value": 565824508.6669922,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 565340999.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 sorted",
+            "value": 4077888250.350952,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 4077188800 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.1 n=1000000 random",
+            "value": 124151110.64910889,
+            "unit": "ns/iter",
+            "extra": "iterations: 6\ncpu: 124142983.33333339 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.01 n=1000000 random",
+            "value": 363996386.52801514,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 363969800 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_hbq e=0.001 n=1000000 random",
+            "value": 3587986707.687378,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 3578616399.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 sorted",
+            "value": 98391498.8381522,
+            "unit": "ns/iter",
+            "extra": "iterations: 7\ncpu: 98385014.28571434 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 sorted",
+            "value": 376668095.5886841,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 376640600 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 sorted",
+            "value": 3078310966.491699,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 3078001699.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.1 n=1000000 random",
+            "value": 54884947.26327749,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 54880646.15384594 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.01 n=1000000 random",
+            "value": 105651582.99037388,
+            "unit": "ns/iter",
+            "extra": "iterations: 7\ncpu: 105646657.14285733 ns\nthreads: 1"
+          },
+          {
+            "name": "ckms_uq e=0.001 n=1000000 random",
+            "value": 482687354.0878296,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 482653750.0000008 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 sorted",
+            "value": 25049448.013305664,
+            "unit": "ns/iter",
+            "extra": "iterations: 28\ncpu: 24910549.99999991 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 sorted",
+            "value": 83305358.88671875,
+            "unit": "ns/iter",
+            "extra": "iterations: 8\ncpu: 83298287.4999999 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 sorted",
+            "value": 546570539.4744873,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 546541099.9999989 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.1 n=1000000 random",
+            "value": 322884559.63134766,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 322867200.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.01 n=1000000 random",
+            "value": 323912143.7072754,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 323891200.00000024 ns\nthreads: 1"
+          },
+          {
+            "name": "gk e=0.001 n=1000000 random",
+            "value": 655678033.8287354,
+            "unit": "ns/iter",
+            "extra": "iterations: 1\ncpu: 655641499.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=10 n=1000000 sorted",
+            "value": 339620828.62854004,
+            "unit": "ns/iter",
+            "extra": "iterations: 3\ncpu: 339573366.66666645 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=100 n=1000000 sorted",
+            "value": 318670034.40856934,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 318640750.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=1000 n=1000000 sorted",
+            "value": 318098425.86517334,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 318063800.0000009 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=10 n=1000000 random",
+            "value": 373119950.2944946,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 373095400.0000004 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=100 n=1000000 random",
+            "value": 375856518.74542236,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 375819299.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "qdigest k=1000 n=1000000 random",
+            "value": 374468684.19647217,
+            "unit": "ns/iter",
+            "extra": "iterations: 2\ncpu: 374446550.00000006 ns\nthreads: 1"
           }
         ]
       }
