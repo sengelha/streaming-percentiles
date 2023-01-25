@@ -2,7 +2,8 @@
 
 ## Build Status
 
-![Build Status](https://github.com/sengelha/streaming-percentiles/actions/workflows/ci.yml/badge.svg)
+![ci](https://github.com/sengelha/streaming-percentiles/actions/workflows/ci.yml/badge.svg)
+![nightly](https://github.com/sengelha/streaming-percentiles/actions/workflows/nightly.yml/badge.svg)
 
 ## About the Library
 
