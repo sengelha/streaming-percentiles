@@ -3,4 +3,8 @@ build:github -c opt
 test:github -c opt
 
 # Settings for all builds
+
+# Google Test requires c++14 or later support.  While it would be better
+# to do this by specifying the C++ toolchain, this hack will do for now.
+build --cxxopt='-std=c++14'
 test --test_output=errors
