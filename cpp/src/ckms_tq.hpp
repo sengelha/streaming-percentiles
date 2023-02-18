@@ -5,6 +5,7 @@
 // Quantiles over Data Streams_
 
 #include <cassert>
+#include <limits>
 #include <vector>
 #include "ckms_impl.hpp"
 #include "targeted_quantile.hpp"
