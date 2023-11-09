@@ -8,9 +8,18 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # --- Begin build_bazel_rules_nodejs (must be loaded before rules_emscripten)
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "f0f76a06fd6c10e8fb9a6cb9389fa7d5816dbecd9b1685063f89fb20dc6822f3",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.5.1/rules_nodejs-4.5.1.tar.gz"],
+    # Below is 5.8.0, latest as of 2023-01-24
+    sha256 = "dcc55f810142b6cf46a44d0180a5a7fb923c04a5061e2e8d8eb05ccccc60864b",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.0/rules_nodejs-5.8.0.tar.gz"],
 )
+
+load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
+build_bazel_rules_nodejs_dependencies()
+
+# fetches nodejs, npm, and yarn
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories")
+node_repositories()
 
 load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 
